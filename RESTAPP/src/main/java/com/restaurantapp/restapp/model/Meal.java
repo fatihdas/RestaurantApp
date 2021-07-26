@@ -40,7 +40,7 @@ public class Meal extends BaseModel {
 //    @JoinColumn(name = "basket_id")
 //    private Basket basket;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "item_meal",joinColumns = @JoinColumn(name = "meal_id")
     ,inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> itemList;
