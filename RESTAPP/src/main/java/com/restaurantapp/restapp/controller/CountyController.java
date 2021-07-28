@@ -19,31 +19,31 @@ public class CountyController {
     }
 
     @PostMapping
-    public ResponseEntity<County> add(@RequestBody County county){
+    public ResponseEntity<County> add(@RequestBody County county) {
 
-        return new ResponseEntity(countyService.save(county), HttpStatus.CREATED);
+        return new ResponseEntity<>(countyService.save(county), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<County>> getAll(){
+    public ResponseEntity<List<County>> getAll() {
 
-        return new ResponseEntity(countyService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(countyService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<County> getById(@PathVariable long id){
+    public ResponseEntity<County> getById(@PathVariable long id) {
 
-        return new ResponseEntity(countyService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(countyService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<County> update(@RequestBody County county, @PathVariable long id){
+    public ResponseEntity<County> update(@RequestBody County county) {
 
-        return new ResponseEntity(countyService.update(county, id),HttpStatus.OK);
+        return new ResponseEntity<>(countyService.update(county), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<County> delete(@PathVariable long id){
-        return new ResponseEntity(countyService.delete(id),HttpStatus.OK);
+    public ResponseEntity<County> delete(@PathVariable long id) {
+        return new ResponseEntity<>(countyService.delete(id), HttpStatus.OK);
     }
 }

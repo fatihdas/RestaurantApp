@@ -19,32 +19,32 @@ public class AddressController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Address>> getAll(){
-        return new ResponseEntity(addressService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<Address>> getAll() {
+        return new ResponseEntity<>(addressService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Address> getAddress(@PathVariable long id){
+    public ResponseEntity<Address> getAddress(@PathVariable long id) {
 
-        return new ResponseEntity<Address>(addressService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(addressService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Address> addAddress(@RequestBody Address address){
+    public ResponseEntity<Address> addAddress(@RequestBody Address address) {
 
-        return new ResponseEntity<Address>(addressService.save(address),HttpStatus.CREATED);
+        return new ResponseEntity<>(addressService.save(address), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Address> updateAddress(@RequestBody Address address, @PathVariable long id){
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address) {
 
-        return new ResponseEntity<Address>(addressService.update(address, id),HttpStatus.OK);
+        return new ResponseEntity<>(addressService.update(address), HttpStatus.OK);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Address> deleteAddress(@RequestBody long id){
+    @DeleteMapping
+    public ResponseEntity<Address> deleteAddress(@RequestBody long id) {
 
-        return new ResponseEntity<Address>(addressService.delete(id),HttpStatus.OK);
+        return new ResponseEntity<>(addressService.delete(id), HttpStatus.OK);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.exception.MealNotFoundException;
 import com.restaurantapp.restapp.model.Meal;
 import com.restaurantapp.restapp.repository.MealRepository;
 import org.springframework.stereotype.Service;
@@ -16,39 +17,31 @@ public class MealService {
         this.mealRepository = mealRepository;
     }
 
-    public Meal save(Meal meal){
+    public Meal save(Meal meal) {
 
         return mealRepository.save(meal);
     }
 
-    public List<Meal> getAll(){
+    public List<Meal> getAll() {
 
         return mealRepository.findAll();
     }
 
-    public Meal getById(long id){
+    public Meal getById(long id) {
 
-        return mealRepository.findById(id).orElse(null);
+        return mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
     }
 
-    public Meal update(Meal meal, long id){
+    public Meal update(Meal meal) {
 
-        Meal meal1 = mealRepository.findById(id).orElse(null);
-
-        meal1.setId(meal.getId());
-        meal1.setName(meal.getName());
-        meal1.setItemList(meal.getItemList());
-        meal1.setPrice(meal.getPrice());
-
-        mealRepository.save(meal1);
-
-        return meal1;
+        mealRepository.findById(meal.getId()).orElseThrow(() -> new MealNotFoundException(meal.getId()));
+        return mealRepository.save(meal);
     }
 
-    public Meal delete(long id){
+    public Meal delete(long id) {
 
         mealRepository.deleteById(id);
 
-        return mealRepository.findById(id).orElse(null);
+        return mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
     }
 }

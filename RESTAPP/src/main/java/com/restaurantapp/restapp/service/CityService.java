@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.exception.CityNotFoundException;
 import com.restaurantapp.restapp.model.City;
 import com.restaurantapp.restapp.repository.CityRepository;
 import org.springframework.stereotype.Service;
@@ -16,37 +17,31 @@ public class CityService {
         this.cityRepository = cityRepository;
     }
 
-    public City save(City city){
+    public City save(City city) {
 
         return cityRepository.save(city);
     }
 
-    public List<City> getAll(){
+    public List<City> getAll() {
 
         return cityRepository.findAll();
     }
 
-    public City getById(long id){
+    public City getById(long id) {
 
-        return cityRepository.findById(id).orElse(null);
+        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
     }
 
-    public City update(City city, long id){
+    public City update(City city) {
 
-        City city1 = cityRepository.findById(id).orElse(null);
-
-        city1.setId(city.getId());
-        city1.setName(city.getName());
-
-        cityRepository.save(city1);
-
-        return city1;
+        cityRepository.findById(city.getId()).orElseThrow(() -> new CityNotFoundException(city.getId()));
+        return cityRepository.save(city);
     }
 
-    public City delete(long id){
+    public City delete(long id) {
 
         cityRepository.deleteById(id);
 
-        return cityRepository.findById(id).orElse(null);
+        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
     }
 }

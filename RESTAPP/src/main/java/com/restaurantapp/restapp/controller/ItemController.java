@@ -19,31 +19,31 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<Item> add(@RequestBody Item item){
+    public ResponseEntity<Item> add(@RequestBody Item item) {
 
-        return new ResponseEntity(itemService.save(item), HttpStatus.CREATED);
+        return new ResponseEntity<>(itemService.save(item), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Item>> getAll(){
+    public ResponseEntity<List<Item>> getAll() {
 
-        return new ResponseEntity(itemService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(itemService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Item> getById(@PathVariable long id){
+    public ResponseEntity<Item> getById(@PathVariable long id) {
 
-        return new ResponseEntity(itemService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(itemService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Item> update(@RequestBody Item item, @PathVariable long id){
+    public ResponseEntity<Item> update(@RequestBody Item item) {
 
-        return new ResponseEntity(itemService.update(item, id),HttpStatus.OK);
+        return new ResponseEntity<>(itemService.update(item), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Item> delete(@PathVariable long id){
-        return new ResponseEntity(itemService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Item> delete(@PathVariable long id) {
+        return new ResponseEntity<>(itemService.delete(id), HttpStatus.OK);
     }
 }

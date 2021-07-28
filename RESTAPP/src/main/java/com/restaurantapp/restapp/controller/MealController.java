@@ -19,31 +19,31 @@ public class MealController {
     }
 
     @PostMapping
-    public ResponseEntity<Meal> add(@RequestBody Meal meal){
+    public ResponseEntity<Meal> add(@RequestBody Meal meal) {
 
-        return new ResponseEntity(mealService.save(meal), HttpStatus.CREATED);
+        return new ResponseEntity<>(mealService.save(meal), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Meal>> getAll(){
+    public ResponseEntity<List<Meal>> getAll() {
 
-        return new ResponseEntity(mealService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(mealService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Meal> getById(@PathVariable long id){
+    public ResponseEntity<Meal> getById(@PathVariable long id) {
 
-        return new ResponseEntity(mealService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(mealService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Meal> update(@RequestBody Meal meal, @PathVariable long id){
+    public ResponseEntity<Meal> update(@RequestBody Meal meal) {
 
-        return new ResponseEntity(mealService.update(meal, id),HttpStatus.OK);
+        return new ResponseEntity<>(mealService.update(meal), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Meal> delete(@PathVariable long id){
-        return new ResponseEntity(mealService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Meal> delete(@PathVariable long id) {
+        return new ResponseEntity<>(mealService.delete(id), HttpStatus.OK);
     }
 }

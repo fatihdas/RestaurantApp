@@ -146,7 +146,7 @@ public class UserControllerTest {
 
         User user = testUsers.userList().get(0);
 
-        Mockito.when(userService.update(Mockito.any(User.class),Mockito.anyLong())).thenReturn(user);
+        Mockito.when(userService.update(Mockito.any(User.class))).thenReturn(user);
 
         String URI = "/users";
         RequestBuilder requestBuilder = MockMvcRequestBuilders

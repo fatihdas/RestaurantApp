@@ -19,31 +19,31 @@ public class BasketController {
     }
 
     @PostMapping
-    public ResponseEntity<Basket> addBasket(@RequestBody Basket basket){
+    public ResponseEntity<Basket> addBasket(@RequestBody Basket basket) {
 
-        return new ResponseEntity(basketService.save(basket), HttpStatus.CREATED);
+        return new ResponseEntity<>(basketService.save(basket), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Basket>> getAllBasket(){
+    public ResponseEntity<List<Basket>> getAllBasket() {
 
-        return new ResponseEntity(basketService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(basketService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Basket> getBasketById(@PathVariable long id){
+    public ResponseEntity<Basket> getBasketById(@PathVariable long id) {
 
-        return new ResponseEntity(basketService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(basketService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Basket> updateBasket(@RequestBody Basket basket, @PathVariable long id){
+    public ResponseEntity<Basket> updateBasket(@RequestBody Basket basket) {
 
-        return new ResponseEntity(basketService.update(basket, id),HttpStatus.OK);
+        return new ResponseEntity<>(basketService.update(basket), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Basket> deleteBasket(@PathVariable long id){
-        return new ResponseEntity(basketService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Basket> deleteBasket(@PathVariable long id) {
+        return new ResponseEntity<>(basketService.delete(id), HttpStatus.OK);
     }
 }

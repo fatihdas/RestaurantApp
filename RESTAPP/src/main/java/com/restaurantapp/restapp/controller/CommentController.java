@@ -19,31 +19,31 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<Comment> add(@RequestBody Comment comment){
+    public ResponseEntity<Comment> add(@RequestBody Comment comment) {
 
-        return new ResponseEntity(commentService.save(comment), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentService.save(comment), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Comment>> getAll(){
+    public ResponseEntity<List<Comment>> getAll() {
 
-        return new ResponseEntity(commentService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(commentService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Comment> getById(@PathVariable long id){
+    public ResponseEntity<Comment> getById(@PathVariable long id) {
 
-        return new ResponseEntity(commentService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(commentService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Comment> update(@RequestBody Comment comment, @PathVariable long id){
+    public ResponseEntity<Comment> update(@RequestBody Comment comment) {
 
-        return new ResponseEntity(commentService.update(comment, id),HttpStatus.OK);
+        return new ResponseEntity<>(commentService.update(comment), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Comment> delete(@PathVariable long id){
-        return new ResponseEntity(commentService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Comment> delete(@PathVariable long id) {
+        return new ResponseEntity<>(commentService.delete(id), HttpStatus.OK);
     }
 }

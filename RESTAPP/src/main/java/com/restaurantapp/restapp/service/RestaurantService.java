@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
 import com.restaurantapp.restapp.model.Restaurant;
 import com.restaurantapp.restapp.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
@@ -16,37 +17,32 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public Restaurant save(Restaurant restaurant){
+    public Restaurant save(Restaurant restaurant) {
 
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> getAll(){
+    public List<Restaurant> getAll() {
 
         return restaurantRepository.findAll();
     }
 
-    public Restaurant getById(long id){
+    public Restaurant getById(long id) {
 
-        return restaurantRepository.findById(id).orElse(null);
+        return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
     }
 
-    public Restaurant update(Restaurant restaurant,long id){
+    public Restaurant update(Restaurant restaurant) {
 
-        Restaurant restaurant1 = restaurantRepository.findById(id).orElse(null);
-        restaurant1.setId(restaurant.getId());
-        restaurant1.setName(restaurant.getName());
-        restaurant1.setOwner(restaurant.getOwner());
-        restaurantRepository.save(restaurant1);
-
-        return restaurant1;
+        restaurantRepository.findById(restaurant.getId()).orElseThrow(() -> new RestaurantNotFoundException(restaurant.getId()));
+        return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant delete(long id){
+    public Restaurant delete(long id) {
 
         restaurantRepository.deleteById(id);
 
-        return restaurantRepository.findById(id).orElse(null);
+        return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
 
     }
 }

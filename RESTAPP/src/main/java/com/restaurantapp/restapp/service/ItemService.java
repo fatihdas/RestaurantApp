@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.exception.ItemNotFoundException;
 import com.restaurantapp.restapp.model.Item;
 import com.restaurantapp.restapp.repository.ItemRepository;
 import org.springframework.stereotype.Service;
@@ -16,38 +17,31 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public Item save(Item item){
+    public Item save(Item item) {
 
         return itemRepository.save(item);
     }
 
-    public List<Item> getAll(){
+    public List<Item> getAll() {
 
         return itemRepository.findAll();
     }
 
-    public Item getById(long id){
+    public Item getById(long id) {
 
-        return itemRepository.findById(id).orElse(null);
+        return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 
-    public Item update(Item item, long id){
+    public Item update(Item item) {
 
-        Item item1 = itemRepository.findById(id).orElse(null);
-
-        item1.setId(item.getId());
-        item1.setName(item.getName());
-        item1.setPrice(item.getPrice());
-
-        itemRepository.save(item1);
-
-        return item1;
+        itemRepository.findById(item.getId()).orElseThrow(() -> new ItemNotFoundException(item.getId()));
+        return itemRepository.save(item);
     }
 
-    public Item delete(long id){
+    public Item delete(long id) {
 
         itemRepository.deleteById(id);
 
-        return itemRepository.findById(id).orElse(null);
+        return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
     }
 }

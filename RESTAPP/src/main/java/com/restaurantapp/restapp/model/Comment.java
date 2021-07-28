@@ -1,21 +1,32 @@
 package com.restaurantapp.restapp.model;
 
 import com.restaurantapp.restapp.model.basemodel.BaseModel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
 
 import javax.persistence.*;
 import java.util.Date;
 
+@Builder
 @Entity
 @Table(name = "comments")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class Comment extends BaseModel {
     public Comment(long id) {
         super(id);
+    }
+
+    public Comment(User user, Branch branch, String content, Date date) {
+        this.user = user;
+        this.branch = branch;
+        this.content = content;
+        this.date = date;
+    }
+
+    public Comment(long id, User user, Branch branch, String content, Date date) {
+        super(id);
+        this.user = user;
+        this.branch = branch;
+        this.content = content;
+        this.date = date;
     }
 
     @Override
@@ -41,4 +52,55 @@ public class Comment extends BaseModel {
 
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    public Comment() {
+        super();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Branch getBranch() {
+        return branch;
+    }
+
+    public void setBranch(Branch branch) {
+        this.branch = branch;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }

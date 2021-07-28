@@ -19,31 +19,31 @@ public class CityController {
     }
 
     @PostMapping
-    public ResponseEntity<City> add(@RequestBody City city){
+    public ResponseEntity<City> add(@RequestBody City city) {
 
-        return new ResponseEntity(cityService.save(city), HttpStatus.CREATED);
+        return new ResponseEntity<>(cityService.save(city), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<City>> getAll(){
+    public ResponseEntity<List<City>> getAll() {
 
-        return new ResponseEntity(cityService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(cityService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<City> getById(@PathVariable long id){
+    public ResponseEntity<City> getById(@PathVariable long id) {
 
-        return new ResponseEntity(cityService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(cityService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<City> update(@RequestBody City city, @PathVariable long id){
+    public ResponseEntity<City> update(@RequestBody City city) {
 
-        return new ResponseEntity(cityService.update(city,id),HttpStatus.OK);
+        return new ResponseEntity<>(cityService.update(city), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<City> delete(@PathVariable long id){
-        return new ResponseEntity(cityService.delete(id),HttpStatus.OK);
+    public ResponseEntity<City> delete(@PathVariable long id) {
+        return new ResponseEntity<>(cityService.delete(id), HttpStatus.OK);
     }
 }

@@ -19,31 +19,38 @@ public class BranchController {
     }
 
     @PostMapping
-    public ResponseEntity<Branch> add(@RequestBody Branch branch){
+    public ResponseEntity<Branch> add(@RequestBody Branch branch) {
 
-        return new ResponseEntity(branchService.save(branch), HttpStatus.CREATED);
+        return new ResponseEntity<>(branchService.save(branch), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Branch>> getAll(){
+    public ResponseEntity<List<Branch>> getAll() {
 
-        return new ResponseEntity(branchService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(branchService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Branch> getById(@PathVariable long id){
+    public ResponseEntity<Branch> getById(@PathVariable long id) {
 
-        return new ResponseEntity(branchService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(branchService.getById(id), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<Branch> update(@RequestBody Branch branch, @PathVariable long id){
+    @GetMapping("/waiting")
+    public ResponseEntity<List<Branch>> getAllBtWaiting(){
 
-        return new ResponseEntity(branchService.update(branch, id),HttpStatus.OK);
+        return new ResponseEntity<>(branchService.getWaitingBranchList(),HttpStatus.OK);
+    }
+
+
+    @PutMapping
+    public ResponseEntity<Branch> update(@RequestBody Branch branch) {
+
+        return new ResponseEntity<>(branchService.update(branch), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Branch> delete(@PathVariable long id){
-        return new ResponseEntity(branchService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Branch> delete(@PathVariable long id) {
+        return new ResponseEntity<>(branchService.delete(id), HttpStatus.OK);
     }
 }

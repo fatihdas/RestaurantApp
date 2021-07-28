@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.exception.CommentNotFoundException;
 import com.restaurantapp.restapp.model.Comment;
 import com.restaurantapp.restapp.repository.CommentRepository;
 import org.springframework.stereotype.Service;
@@ -16,40 +17,31 @@ public class CommentService {
         this.commentRepository = commentRepository;
     }
 
-    public Comment save(Comment comment){
+    public Comment save(Comment comment) {
 
         return commentRepository.save(comment);
     }
 
-    public List<Comment> getAll(){
+    public List<Comment> getAll() {
 
         return commentRepository.findAll();
     }
 
-    public Comment getById(long id){
+    public Comment getById(long id) {
 
-        return commentRepository.findById(id).orElse(null);
+        return commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
     }
 
-    public Comment update(Comment comment, long id){
+    public Comment update(Comment comment) {
 
-        Comment comment1 = commentRepository.findById(id).orElse(null);
-
-        comment1.setId(comment.getId());
-        comment1.setContent(comment.getContent());
-        comment1.setUser(comment.getUser());
-        comment1.setBranch(comment.getBranch());
-        comment1.setDate(comment.getDate());
-
-        commentRepository.save(comment1);
-
-        return comment1;
+        commentRepository.findById(comment.getId()).orElseThrow(() -> new CommentNotFoundException(comment.getId()));
+        return commentRepository.save(comment);
     }
 
-    public Comment delete(long id){
+    public Comment delete(long id) {
 
         commentRepository.deleteById(id);
 
-        return commentRepository.findById(id).orElse(null);
+        return commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
     }
 }

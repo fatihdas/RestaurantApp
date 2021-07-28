@@ -19,31 +19,31 @@ public class MenuController {
     }
 
     @PostMapping
-    public ResponseEntity<Menu> add(@RequestBody Menu menu){
+    public ResponseEntity<Menu> add(@RequestBody Menu menu) {
 
-        return new ResponseEntity(menuService.save(menu), HttpStatus.CREATED);
+        return new ResponseEntity<>(menuService.save(menu), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Menu>> getAll(){
+    public ResponseEntity<List<Menu>> getAll() {
 
-        return new ResponseEntity(menuService.getAll(),HttpStatus.OK);
+        return new ResponseEntity<>(menuService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Menu> getById(@PathVariable long id){
+    public ResponseEntity<Menu> getById(@PathVariable long id) {
 
-        return new ResponseEntity(menuService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(menuService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Menu> update(@RequestBody Menu menu, @PathVariable long id){
+    public ResponseEntity<Menu> update(@RequestBody Menu menu) {
 
-        return new ResponseEntity(menuService.update(menu, id),HttpStatus.OK);
+        return new ResponseEntity<>(menuService.update(menu), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Menu> delete(@PathVariable long id){
-        return new ResponseEntity(menuService.delete(id),HttpStatus.OK);
+    public ResponseEntity<Menu> delete(@PathVariable long id) {
+        return new ResponseEntity<>(menuService.delete(id), HttpStatus.OK);
     }
 }

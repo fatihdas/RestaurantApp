@@ -4,10 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends RuntimeException {
+public class CountyNotFoundException extends RuntimeException{
 
-    public UserNotFoundException(long id) {
-
-        super("User not found id:" + id);
+    public CountyNotFoundException(long id) {
+        super("County not found id:" + id);
     }
 }

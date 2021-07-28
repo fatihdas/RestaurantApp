@@ -17,53 +17,38 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User save(User user){
+    public User save(User user) {
 
         return userRepository.save(user);
     }
 
-    public List<User> getAll(){
+    public List<User> getAll() {
 
         return userRepository.findAll();
     }
 
-    public User getById(long id){
+    public User getById(long id) {
 
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public User getUserByName(String name){
+    public User getUserByName(String name) {
 
         return userRepository.findByName(name);
     }
 
-    public User update(User user, long id){
+    public User update(User user) {
 
-        User user1 = userRepository.findById(id).orElseThrow(()-> new UserNotFoundException("id:" + id));
-
-        user1.setId(user.getId());
-        user1.setPassword(user.getPassword());
-        user1.setEmail(user.getEmail());
-        user1.setName(user.getName());
-        user1.setRoles(user.getRoles());
-        user1.setAddressList(user.getAddressList());
-        user1.setRestaurants(user.getRestaurants());
-        user1.setCommentList(user.getCommentList());
-
-        userRepository.save(user1);
-
-        return user1;
-
-
+        userRepository.findById(user.getId()).orElseThrow(() -> new UserNotFoundException(user.getId()));
+        return userRepository.save(user);
     }
 
-    public User delete(long id){
+    public User delete(long id) {
 
-         userRepository.deleteById(id);
+        userRepository.deleteById(id);
 
-         return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
-
 
 
 //    @Override
