@@ -2,6 +2,9 @@ package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.exception.AddressNotFoundException;
 import com.restaurantapp.restapp.model.Address;
+import com.restaurantapp.restapp.model.City;
+import com.restaurantapp.restapp.model.County;
+import com.restaurantapp.restapp.model.User;
 import com.restaurantapp.restapp.repository.AddressRepository;
 import org.springframework.stereotype.Service;
 
@@ -39,10 +42,10 @@ public class AddressService {
 
     }
 
-    public Address delete(long id) {
+    public String delete(long id) {
 
         addressRepository.deleteById(id);
-
-        return addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException(id));
+        return "SUCCESS";
     }
+
 }

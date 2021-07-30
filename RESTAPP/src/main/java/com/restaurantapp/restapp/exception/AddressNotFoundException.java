@@ -9,4 +9,8 @@ public class AddressNotFoundException extends RuntimeException {
     public AddressNotFoundException(long id) {
         super("Address not found id:" + id);
     }
+
+    public AddressNotFoundException(){
+        super("address not found");
+    }
 }

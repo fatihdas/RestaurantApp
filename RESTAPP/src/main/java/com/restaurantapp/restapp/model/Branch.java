@@ -55,7 +55,7 @@ public class Branch extends BaseModel {
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

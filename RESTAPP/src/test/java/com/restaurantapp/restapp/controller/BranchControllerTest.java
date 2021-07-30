@@ -2,12 +2,10 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Address;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.model.User;
-import com.restaurantapp.restapp.repository.AddressRepository;
-import com.restaurantapp.restapp.service.AddressService;
+import com.restaurantapp.restapp.model.Branch;
+import com.restaurantapp.restapp.model.Menu;
+import com.restaurantapp.restapp.repository.BranchRepository;
+import com.restaurantapp.restapp.service.BranchService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,18 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(value = AddressController.class)
-public class AddressControllerTest {
+@WebMvcTest(BranchController.class)
+public class BranchControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
-    private AddressService addressService;
+    BranchService branchService;
 
     @MockBean
-    private AddressRepository addressRepository;
-
+    BranchRepository branchRepository;
 
     private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -47,60 +44,13 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void add() throws Exception {
+        Branch branch = this.generateBranch();
 
-        List<Address> addressList = new ArrayList<>();
-        addressList.add(this.generateAddress());
+        String URI = "/branch";
+        String inputJson = this.mapToJson(branch);
 
-        Mockito.when(addressService.getAll()).thenReturn(addressList);
-
-        String URI = "/address";
-        String inputJson = this.mapToJson(addressList);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-
-    }
-
-    @Test
-    public void getAddress() throws Exception {
-
-        Address address = this.generateAddress();
-
-        Mockito.when(addressService.getById(Mockito.anyLong())).thenReturn(address);
-
-        String URI = "/address/2";
-        String inputJson = this.mapToJson(address);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-    }
-
-    @Test
-    public void addAddress() throws Exception {
-
-        Address address = this.generateAddress();
-
-        String URI = "/address";
-        String inputJson = this.mapToJson(address);
-
-        Mockito.when(addressService.save(Mockito.any(Address.class))).thenReturn(address);
+        Mockito.when(branchService.save(Mockito.any(Branch.class))).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -113,18 +63,85 @@ public class AddressControllerTest {
         String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
 
         Assertions.assertThat(inputJson).isEqualTo(outputJson);
-
     }
 
     @Test
-    public void updateAddress() throws Exception {
+    public void getAll() throws Exception {
 
-        Address address = this.generateAddress();
+        List<Branch> branchList = new ArrayList<>();
+        branchList.add(this.generateBranch());
 
-        String URI = "/address";
-        String inputJson = this.mapToJson(address);
+        String URI = "/branch";
+        String inputJson = this.mapToJson(branchList);
 
-        Mockito.when(addressService.update(Mockito.any(Address.class))).thenReturn(address);
+        Mockito.when(branchService.getAll()).thenReturn(branchList);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(URI)
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
+
+        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+    }
+
+    @Test
+    public void getById() throws Exception {
+
+        Branch branch = this.generateBranch();
+
+        String URI = "/branch/13";
+        String inputJson = this.mapToJson(branch);
+
+        Mockito.when(branchService.getById(Mockito.anyLong())).thenReturn(branch);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(URI)
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
+
+        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+    }
+
+    @Test
+    public void getAllBtWaiting() throws Exception {
+
+        List<Branch> branchList = new ArrayList<>();
+        branchList.add(this.generateBranch());
+
+        String URI = "/branch/waiting";
+        String inputJson = this.mapToJson(branchList);
+
+        Mockito.when(branchService.getWaitingBranchList()).thenReturn(branchList);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(URI)
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
+
+        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+    }
+
+    @Test
+    public void update() throws Exception {
+
+        Branch branch = this.generateBranch();
+
+        String URI = "/branch";
+        String inputJson = this.mapToJson(branch);
+
+        Mockito.when(branchService.update(Mockito.any(Branch.class))).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -140,13 +157,13 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void deleteAddress() throws Exception {
+    public void delete() throws Exception {
 
-        Address address = this.generateAddress();
+        Branch branch = this.generateBranch();
 
-        String URI = "/address/2";
+        String URI = "/branch/7";
 
-        Mockito.when(addressService.delete(Mockito.anyLong())).thenReturn("SUCCESS");
+        Mockito.when(branchService.delete(Mockito.anyLong())).thenReturn("success");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete(URI)
@@ -157,17 +174,13 @@ public class AddressControllerTest {
 
         String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
 
-        Assertions.assertThat("SUCCESS").isEqualTo(outputJson);
+        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Address generateAddress() {
-
-        return Address.builder()
-                .city(City.builder().name("İstanbul").build())
-                .county(County.builder().name("Pendik").build())
-                .content("Güzelyalı mah.")
-                .user(User.builder().name("test").build())
+    private Branch generateBranch() {
+        return Branch.builder()
+                .name("etilerşubesi")
+                .menu(Menu.builder().build())
                 .build();
-
     }
 }

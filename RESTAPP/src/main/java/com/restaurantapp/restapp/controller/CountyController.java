@@ -43,7 +43,8 @@ public class CountyController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<County> delete(@PathVariable long id) {
-        return new ResponseEntity<>(countyService.delete(id), HttpStatus.OK);
+    public ResponseEntity<String> delete(@PathVariable long id) {
+
+        return new ResponseEntity(countyService.delete(id), HttpStatus.OK);
     }
 }

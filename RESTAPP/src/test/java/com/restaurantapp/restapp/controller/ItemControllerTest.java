@@ -2,12 +2,9 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Address;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.model.User;
-import com.restaurantapp.restapp.repository.AddressRepository;
-import com.restaurantapp.restapp.service.AddressService;
+import com.restaurantapp.restapp.model.Item;
+import com.restaurantapp.restapp.repository.ItemRepository;
+import com.restaurantapp.restapp.service.ItemService;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,79 +25,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@WebMvcTest(value = AddressController.class)
-public class AddressControllerTest {
+@WebMvcTest(value = ItemController.class)
+public class ItemControllerTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    MockMvc mockMvc;
 
     @MockBean
-    private AddressService addressService;
+    ItemService itemService;
 
     @MockBean
-    private AddressRepository addressRepository;
+    ItemRepository itemRepository;
 
+    String mapToJson(Object o) throws JsonProcessingException {
 
-    private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
-        return objectMapper.writeValueAsString(object);
+        return objectMapper.writeValueAsString(o);
     }
 
     @Test
-    public void getAll() throws Exception {
+    public void add() throws Exception {
 
-        List<Address> addressList = new ArrayList<>();
-        addressList.add(this.generateAddress());
+        Item item = this.generateItem();
 
-        Mockito.when(addressService.getAll()).thenReturn(addressList);
+        String URI = "/item";
+        String inputJson = this.mapToJson(item);
 
-        String URI = "/address";
-        String inputJson = this.mapToJson(addressList);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-
-    }
-
-    @Test
-    public void getAddress() throws Exception {
-
-        Address address = this.generateAddress();
-
-        Mockito.when(addressService.getById(Mockito.anyLong())).thenReturn(address);
-
-        String URI = "/address/2";
-        String inputJson = this.mapToJson(address);
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-    }
-
-    @Test
-    public void addAddress() throws Exception {
-
-        Address address = this.generateAddress();
-
-        String URI = "/address";
-        String inputJson = this.mapToJson(address);
-
-        Mockito.when(addressService.save(Mockito.any(Address.class))).thenReturn(address);
+        Mockito.when(itemService.save(Mockito.any(Item.class))).thenReturn(item);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -113,18 +64,62 @@ public class AddressControllerTest {
         String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
 
         Assertions.assertThat(inputJson).isEqualTo(outputJson);
-
     }
 
     @Test
-    public void updateAddress() throws Exception {
+    public void getAll() throws Exception {
 
-        Address address = this.generateAddress();
+        List<Item> itemList = new ArrayList<>();
+        itemList.add(this.generateItem());
 
-        String URI = "/address";
-        String inputJson = this.mapToJson(address);
+        String URI = "/item";
+        String inputJson = this.mapToJson(itemList);
 
-        Mockito.when(addressService.update(Mockito.any(Address.class))).thenReturn(address);
+        Mockito.when(itemService.getAll()).thenReturn(itemList);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(URI)
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
+
+        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+    }
+
+    @Test
+    public void getById() throws Exception {
+
+        Item item = this.generateItem();
+
+        String URI = "/item/11";
+        String inputJson = this.mapToJson(item);
+
+        Mockito.when(itemService.getById(Mockito.anyLong())).thenReturn(item);
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get(URI)
+                .accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+
+        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
+
+        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+    }
+
+    @Test
+    public void update() throws Exception {
+
+        Item item = this.generateItem();
+
+        String URI = "/item";
+        String inputJson = this.mapToJson(item);
+
+        Mockito.when(itemService.update(Mockito.any(Item.class))).thenReturn(item);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -140,13 +135,13 @@ public class AddressControllerTest {
     }
 
     @Test
-    public void deleteAddress() throws Exception {
+    public void delete() throws Exception {
 
-        Address address = this.generateAddress();
+        Item item = this.generateItem();
 
-        String URI = "/address/2";
+        String URI = "/item/6";
 
-        Mockito.when(addressService.delete(Mockito.anyLong())).thenReturn("SUCCESS");
+        Mockito.when(itemService.delete(Mockito.anyLong())).thenReturn("success");
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete(URI)
@@ -157,17 +152,13 @@ public class AddressControllerTest {
 
         String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
 
-        Assertions.assertThat("SUCCESS").isEqualTo(outputJson);
+        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Address generateAddress() {
-
-        return Address.builder()
-                .city(City.builder().name("İstanbul").build())
-                .county(County.builder().name("Pendik").build())
-                .content("Güzelyalı mah.")
-                .user(User.builder().name("test").build())
+    private Item generateItem() {
+        return Item.builder()
+                .name("Patlıcak Musakka")
+                .price(25.50f)
                 .build();
-
     }
 }

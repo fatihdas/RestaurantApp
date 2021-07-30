@@ -43,7 +43,8 @@ public class BasketController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Basket> deleteBasket(@PathVariable long id) {
-        return new ResponseEntity<>(basketService.delete(id), HttpStatus.OK);
+    public ResponseEntity<String> deleteBasket(@PathVariable long id) {
+
+        return new ResponseEntity(basketService.delete(id), HttpStatus.OK);
     }
 }

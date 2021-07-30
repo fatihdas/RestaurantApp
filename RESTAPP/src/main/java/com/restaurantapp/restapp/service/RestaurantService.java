@@ -38,11 +38,9 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public Restaurant delete(long id) {
+    public String delete(long id) {
 
         restaurantRepository.deleteById(id);
-
-        return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
-
+        return "SUCCESS";
     }
 }

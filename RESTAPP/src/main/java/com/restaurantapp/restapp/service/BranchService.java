@@ -41,11 +41,10 @@ public class BranchService {
 
     }
 
-    public Branch delete(long id) {
+    public String delete(long id) {
 
         branchRepository.deleteById(id);
-
-        return branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException(id));
+        return "SUCCESS";
     }
 
     public List<Branch> getWaitingBranchList(){

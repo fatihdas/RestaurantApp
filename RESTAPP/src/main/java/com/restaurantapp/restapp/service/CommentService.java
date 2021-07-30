@@ -38,10 +38,9 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public Comment delete(long id) {
+    public String delete(long id) {
 
         commentRepository.deleteById(id);
-
-        return commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
+        return "SUCCESS";
     }
 }

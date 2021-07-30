@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface BranchRepository extends BaseRepository<Branch> {
-    List<Branch> findAllByStatus(Status waiting);
+    List<Branch> findAllByStatus(Status status);
 }

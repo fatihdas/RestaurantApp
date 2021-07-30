@@ -38,10 +38,9 @@ public class CityService {
         return cityRepository.save(city);
     }
 
-    public City delete(long id) {
+    public String delete(long id) {
 
         cityRepository.deleteById(id);
-
-        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
+        return "SUCCESS";
     }
 }

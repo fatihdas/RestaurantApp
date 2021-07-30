@@ -38,10 +38,9 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Item delete(long id) {
+    public String delete(long id) {
 
         itemRepository.deleteById(id);
-
-        return itemRepository.findById(id).orElseThrow(() -> new ItemNotFoundException(id));
+        return "SUCCESS";
     }
 }

@@ -50,7 +50,8 @@ public class BranchController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Branch> delete(@PathVariable long id) {
-        return new ResponseEntity<>(branchService.delete(id), HttpStatus.OK);
+    public ResponseEntity<String> delete(@PathVariable long id) {
+
+        return new ResponseEntity(branchService.delete(id), HttpStatus.OK);
     }
 }

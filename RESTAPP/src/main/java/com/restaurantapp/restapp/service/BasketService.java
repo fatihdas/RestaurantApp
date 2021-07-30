@@ -38,9 +38,9 @@ public class BasketService {
         return basketRepository.save(basket);
     }
 
-    public Basket delete(long id) {
+    public String delete(long id) {
 
         basketRepository.deleteById(id);
-        return basketRepository.findById(id).orElseThrow(() -> new BasketNotFoundException(id));
+        return "SUCCESS";
     }
 }

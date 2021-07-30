@@ -39,10 +39,9 @@ public class MenuService {
         return menuRepository.save(menu);
     }
 
-    public Menu delete(long id) {
+    public String delete(long id) {
 
         menuRepository.deleteById(id);
-
-        return menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException(id));
+        return "SUCCESS";
     }
 }

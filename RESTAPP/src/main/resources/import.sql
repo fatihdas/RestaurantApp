@@ -1,0 +1,11 @@
+insert into users VALUES (1,'test@mail.com','testname','testpass','ADMIN');
+insert into addresses VALUES (1,'Güzelyalı',null,34,34903,1);
+insert into restaurants VALUES (1,'Hatay Medeniyetler Sofrası',1);
+insert into menus VALUES (1,1);
+insert into meals VALUES (1,'patlıcan musakka + kola',35,null,1);
+insert into items VALUES (1,'kola');
+insert into counties VALUES (34903,'Pendik',34);
+insert into comments VALUES (1,'bla bla bla',null,1,1);
+insert into cities VALUES (34,'İstanbul');
+insert into branches VALUES (1,'etiler şube','WAITING',1);
+insert into baskets VALUES (1,2,3,1);

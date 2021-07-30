@@ -38,11 +38,9 @@ public class CountyService {
         return countyRepository.save(county);
     }
 
-    public County delete(long id) {
+    public String delete(long id) {
 
         countyRepository.deleteById(id);
-
-        return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
-
+        return "SUCCESS";
     }
 }

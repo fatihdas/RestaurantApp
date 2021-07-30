@@ -38,10 +38,9 @@ public class MealService {
         return mealRepository.save(meal);
     }
 
-    public Meal delete(long id) {
+    public String delete(long id) {
 
         mealRepository.deleteById(id);
-
-        return mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
+        return "SUCCESS";
     }
 }

@@ -43,11 +43,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User delete(long id) {
+    public String delete(long id) {
 
         userRepository.deleteById(id);
-
-        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return "SUCCESS";
     }
 
 
