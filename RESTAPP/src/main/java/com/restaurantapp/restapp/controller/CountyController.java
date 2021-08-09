@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+<<<<<<< HEAD
 @RestController
 @RequestMapping("county")
+=======
+@RestController("county")
+>>>>>>> 09.08
 public class CountyController {
 
     private final CountyService countyService;

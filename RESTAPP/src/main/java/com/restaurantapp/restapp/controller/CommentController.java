@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+<<<<<<< HEAD
 @RestController
 @RequestMapping("comment")
+=======
+@RestController("comment")
+>>>>>>> 09.08
 public class CommentController {
 
     private final CommentService commentService;

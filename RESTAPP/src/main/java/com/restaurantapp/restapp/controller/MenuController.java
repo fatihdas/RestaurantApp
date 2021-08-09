@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+<<<<<<< HEAD
 @RestController
 @RequestMapping("menu")
+=======
+@RestController("menu")
+>>>>>>> 09.08
 public class MenuController {
 
     private final MenuService menuService;

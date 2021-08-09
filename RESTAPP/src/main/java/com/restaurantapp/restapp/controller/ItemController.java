@@ -8,8 +8,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+<<<<<<< HEAD
 @RestController
 @RequestMapping("item")
+=======
+@RestController("item")
+>>>>>>> 09.08
 public class ItemController {
 
     private final ItemService itemService;
