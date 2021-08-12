@@ -2,10 +2,11 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Branch;
-import com.restaurantapp.restapp.model.Comment;
-import com.restaurantapp.restapp.repository.CommentRepository;
-import com.restaurantapp.restapp.service.CommentService;
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.dto.CommentDto;
+import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
+import com.restaurantapp.restapp.service.impl.CommentServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +34,7 @@ public class CommentControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    CommentService commentService;
-
-    @MockBean
-    CommentRepository commentRepository;
+    CommentServiceImpl commentServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -48,12 +46,12 @@ public class CommentControllerTest {
     @Test
     public void add() throws Exception {
 
-        Comment comment = this.generateComment();
+        CommentDto comment = this.generateComment();
 
-        String URI = "/comment";
+        String URI = "/commentList";
         String inputJson = this.mapToJson(comment);
 
-        Mockito.when(commentService.save(Mockito.any(Comment.class))).thenReturn(comment);
+        Mockito.when(commentServiceImpl.createComment(Mockito.any(CreateCommentRequest.class))).thenReturn(comment);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -71,13 +69,13 @@ public class CommentControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<Comment> commentList = new ArrayList<>();
+        List<CommentDto> commentList = new ArrayList<>();
         commentList.add(this.generateComment());
 
-        String URI = "/comment";
+        String URI = "/commentList";
         String inputJson = this.mapToJson(commentList);
 
-        Mockito.when(commentService.getAll()).thenReturn(commentList);
+        Mockito.when(commentServiceImpl.getAllComments()).thenReturn(commentList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -94,12 +92,12 @@ public class CommentControllerTest {
     @Test
     public void getById() throws Exception {
 
-        Comment comment = this.generateComment();
+        CommentDto comment = this.generateComment();
 
-        String URI = "/comment/13";
+        String URI = "/commentList/13";
         String inputJson = this.mapToJson(comment);
 
-        Mockito.when(commentService.getById(Mockito.anyLong())).thenReturn(comment);
+        Mockito.when(commentServiceImpl.getComment(Mockito.anyLong())).thenReturn(comment);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -116,12 +114,13 @@ public class CommentControllerTest {
     @Test
     public void update() throws Exception {
 
-        Comment comment = this.generateComment();
+        CommentDto comment = this.generateComment();
 
-        String URI = "/comment";
+        String URI = "/commentList/7";
         String inputJson = this.mapToJson(comment);
 
-        Mockito.when(commentService.update(Mockito.any(Comment.class))).thenReturn(comment);
+        Mockito.when(commentServiceImpl.updateComment(Mockito.any(UpdateCommentRequest.class)
+                ,Mockito.anyLong())).thenReturn(comment);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -139,28 +138,15 @@ public class CommentControllerTest {
     @Test
     public void delete() throws Exception {
 
-        Comment comment = this.generateComment();
+        commentServiceImpl.deleteComment(Mockito.anyLong());
 
-        String URI = "/comment/7";
+        Mockito.verify(commentServiceImpl).deleteComment(Mockito.anyLong());
 
-        Mockito.when(commentService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Comment generateComment() {
-        return Comment.builder()
+    private CommentDto generateComment() {
+        return CommentDto.builder()
                 .content("bla bla bla")
-                .branch(Branch.builder().name("etilerşubesi").build())
                 .build();
     }
 }

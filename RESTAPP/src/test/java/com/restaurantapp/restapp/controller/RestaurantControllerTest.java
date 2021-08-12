@@ -2,10 +2,11 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Restaurant;
-import com.restaurantapp.restapp.model.User;
-import com.restaurantapp.restapp.repository.RestaurantRepository;
-import com.restaurantapp.restapp.service.RestaurantService;
+import com.restaurantapp.restapp.model.dto.RestaurantDto;
+import com.restaurantapp.restapp.model.dto.UserDto;
+import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
+import com.restaurantapp.restapp.service.impl.RestaurantServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +34,7 @@ public class RestaurantControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    RestaurantService restaurantService;
-
-    @MockBean
-    RestaurantRepository restaurantRepository;
+    RestaurantServiceImpl restaurantServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -47,12 +45,12 @@ public class RestaurantControllerTest {
     @Test
     public void add() throws Exception {
 
-        Restaurant restaurant = this.generateRestaurant();
+        RestaurantDto restaurant = this.generateRestaurant();
 
         String URI = "/restaurant";
         String inputJson = this.mapToJson(restaurant);
 
-        Mockito.when(restaurantService.save(Mockito.any(Restaurant.class))).thenReturn(restaurant);
+        Mockito.when(restaurantServiceImpl.createRestaurant(Mockito.any(CreateRestaurantRequest.class))).thenReturn(restaurant);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -70,13 +68,13 @@ public class RestaurantControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<Restaurant> restaurantList = new ArrayList<>();
+        List<RestaurantDto> restaurantList = new ArrayList<>();
         restaurantList.add(this.generateRestaurant());
 
         String URI = "/restaurant";
         String inputJson = this.mapToJson(restaurantList);
 
-        Mockito.when(restaurantService.getAll()).thenReturn(restaurantList);
+        Mockito.when(restaurantServiceImpl.getAllRestaurants()).thenReturn(restaurantList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -93,12 +91,12 @@ public class RestaurantControllerTest {
     @Test
     public void getById() throws Exception {
 
-        Restaurant restaurant = this.generateRestaurant();
+        RestaurantDto restaurant = this.generateRestaurant();
 
         String URI = "/restaurant/25";
         String inputJson = this.mapToJson(restaurant);
 
-        Mockito.when(restaurantService.getById(Mockito.anyLong())).thenReturn(restaurant);
+        Mockito.when(restaurantServiceImpl.getRestaurant(Mockito.anyLong())).thenReturn(restaurant);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -115,12 +113,13 @@ public class RestaurantControllerTest {
     @Test
     public void update() throws Exception {
 
-        Restaurant restaurant = this.generateRestaurant();
+        RestaurantDto restaurant = this.generateRestaurant();
 
-        String URI = "/restaurant";
+        String URI = "/restaurant/13";
         String inputJson = this.mapToJson(restaurant);
 
-        Mockito.when(restaurantService.update(Mockito.any(Restaurant.class))).thenReturn(restaurant);
+        Mockito.when(restaurantServiceImpl.updateRestaurant(Mockito.any(UpdateRestaurantRequest.class)
+                ,Mockito.anyLong())).thenReturn(restaurant);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -138,28 +137,16 @@ public class RestaurantControllerTest {
     @Test
     public void delete() throws Exception {
 
-        Restaurant restaurant = this.generateRestaurant();
+        restaurantServiceImpl.deleteRestaurant(Mockito.anyLong());
 
-        String URI = "/restaurant/9";
+        Mockito.verify(restaurantServiceImpl).deleteRestaurant(Mockito.anyLong());
 
-        Mockito.when(restaurantService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Restaurant generateRestaurant() {
-        return Restaurant.builder()
+    private RestaurantDto generateRestaurant() {
+        return RestaurantDto.builder()
                 .name("Hatay Medeniyetler Sofrası")
-                .owner(User.builder().name("CZN Burak").build())
+                .userDto(UserDto.builder().name("CZN Burak").build())
                 .build();
     }
 }

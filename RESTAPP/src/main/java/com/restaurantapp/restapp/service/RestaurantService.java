@@ -1,46 +1,23 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
-import com.restaurantapp.restapp.model.Restaurant;
-import com.restaurantapp.restapp.repository.RestaurantRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.CountyDto;
+import com.restaurantapp.restapp.model.dto.RestaurantDto;
+import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class RestaurantService {
+public interface RestaurantService {
 
-    private final RestaurantRepository restaurantRepository;
+    RestaurantDto createRestaurant(CreateRestaurantRequest request);
 
-    public RestaurantService(RestaurantRepository restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
-    }
+    List<RestaurantDto> getAllRestaurants();
 
-    public Restaurant save(Restaurant restaurant) {
+    RestaurantDto getRestaurant(long id);
 
-        return restaurantRepository.save(restaurant);
-    }
+//    List<RestaurantDto> getRestaurantsByCounty(CountyDto countyDto);
 
-    public List<Restaurant> getAll() {
+    RestaurantDto updateRestaurant(UpdateRestaurantRequest request, long id);
 
-        return restaurantRepository.findAll();
-    }
-
-    public Restaurant getById(long id) {
-
-        return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
-    }
-
-    public Restaurant update(Restaurant restaurant) {
-
-        restaurantRepository.findById(restaurant.getId()).orElseThrow(() -> new RestaurantNotFoundException(restaurant.getId()));
-        return restaurantRepository.save(restaurant);
-    }
-
-    public String delete(long id) {
-
-        restaurantRepository.deleteById(id);
-        return "SUCCESS";
-    }
+    void deleteRestaurant(long id);
 }

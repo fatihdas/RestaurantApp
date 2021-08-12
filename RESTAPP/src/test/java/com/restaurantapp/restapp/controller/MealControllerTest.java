@@ -2,9 +2,10 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Meal;
-import com.restaurantapp.restapp.repository.MealRepository;
-import com.restaurantapp.restapp.service.MealService;
+import com.restaurantapp.restapp.model.dto.MealDto;
+import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateMealRequest;
+import com.restaurantapp.restapp.service.impl.MealServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,10 +33,7 @@ public class MealControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    MealService mealService;
-
-    @MockBean
-    MealRepository mealRepository;
+    MealServiceImpl mealServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -46,12 +44,12 @@ public class MealControllerTest {
     @Test
     public void add() throws Exception {
 
-        Meal meal = this.generateMeal();
+        MealDto meal = this.generateMeal();
 
         String URI = "/meal";
         String inputJson = this.mapToJson(meal);
 
-        Mockito.when(mealService.save(Mockito.any(Meal.class))).thenReturn(meal);
+        Mockito.when(mealServiceImpl.createMeal(Mockito.any(CreateMealRequest.class))).thenReturn(meal);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -69,13 +67,13 @@ public class MealControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<Meal> mealList = new ArrayList<>();
+        List<MealDto> mealList = new ArrayList<>();
         mealList.add(this.generateMeal());
 
         String URI = "/meal";
         String inputJson = this.mapToJson(mealList);
 
-        Mockito.when(mealService.getAll()).thenReturn(mealList);
+        Mockito.when(mealServiceImpl.getAllMeals()).thenReturn(mealList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -92,12 +90,12 @@ public class MealControllerTest {
     @Test
     public void getById() throws Exception {
 
-        Meal meal = this.generateMeal();
+        MealDto meal = this.generateMeal();
 
         String URI = "/meal/11";
         String inputJson = this.mapToJson(meal);
 
-        Mockito.when(mealService.getById(Mockito.anyLong())).thenReturn(meal);
+        Mockito.when(mealServiceImpl.getMeal(Mockito.anyLong())).thenReturn(meal);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -114,12 +112,12 @@ public class MealControllerTest {
     @Test
     public void update() throws Exception {
 
-        Meal meal = this.generateMeal();
+        MealDto meal = this.generateMeal();
 
-        String URI = "/meal";
+        String URI = "/meal/11";
         String inputJson = this.mapToJson(meal);
 
-        Mockito.when(mealService.update(Mockito.any(Meal.class))).thenReturn(meal);
+        Mockito.when(mealServiceImpl.updateMeal(Mockito.any(UpdateMealRequest.class), Mockito.anyLong())).thenReturn(meal);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -137,26 +135,14 @@ public class MealControllerTest {
     @Test
     public void delete() throws Exception {
 
-        Meal meal = this.generateMeal();
+        mealServiceImpl.deleteMeal(Mockito.anyLong());
 
-        String URI = "/meal/19";
+        Mockito.verify(mealServiceImpl).deleteMeal(Mockito.anyLong());
 
-        Mockito.when(mealService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Meal generateMeal() {
-        return Meal.builder()
+    private MealDto generateMeal() {
+        return MealDto.builder()
                 .name("Kumpir + Kola")
                 .price(40)
                 .build();

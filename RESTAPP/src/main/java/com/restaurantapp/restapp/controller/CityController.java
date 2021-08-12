@@ -1,7 +1,9 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.service.CityService;
+import com.restaurantapp.restapp.model.dto.CityDto;
+import com.restaurantapp.restapp.model.request.create.CreateCityRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCityRequest;
+import com.restaurantapp.restapp.service.impl.CityServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +14,40 @@ import java.util.List;
 @RequestMapping("city")
 public class CityController {
 
-    private final CityService cityService;
+    private final CityServiceImpl cityServiceImpl;
 
-    public CityController(CityService cityService) {
-        this.cityService = cityService;
+    public CityController(CityServiceImpl cityServiceImpl) {
+        this.cityServiceImpl = cityServiceImpl;
     }
 
     @PostMapping
-    public ResponseEntity<City> add(@RequestBody City city) {
+    public ResponseEntity<CityDto> createCity(@RequestBody CreateCityRequest request) {
 
-        return new ResponseEntity<>(cityService.save(city), HttpStatus.CREATED);
+        return new ResponseEntity<>(cityServiceImpl.createCity(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<City>> getAll() {
+    public ResponseEntity<List<CityDto>> getAllCities() {
 
-        return new ResponseEntity<>(cityService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(cityServiceImpl.getAllCities(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<City> getById(@PathVariable long id) {
+    public ResponseEntity<CityDto> getById(@PathVariable long id) {
 
-        return new ResponseEntity<>(cityService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(cityServiceImpl.getCity(id), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<City> update(@RequestBody City city) {
+    @PutMapping("{id}")
+    public ResponseEntity<CityDto> updateCity(@RequestBody UpdateCityRequest request, @PathVariable long id) {
 
-        return new ResponseEntity<>(cityService.update(city), HttpStatus.OK);
+        return new ResponseEntity<>(cityServiceImpl.updateCity(request, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
 
-        return new ResponseEntity(cityService.delete(id), HttpStatus.OK);
+        cityServiceImpl.deleteCity(id);
+        return ResponseEntity.ok().build();
     }
 }

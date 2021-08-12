@@ -2,9 +2,10 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.repository.CityRepository;
-import com.restaurantapp.restapp.service.CityService;
+import com.restaurantapp.restapp.model.dto.CityDto;
+import com.restaurantapp.restapp.model.request.create.CreateCityRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCityRequest;
+import com.restaurantapp.restapp.service.impl.CityServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,10 +33,7 @@ public class CityControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    CityService cityService;
-
-    @MockBean
-    CityRepository cityRepository;
+    CityServiceImpl cityServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -46,12 +44,12 @@ public class CityControllerTest {
     @Test
     public void add() throws Exception {
 
-        City city = this.generateCity();
+        CityDto city = this.generateCity();
 
         String URI = "/city";
         String inputJson = this.mapToJson(city);
 
-        Mockito.when(cityService.save(Mockito.any(City.class))).thenReturn(city);
+        Mockito.when(cityServiceImpl.createCity(Mockito.any(CreateCityRequest.class))).thenReturn(city);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -69,13 +67,13 @@ public class CityControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<City> cityList = new ArrayList<>();
+        List<CityDto> cityList = new ArrayList<>();
         cityList.add(this.generateCity());
 
         String URI = "/city";
         String inputJson = this.mapToJson(cityList);
 
-        Mockito.when(cityService.getAll()).thenReturn(cityList);
+        Mockito.when(cityServiceImpl.getAllCities()).thenReturn(cityList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -92,12 +90,12 @@ public class CityControllerTest {
     @Test
     public void getById() throws Exception {
 
-        City city = this.generateCity();
+        CityDto city = this.generateCity();
 
         String URI = "/city/13";
         String inputJson = this.mapToJson(city);
 
-        Mockito.when(cityService.getById(Mockito.anyLong())).thenReturn(city);
+        Mockito.when(cityServiceImpl.getCity(Mockito.anyLong())).thenReturn(city);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -114,12 +112,12 @@ public class CityControllerTest {
     @Test
     public void update() throws Exception {
 
-        City city = this.generateCity();
+        CityDto city = this.generateCity();
 
-        String URI = "/city";
+        String URI = "/city/6";
         String inputJson = this.mapToJson(city);
 
-        Mockito.when(cityService.update(Mockito.any(City.class))).thenReturn(city);
+        Mockito.when(cityServiceImpl.updateCity(Mockito.any(UpdateCityRequest.class),Mockito.anyLong())).thenReturn(city);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -137,27 +135,15 @@ public class CityControllerTest {
     @Test
     public void delete() throws Exception {
 
-        City city = this.generateCity();
+        cityServiceImpl.deleteCity(Mockito.anyLong());
 
-        String URI = "/city/7";
+        Mockito.verify(cityServiceImpl).deleteCity(Mockito.anyLong());
 
-        Mockito.when(cityService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private City generateCity() {
+    private CityDto generateCity() {
 
-        return City.builder()
+        return CityDto.builder()
                 .name("İstanbul")
                 .build();
     }

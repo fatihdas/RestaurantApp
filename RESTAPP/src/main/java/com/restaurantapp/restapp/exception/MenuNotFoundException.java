@@ -9,4 +9,8 @@ public class MenuNotFoundException extends RuntimeException{
     public MenuNotFoundException(long id) {
         super("Menu not found id:" + id);
     }
+
+    public MenuNotFoundException() {
+
+    }
 }

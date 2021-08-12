@@ -9,4 +9,8 @@ public class MealNotFoundException extends RuntimeException{
     public MealNotFoundException(long id) {
         super("Meal not found id:" + id);
     }
+
+    public MealNotFoundException() {
+
+    }
 }

@@ -9,4 +9,8 @@ public class CountyNotFoundException extends RuntimeException{
     public CountyNotFoundException(long id) {
         super("County not found id:" + id);
     }
+
+    public CountyNotFoundException() {
+
+    }
 }

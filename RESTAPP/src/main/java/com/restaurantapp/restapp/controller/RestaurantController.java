@@ -1,7 +1,9 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.Restaurant;
-import com.restaurantapp.restapp.service.RestaurantService;
+import com.restaurantapp.restapp.model.dto.RestaurantDto;
+import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
+import com.restaurantapp.restapp.service.impl.RestaurantServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +14,40 @@ import java.util.List;
 @RequestMapping("restaurant")
 public class RestaurantController {
 
-    private final RestaurantService restaurantService;
+    private final RestaurantServiceImpl restaurantServiceImpl;
 
-    public RestaurantController(RestaurantService restaurantService) {
-        this.restaurantService = restaurantService;
+    public RestaurantController(RestaurantServiceImpl restaurantServiceImpl) {
+        this.restaurantServiceImpl = restaurantServiceImpl;
     }
 
     @PostMapping
-    public ResponseEntity<Restaurant> add(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<RestaurantDto> createRestaurant(@RequestBody CreateRestaurantRequest request) {
 
-        return new ResponseEntity<>(restaurantService.save(restaurant), HttpStatus.CREATED);
+        return new ResponseEntity<>(restaurantServiceImpl.createRestaurant(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurant>> getAll() {
+    public ResponseEntity<List<RestaurantDto>> getAllRestaurants() {
 
-        return new ResponseEntity<>(restaurantService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(restaurantServiceImpl.getAllRestaurants(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Restaurant> getById(@PathVariable long id) {
+    public ResponseEntity<RestaurantDto> getRestaurant(@PathVariable long id) {
 
-        return new ResponseEntity<>(restaurantService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(restaurantServiceImpl.getRestaurant(id), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<Restaurant> update(@RequestBody Restaurant restaurant) {
+    @PutMapping("{id}")
+    public ResponseEntity<RestaurantDto> updateRestaurant(@RequestBody UpdateRestaurantRequest request, @PathVariable long id) {
 
-        return new ResponseEntity<>(restaurantService.update(restaurant), HttpStatus.OK);
+        return new ResponseEntity<>(restaurantServiceImpl.updateRestaurant(request, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
 
-        return new ResponseEntity(restaurantService.delete(id), HttpStatus.OK);
+        restaurantServiceImpl.deleteRestaurant(id);
+        return ResponseEntity.ok().build();
     }
 }

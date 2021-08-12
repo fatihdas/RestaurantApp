@@ -1,7 +1,9 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.Comment;
-import com.restaurantapp.restapp.service.CommentService;
+import com.restaurantapp.restapp.model.dto.CommentDto;
+import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
+import com.restaurantapp.restapp.service.impl.CommentServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +14,40 @@ import java.util.List;
 @RequestMapping("comment")
 public class CommentController {
 
-    private final CommentService commentService;
+    private final CommentServiceImpl commentServiceImpl;
 
-    public CommentController(CommentService commentService) {
-        this.commentService = commentService;
+    public CommentController(CommentServiceImpl commentServiceImpl) {
+        this.commentServiceImpl = commentServiceImpl;
     }
 
     @PostMapping
-    public ResponseEntity<Comment> add(@RequestBody Comment comment) {
+    public ResponseEntity<CommentDto> createComment(@RequestBody CreateCommentRequest request) {
 
-        return new ResponseEntity<>(commentService.save(comment), HttpStatus.CREATED);
+        return new ResponseEntity<>(commentServiceImpl.createComment(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Comment>> getAll() {
+    public ResponseEntity<List<CommentDto>> getAll() {
 
-        return new ResponseEntity<>(commentService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(commentServiceImpl.getAllComments(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Comment> getById(@PathVariable long id) {
+    public ResponseEntity<CommentDto> getComment(@PathVariable long id) {
 
-        return new ResponseEntity<>(commentService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(commentServiceImpl.getComment(id), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<Comment> update(@RequestBody Comment comment) {
+    @PutMapping("{id}")
+    public ResponseEntity<CommentDto> update(@RequestBody UpdateCommentRequest request, long id) {
 
-        return new ResponseEntity<>(commentService.update(comment), HttpStatus.OK);
+        return new ResponseEntity<>(commentServiceImpl.updateComment(request, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
 
-        return new ResponseEntity(commentService.delete(id), HttpStatus.OK);
+        commentServiceImpl.deleteComment(id);
+        return ResponseEntity.ok().build();
     }
 }

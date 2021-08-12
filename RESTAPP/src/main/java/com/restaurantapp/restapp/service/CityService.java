@@ -1,46 +1,20 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.CityNotFoundException;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.repository.CityRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.CityDto;
+import com.restaurantapp.restapp.model.request.create.CreateCityRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCityRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class CityService {
+public interface CityService {
 
-    private final CityRepository cityRepository;
+    CityDto createCity(CreateCityRequest request);
 
-    public CityService(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
+    List<CityDto> getAllCities();
 
-    public City save(City city) {
+    CityDto getCity(long id);
 
-        return cityRepository.save(city);
-    }
+    CityDto updateCity(UpdateCityRequest request, long id);
 
-    public List<City> getAll() {
-
-        return cityRepository.findAll();
-    }
-
-    public City getById(long id) {
-
-        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
-    }
-
-    public City update(City city) {
-
-        cityRepository.findById(city.getId()).orElseThrow(() -> new CityNotFoundException(city.getId()));
-        return cityRepository.save(city);
-    }
-
-    public String delete(long id) {
-
-        cityRepository.deleteById(id);
-        return "SUCCESS";
-    }
+    void deleteCity(long id);
 }

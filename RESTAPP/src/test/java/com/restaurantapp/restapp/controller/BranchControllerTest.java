@@ -2,10 +2,12 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Branch;
-import com.restaurantapp.restapp.model.Menu;
-import com.restaurantapp.restapp.repository.BranchRepository;
-import com.restaurantapp.restapp.service.BranchService;
+import com.restaurantapp.restapp.enumerated.Status;
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.dto.MenuDto;
+import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
+import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +35,7 @@ public class BranchControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    BranchService branchService;
-
-    @MockBean
-    BranchRepository branchRepository;
+    BranchServiceImpl branchServiceImpl;
 
     private String mapToJson(Object object) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -45,12 +44,12 @@ public class BranchControllerTest {
 
     @Test
     public void add() throws Exception {
-        Branch branch = this.generateBranch();
+        BranchDto branch = this.generateBranch();
 
         String URI = "/branch";
         String inputJson = this.mapToJson(branch);
 
-        Mockito.when(branchService.save(Mockito.any(Branch.class))).thenReturn(branch);
+        Mockito.when(branchServiceImpl.createBranch(Mockito.any(CreateBranchRequest.class))).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -68,13 +67,13 @@ public class BranchControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<Branch> branchList = new ArrayList<>();
+        List<BranchDto> branchList = new ArrayList<>();
         branchList.add(this.generateBranch());
 
         String URI = "/branch";
         String inputJson = this.mapToJson(branchList);
 
-        Mockito.when(branchService.getAll()).thenReturn(branchList);
+        Mockito.when(branchServiceImpl.getAllBranches()).thenReturn(branchList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -91,12 +90,12 @@ public class BranchControllerTest {
     @Test
     public void getById() throws Exception {
 
-        Branch branch = this.generateBranch();
+        BranchDto branch = this.generateBranch();
 
         String URI = "/branch/13";
         String inputJson = this.mapToJson(branch);
 
-        Mockito.when(branchService.getById(Mockito.anyLong())).thenReturn(branch);
+        Mockito.when(branchServiceImpl.getBranch(Mockito.anyLong())).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -113,13 +112,13 @@ public class BranchControllerTest {
     @Test
     public void getAllBtWaiting() throws Exception {
 
-        List<Branch> branchList = new ArrayList<>();
+        List<BranchDto> branchList = new ArrayList<>();
         branchList.add(this.generateBranch());
 
         String URI = "/branch/waiting";
         String inputJson = this.mapToJson(branchList);
 
-        Mockito.when(branchService.getWaitingBranchList()).thenReturn(branchList);
+        Mockito.when(branchServiceImpl.getWaitingBranches("waiting")).thenReturn(branchList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -136,12 +135,13 @@ public class BranchControllerTest {
     @Test
     public void update() throws Exception {
 
-        Branch branch = this.generateBranch();
+        BranchDto branch = this.generateBranch();
 
-        String URI = "/branch";
+        String URI = "/branch/5";
         String inputJson = this.mapToJson(branch);
 
-        Mockito.when(branchService.update(Mockito.any(Branch.class))).thenReturn(branch);
+        Mockito.when(branchServiceImpl.updateBranch(Mockito.any(UpdateBranchRequest.class)
+                ,Mockito.anyLong())).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -159,28 +159,15 @@ public class BranchControllerTest {
     @Test
     public void delete() throws Exception {
 
-        Branch branch = this.generateBranch();
+        branchServiceImpl.deleteBranch(Mockito.anyLong());
 
-        String URI = "/branch/7";
-
-        Mockito.when(branchService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
+        Mockito.verify(branchServiceImpl).deleteBranch(Mockito.anyLong());
     }
 
-    private Branch generateBranch() {
-        return Branch.builder()
+    private BranchDto generateBranch() {
+        return BranchDto.builder()
                 .name("etilerşubesi")
-                .menu(Menu.builder().build())
+                .menuDto(MenuDto.builder().build())
                 .build();
     }
 }

@@ -2,10 +2,10 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.repository.CountyRepository;
-import com.restaurantapp.restapp.service.CountyService;
+import com.restaurantapp.restapp.model.dto.CountyDto;
+import com.restaurantapp.restapp.model.request.create.CreateCountyRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCountyRequest;
+import com.restaurantapp.restapp.service.impl.CountyServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +33,7 @@ public class CountyControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    CountyService countyService;
-
-    @MockBean
-    CountyRepository countyRepository;
+    CountyServiceImpl countyServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -47,12 +44,12 @@ public class CountyControllerTest {
     @Test
     public void add() throws Exception {
 
-        County county = this.generateCounty();
+        CountyDto county = this.generateCounty();
 
         String URI = "/county";
         String inputJson = this.mapToJson(county);
 
-        Mockito.when(countyService.save(Mockito.any(County.class))).thenReturn(county);
+        Mockito.when(countyServiceImpl.createCounty(Mockito.any(CreateCountyRequest.class))).thenReturn(county);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -70,13 +67,13 @@ public class CountyControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<County> countyList = new ArrayList<>();
+        List<CountyDto> countyList = new ArrayList<>();
         countyList.add(this.generateCounty());
 
         String URI = "/county";
         String inputJson = this.mapToJson(countyList);
 
-        Mockito.when(countyService.getAll()).thenReturn(countyList);
+        Mockito.when(countyServiceImpl.getAllCounties()).thenReturn(countyList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -93,12 +90,12 @@ public class CountyControllerTest {
     @Test
     public void getById() throws Exception {
 
-        County county = this.generateCounty();
+        CountyDto county = this.generateCounty();
 
         String URI = "/county/1";
         String inputJson = this.mapToJson(county);
 
-        Mockito.when(countyService.getById(Mockito.anyLong())).thenReturn(county);
+        Mockito.when(countyServiceImpl.getCounty(Mockito.anyLong())).thenReturn(county);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -115,12 +112,13 @@ public class CountyControllerTest {
     @Test
     public void update() throws Exception {
 
-        County county = this.generateCounty();
+        CountyDto county = this.generateCounty();
 
-        String URI = "/county";
+        String URI = "/county/8";
         String inputJson = this.mapToJson(county);
 
-        Mockito.when(countyService.update(Mockito.any(County.class))).thenReturn(county);
+        Mockito.when(countyServiceImpl.updateCounty(Mockito.any(UpdateCountyRequest.class)
+                ,Mockito.anyLong())).thenReturn(county);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -138,28 +136,15 @@ public class CountyControllerTest {
     @Test
     public void delete() throws Exception {
 
-        County county = this.generateCounty();
+        countyServiceImpl.deleteCounty(Mockito.anyLong());
 
-        String URI = "/county/22";
+        Mockito.verify(countyServiceImpl).deleteCounty(Mockito.anyLong());
 
-        Mockito.when(countyService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private County generateCounty() {
-        return County.builder()
+    private CountyDto generateCounty() {
+        return CountyDto.builder()
                 .name("Pendik")
-                .city(City.builder().name("İstanbul").build())
                 .build();
     }
 }

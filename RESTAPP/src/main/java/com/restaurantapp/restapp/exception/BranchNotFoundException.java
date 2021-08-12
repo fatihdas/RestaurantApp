@@ -9,4 +9,8 @@ public class BranchNotFoundException extends RuntimeException{
     public BranchNotFoundException(long id) {
         super("Branch not found id:" + id);
     }
+
+    public BranchNotFoundException() {
+
+    }
 }

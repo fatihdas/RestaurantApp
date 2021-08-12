@@ -9,4 +9,8 @@ public class CityNotFoundException extends RuntimeException{
     public CityNotFoundException(long id) {
         super("City not found id:" + id);
     }
+
+    public CityNotFoundException() {
+
+    }
 }

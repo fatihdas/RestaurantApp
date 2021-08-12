@@ -1,7 +1,9 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.service.CountyService;
+import com.restaurantapp.restapp.model.dto.CountyDto;
+import com.restaurantapp.restapp.model.request.create.CreateCountyRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCountyRequest;
+import com.restaurantapp.restapp.service.impl.CountyServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +14,40 @@ import java.util.List;
 @RequestMapping("county")
 public class CountyController {
 
-    private final CountyService countyService;
+    private final CountyServiceImpl countyServiceImpl;
 
-    public CountyController(CountyService countyService) {
-        this.countyService = countyService;
+    public CountyController(CountyServiceImpl countyServiceImpl) {
+        this.countyServiceImpl = countyServiceImpl;
     }
 
     @PostMapping
-    public ResponseEntity<County> add(@RequestBody County county) {
+    public ResponseEntity<CountyDto> createCounty(@RequestBody CreateCountyRequest request) {
 
-        return new ResponseEntity<>(countyService.save(county), HttpStatus.CREATED);
+        return new ResponseEntity<>(countyServiceImpl.createCounty(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<County>> getAll() {
+    public ResponseEntity<List<CountyDto>> getAllCounties() {
 
-        return new ResponseEntity<>(countyService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(countyServiceImpl.getAllCounties(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<County> getById(@PathVariable long id) {
+    public ResponseEntity<CountyDto> getCounty(@PathVariable long id) {
 
-        return new ResponseEntity<>(countyService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(countyServiceImpl.getCounty(id), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity<County> update(@RequestBody County county) {
+    @PutMapping("{id}")
+    public ResponseEntity<CountyDto> updateCounty(@RequestBody UpdateCountyRequest request, @PathVariable long id) {
 
-        return new ResponseEntity<>(countyService.update(county), HttpStatus.OK);
+        return new ResponseEntity<>(countyServiceImpl.updateCounty(request, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<Void> deleteCounty(@PathVariable long id) {
 
-        return new ResponseEntity(countyService.delete(id), HttpStatus.OK);
+        countyServiceImpl.deleteCounty(id);
+        return ResponseEntity.ok().build();
     }
 }

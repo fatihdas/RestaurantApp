@@ -2,10 +2,11 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.Branch;
-import com.restaurantapp.restapp.model.Menu;
-import com.restaurantapp.restapp.repository.MenuRepository;
-import com.restaurantapp.restapp.service.MenuService;
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.dto.MenuDto;
+import com.restaurantapp.restapp.model.request.create.CreateMenuRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateMenuRequest;
+import com.restaurantapp.restapp.service.impl.MenuServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,10 +34,7 @@ public class MenuControllerTest {
     MockMvc mockMvc;
 
     @MockBean
-    MenuService menuService;
-
-    @MockBean
-    MenuRepository menuRepository;
+    MenuServiceImpl menuServiceImpl;
 
     String mapToJson(Object o) throws JsonProcessingException {
 
@@ -47,12 +45,12 @@ public class MenuControllerTest {
     @Test
     public void add() throws Exception {
 
-        Menu menu = this.generateMenu();
+        MenuDto menu = this.generateMenu();
 
         String URI = "/menu";
         String inputJson = this.mapToJson(menu);
 
-        Mockito.when(menuService.save(Mockito.any(Menu.class))).thenReturn(menu);
+        Mockito.when(menuServiceImpl.createMenu(Mockito.any(CreateMenuRequest.class))).thenReturn(menu);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post(URI)
@@ -70,13 +68,13 @@ public class MenuControllerTest {
     @Test
     public void getAll() throws Exception {
 
-        List<Menu> menuList = new ArrayList<>();
+        List<MenuDto> menuList = new ArrayList<>();
         menuList.add(this.generateMenu());
 
         String URI = "/menu";
         String inputJson = this.mapToJson(menuList);
 
-        Mockito.when(menuService.getAll()).thenReturn(menuList);
+        Mockito.when(menuServiceImpl.getAllMenu()).thenReturn(menuList);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -93,12 +91,12 @@ public class MenuControllerTest {
     @Test
     public void getById() throws Exception {
 
-        Menu menu = this.generateMenu();
+        MenuDto menu = this.generateMenu();
 
         String URI = "/menu/5";
         String inputJson = this.mapToJson(menu);
 
-        Mockito.when(menuService.getById(Mockito.anyLong())).thenReturn(menu);
+        Mockito.when(menuServiceImpl.getMenu(Mockito.anyLong())).thenReturn(menu);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -115,12 +113,12 @@ public class MenuControllerTest {
     @Test
     public void update() throws Exception {
 
-        Menu menu = this.generateMenu();
+        MenuDto menu = this.generateMenu();
 
-        String URI = "/menu";
+        String URI = "/menu/12";
         String inputJson = this.mapToJson(menu);
 
-        Mockito.when(menuService.update(Mockito.any(Menu.class))).thenReturn(menu);
+        Mockito.when(menuServiceImpl.updateMenu(Mockito.any(UpdateMenuRequest.class),Mockito.anyLong())).thenReturn(menu);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -138,27 +136,14 @@ public class MenuControllerTest {
     @Test
     public void delete() throws Exception {
 
-        Menu menu = this.generateMenu();
+        menuServiceImpl.deleteMenu(Mockito.anyLong());
 
-        String URI = "/menu/4";
+        Mockito.verify(menuServiceImpl).deleteMenu(Mockito.anyLong());
 
-        Mockito.when(menuService.delete(Mockito.anyLong())).thenReturn("success");
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete(URI)
-                .accept(MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-
-        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-
-        Assertions.assertThat("success").isEqualTo(outputJson);
     }
 
-    private Menu generateMenu() {
-        return Menu.builder()
-                .branch(Branch.builder().name("etilerşubesi").build())
+    private MenuDto generateMenu() {
+        return MenuDto.builder()
                 .build();
     }
 }

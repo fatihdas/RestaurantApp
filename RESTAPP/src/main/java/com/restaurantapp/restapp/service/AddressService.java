@@ -1,51 +1,22 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.AddressNotFoundException;
-import com.restaurantapp.restapp.model.Address;
-import com.restaurantapp.restapp.model.City;
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.model.User;
-import com.restaurantapp.restapp.repository.AddressRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateAddressRequest;
 
 import java.util.List;
 
-@Service
-public class AddressService {
+public interface AddressService {
 
-    private final AddressRepository addressRepository;
+    AddressDto createAddress(CreateAddressRequest request);
 
-    public AddressService(AddressRepository addressRepository) {
-        this.addressRepository = addressRepository;
-    }
+    List<AddressDto> getAllAddresses();
 
-    public Address save(Address address) {
+    AddressDto getAddress(long id);
 
-        return addressRepository.save(address);
-    }
+    AddressDto updateAddress(UpdateAddressRequest request, long id);
 
-    public List<Address> getAll() {
+    void deleteAddress(long id);
 
-        return addressRepository.findAll();
-    }
-
-    public Address getById(long id) {
-
-        return addressRepository.findById(id).orElseThrow(()-> new AddressNotFoundException(id));
-    }
-
-    public Address update(Address address) {
-
-        addressRepository.findById(address.getId()).orElseThrow(() -> new AddressNotFoundException(address.getId()));
-        return addressRepository.save(address);
-
-
-    }
-
-    public String delete(long id) {
-
-        addressRepository.deleteById(id);
-        return "SUCCESS";
-    }
 
 }

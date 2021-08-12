@@ -1,7 +1,11 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.Branch;
-import com.restaurantapp.restapp.service.BranchService;
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.entity.Menu;
+import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
+import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
+import com.restaurantapp.restapp.service.impl.MenuServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,46 +16,61 @@ import java.util.List;
 @RequestMapping("branch")
 public class BranchController {
 
-    private final BranchService branchService;
+    private final BranchServiceImpl branchServiceImpl;
+    private final MenuServiceImpl menuService;
 
-    public BranchController(BranchService branchService) {
-        this.branchService = branchService;
+    public BranchController(BranchServiceImpl branchServiceImpl, MenuServiceImpl menuService) {
+        this.branchServiceImpl = branchServiceImpl;
+        this.menuService = menuService;
     }
 
     @PostMapping
-    public ResponseEntity<Branch> add(@RequestBody Branch branch) {
+    public ResponseEntity<BranchDto> createBranch(@RequestBody CreateBranchRequest request) {
 
-        return new ResponseEntity<>(branchService.save(branch), HttpStatus.CREATED);
+        return new ResponseEntity<>(branchServiceImpl.createBranch(request), HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<Branch>> getAll() {
+    public ResponseEntity<List<BranchDto>> getAllBranches() {
 
-        return new ResponseEntity<>(branchService.getAll(), HttpStatus.OK);
+        return new ResponseEntity<>(branchServiceImpl.getAllBranches(), HttpStatus.OK);
+    }
+
+    @GetMapping("/branches/{countyName}")
+    public ResponseEntity<List<BranchDto>> getNearBranches(@PathVariable String countyName) {
+
+        return new ResponseEntity<>(branchServiceImpl.getNearBranches(countyName), HttpStatus.OK);
+    }
+
+    @GetMapping("/menu/{id}")
+    public ResponseEntity<BranchDto> getById(@PathVariable long id) {
+
+        return new ResponseEntity<>(branchServiceImpl.getBranch(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/status/{value}")
+    public ResponseEntity<List<BranchDto>> getAllWaiting(@PathVariable("value") String value) {
+
+        return new ResponseEntity<>(branchServiceImpl.getWaitingBranches(value), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Branch> getById(@PathVariable long id) {
+    public ResponseEntity<Menu> getMenu(@PathVariable long id) {
 
-        return new ResponseEntity<>(branchService.getById(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/waiting")
-    public ResponseEntity<List<Branch>> getAllBtWaiting(){
-
-        return new ResponseEntity<>(branchService.getWaitingBranchList(),HttpStatus.OK);
+        return new ResponseEntity(menuService.getMenu(id), HttpStatus.OK);
     }
 
 
-    @PutMapping
-    public ResponseEntity<Branch> update(@RequestBody Branch branch) {
+    @PutMapping("{id}")
+    public ResponseEntity<BranchDto> updateBranch(@RequestBody UpdateBranchRequest request, @PathVariable long id) {
 
-        return new ResponseEntity<>(branchService.update(branch), HttpStatus.OK);
+        return new ResponseEntity<>(branchServiceImpl.updateBranch(request, id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> delete(@PathVariable long id) {
+    public ResponseEntity<Void> deleteBranch(@PathVariable long id) {
 
-        return new ResponseEntity(branchService.delete(id), HttpStatus.OK);
+        branchServiceImpl.deleteBranch(id);
+        return ResponseEntity.ok().build();
     }
 }

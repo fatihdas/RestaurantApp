@@ -1,54 +1,26 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.enumerated.Status;
-import com.restaurantapp.restapp.exception.BranchNotFoundException;
-import com.restaurantapp.restapp.model.Branch;
-import com.restaurantapp.restapp.repository.BranchRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.dto.CountyDto;
+import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class BranchService {
+public interface BranchService {
 
-    private final BranchRepository branchRepository;
+    BranchDto createBranch(CreateBranchRequest request);
 
-    public BranchService(BranchRepository branchRepository) {
-        this.branchRepository = branchRepository;
-    }
+    List<BranchDto> getAllBranches();
 
-    public Branch save(Branch branch) {
+    BranchDto getBranch(long id);
 
-        return branchRepository.save(branch);
-    }
+    List<BranchDto> getNearBranches(String countyName);
 
-    public List<Branch> getAll() {
+    BranchDto updateBranch(UpdateBranchRequest request, long id);
 
-        return branchRepository.findAll();
-    }
+    void deleteBranch(long id);
 
-    public Branch getById(long id) {
-
-        return branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException(id));
-    }
-
-    public Branch update(Branch branch) {
-
-        branchRepository.findById(branch.getId()).orElseThrow(() -> new BranchNotFoundException(branch.getId()));
-        return branchRepository.save(branch);
-
-
-    }
-
-    public String delete(long id) {
-
-        branchRepository.deleteById(id);
-        return "SUCCESS";
-    }
-
-    public List<Branch> getWaitingBranchList(){
-
-        return branchRepository.findAllByStatus(Status.WAITING);
-    }
+    List<BranchDto> getWaitingBranches(String value);
 }

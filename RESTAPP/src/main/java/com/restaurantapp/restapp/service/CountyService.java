@@ -1,46 +1,20 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.CountyNotFoundException;
-import com.restaurantapp.restapp.model.County;
-import com.restaurantapp.restapp.repository.CountyRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.CountyDto;
+import com.restaurantapp.restapp.model.request.create.CreateCountyRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateCountyRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class CountyService {
+public interface CountyService {
 
-    private final CountyRepository countyRepository;
+    CountyDto createCounty(CreateCountyRequest request);
 
-    public CountyService(CountyRepository countyRepository) {
-        this.countyRepository = countyRepository;
-    }
+    List<CountyDto> getAllCounties();
 
-    public County save(County county) {
+    CountyDto getCounty(long id);
 
-        return countyRepository.save(county);
-    }
+    CountyDto updateCounty(UpdateCountyRequest request, long id);
 
-    public List<County> getAll() {
-
-        return countyRepository.findAll();
-    }
-
-    public County getById(long id) {
-
-        return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
-    }
-
-    public County update(County county) {
-
-        countyRepository.findById(county.getId()).orElseThrow(() -> new CountyNotFoundException(county.getId()));
-        return countyRepository.save(county);
-    }
-
-    public String delete(long id) {
-
-        countyRepository.deleteById(id);
-        return "SUCCESS";
-    }
+    void deleteCounty(long id);
 }

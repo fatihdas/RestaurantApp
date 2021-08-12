@@ -1,7 +1,10 @@
 package com.restaurantapp.restapp.controller;
 
-import com.restaurantapp.restapp.model.Address;
-import com.restaurantapp.restapp.service.AddressService;
+import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateAddressRequest;
+import com.restaurantapp.restapp.service.impl.AddressServiceImpl;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,39 +15,40 @@ import java.util.List;
 @RequestMapping("address")
 public class AddressController {
 
-    private final AddressService addressService;
+    private final AddressServiceImpl addressServiceImpl;
 
-    public AddressController(AddressService addressService) {
-        this.addressService = addressService;
+    public AddressController(@Lazy AddressServiceImpl addressServiceImpl) {
+        this.addressServiceImpl = addressServiceImpl;
     }
 
     @GetMapping
-    public ResponseEntity<List<Address>> getAll() {
-        return new ResponseEntity<>(addressService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<AddressDto>> getAllAddresses() {
+        return new ResponseEntity<>(addressServiceImpl.getAllAddresses(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Address> getAddress(@PathVariable long id) {
+    public ResponseEntity<AddressDto> getAddress(@PathVariable long id) {
 
-        return new ResponseEntity<>(addressService.getById(id), HttpStatus.OK);
+        return new ResponseEntity<>(addressServiceImpl.getAddress(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Address> addAddress(@RequestBody Address address) {
+    public ResponseEntity<AddressDto> createAddress(@RequestBody CreateAddressRequest request) {
 
-        return new ResponseEntity<>(addressService.save(address), HttpStatus.CREATED);
+        return new ResponseEntity<>(addressServiceImpl.createAddress(request), HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<Address> updateAddress(@RequestBody Address address) {
+    @PutMapping("{id}")
+    public ResponseEntity<AddressDto> updateAddress(@RequestBody UpdateAddressRequest request,@PathVariable long id) {
 
-        return new ResponseEntity<>(addressService.update(address), HttpStatus.OK);
+        return new ResponseEntity<>(addressServiceImpl.updateAddress(request,id), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable long id) {
+    public ResponseEntity<Void> deleteAddress(@PathVariable long id) {
 
-        return new ResponseEntity(addressService.delete(id), HttpStatus.OK);
+        addressServiceImpl.deleteAddress(id);
+        return ResponseEntity.ok().build();
     }
 
 }

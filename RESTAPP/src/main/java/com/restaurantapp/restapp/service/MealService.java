@@ -1,46 +1,20 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.MealNotFoundException;
-import com.restaurantapp.restapp.model.Meal;
-import com.restaurantapp.restapp.repository.MealRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.MealDto;
+import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateMealRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class MealService {
+public interface MealService {
 
-    private final MealRepository mealRepository;
+    MealDto createMeal(CreateMealRequest request);
 
-    public MealService(MealRepository mealRepository) {
-        this.mealRepository = mealRepository;
-    }
+    List<MealDto> getAllMeals();
 
-    public Meal save(Meal meal) {
+    MealDto getMeal(long id);
 
-        return mealRepository.save(meal);
-    }
+    MealDto updateMeal(UpdateMealRequest request, long id);
 
-    public List<Meal> getAll() {
-
-        return mealRepository.findAll();
-    }
-
-    public Meal getById(long id) {
-
-        return mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
-    }
-
-    public Meal update(Meal meal) {
-
-        mealRepository.findById(meal.getId()).orElseThrow(() -> new MealNotFoundException(meal.getId()));
-        return mealRepository.save(meal);
-    }
-
-    public String delete(long id) {
-
-        mealRepository.deleteById(id);
-        return "SUCCESS";
-    }
+    void deleteMeal(long id);
 }

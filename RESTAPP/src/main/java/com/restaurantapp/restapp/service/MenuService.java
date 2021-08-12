@@ -1,47 +1,20 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.exception.MenuNotFoundException;
-import com.restaurantapp.restapp.model.Menu;
-import com.restaurantapp.restapp.model.User;
-import com.restaurantapp.restapp.repository.MenuRepository;
-import org.springframework.stereotype.Service;
+import com.restaurantapp.restapp.model.dto.MenuDto;
+import com.restaurantapp.restapp.model.request.create.CreateMenuRequest;
+import com.restaurantapp.restapp.model.request.update.UpdateMenuRequest;
 
 import java.util.List;
-import java.util.Optional;
 
-@Service
-public class MenuService {
+public interface MenuService {
 
-    private final MenuRepository menuRepository;
+    MenuDto createMenu(CreateMenuRequest request);
 
-    public MenuService(MenuRepository menuRepository) {
-        this.menuRepository = menuRepository;
-    }
+    List<MenuDto> getAllMenu();
 
-    public Menu save(Menu menu) {
+    MenuDto getMenu(long id);
 
-        return menuRepository.save(menu);
-    }
+    MenuDto updateMenu(UpdateMenuRequest request, long id);
 
-    public List<Menu> getAll() {
-
-        return menuRepository.findAll();
-    }
-
-    public Menu getById(long id) {
-
-        return menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException(id));
-    }
-
-    public Menu update(Menu menu) {
-
-        menuRepository.findById(menu.getId()).orElseThrow(() -> new MenuNotFoundException(menu.getId()));
-        return menuRepository.save(menu);
-    }
-
-    public String delete(long id) {
-
-        menuRepository.deleteById(id);
-        return "SUCCESS";
-    }
+    void deleteMenu(long id);
 }
