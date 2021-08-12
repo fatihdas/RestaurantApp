@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+<<<<<<< HEAD
 @RestController
 @RequestMapping("city")
+=======
+@RestController("branch")
+>>>>>>> 09.08
 public class CityController {
 
     private final CityServiceImpl cityServiceImpl;
