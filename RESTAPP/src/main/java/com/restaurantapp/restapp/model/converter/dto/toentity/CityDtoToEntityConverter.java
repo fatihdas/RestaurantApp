@@ -20,8 +20,6 @@ public class CityDtoToEntityConverter {
 
         return City.builder()
                 .name(cityDto.getName())
-                .countyList(cityDto.getCountyDtoList().stream().map(countyDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

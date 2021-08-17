@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -30,11 +31,13 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id"))
+    @Column(columnDefinition = "enum('BUYER','SELLER','ADMIN')")
     @Enumerated(EnumType.STRING)
-    private Roles roles;
+    private List<Roles> roles;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Address> addressList;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Address> addressList = new ArrayList<>();
 
 }

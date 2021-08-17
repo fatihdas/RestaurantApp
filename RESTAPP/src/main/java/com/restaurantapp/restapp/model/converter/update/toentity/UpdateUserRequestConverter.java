@@ -23,12 +23,10 @@ public class UpdateUserRequestConverter {
     public User convert(UpdateUserRequest request) {
 
         return User.builder()
-                .roles(request.getRoles())
+//                .roles(request.getRoles())
                 .name(request.getName())
                 .password(request.getPassword())
                 .email(request.getEmail())
-                .addressList(request.getAddressDtoList().stream().map(addressDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

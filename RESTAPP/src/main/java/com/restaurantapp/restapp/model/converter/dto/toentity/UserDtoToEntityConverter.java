@@ -24,8 +24,6 @@ public class UserDtoToEntityConverter {
                 .name(userDto.getName())
                 .password(userDto.getPassword())
                 .email(userDto.getEmail())
-                .addressList(userDto.getAddressDtoList().stream().map(addressDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

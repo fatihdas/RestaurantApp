@@ -17,7 +17,7 @@ public class CommentDto implements Serializable {
 
     private long id;
 
-    private UserDto userDto;
+    private String userName;
 
     private String content;
 

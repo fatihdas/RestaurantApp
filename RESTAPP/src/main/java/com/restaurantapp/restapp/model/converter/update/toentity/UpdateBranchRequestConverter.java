@@ -29,8 +29,6 @@ public class UpdateBranchRequestConverter {
         return Branch.builder()
                 .name(request.getName())
                 .menu(menuDtoToEntityConverter.convert(request.getMenuDto()))
-                .commentList(request.getCommentDtos().stream().map(commentDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .address(addressDtoToEntityConverter.convert(request.getAddressDto()))
                 .build();
     }

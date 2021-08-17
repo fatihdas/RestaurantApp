@@ -10,14 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
-<<<<<<< HEAD
 @RestController
 @RequestMapping("branch")
-=======
-@RestController("branch")
->>>>>>> 09.08
 public class BranchController {
 
     private final BranchServiceImpl branchServiceImpl;
@@ -29,7 +26,7 @@ public class BranchController {
     }
 
     @PostMapping
-    public ResponseEntity<BranchDto> createBranch(@RequestBody CreateBranchRequest request) {
+    public ResponseEntity<BranchDto> createBranch(@Valid @RequestBody CreateBranchRequest request) {
 
         return new ResponseEntity<>(branchServiceImpl.createBranch(request), HttpStatus.CREATED);
     }
@@ -46,7 +43,7 @@ public class BranchController {
         return new ResponseEntity<>(branchServiceImpl.getNearBranches(countyName), HttpStatus.OK);
     }
 
-    @GetMapping("/menu/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BranchDto> getById(@PathVariable long id) {
 
         return new ResponseEntity<>(branchServiceImpl.getBranch(id), HttpStatus.OK);
@@ -58,7 +55,7 @@ public class BranchController {
         return new ResponseEntity<>(branchServiceImpl.getWaitingBranches(value), HttpStatus.OK);
     }
 
-    @GetMapping("{id}")
+    @GetMapping("menu/{id}")
     public ResponseEntity<Menu> getMenu(@PathVariable long id) {
 
         return new ResponseEntity(menuService.getMenu(id), HttpStatus.OK);
@@ -66,7 +63,7 @@ public class BranchController {
 
 
     @PutMapping("{id}")
-    public ResponseEntity<BranchDto> updateBranch(@RequestBody UpdateBranchRequest request, @PathVariable long id) {
+    public ResponseEntity<BranchDto> updateBranch(@Valid @RequestBody UpdateBranchRequest request, @PathVariable long id) {
 
         return new ResponseEntity<>(branchServiceImpl.updateBranch(request, id), HttpStatus.OK);
     }

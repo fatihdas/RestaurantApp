@@ -2,7 +2,6 @@ package com.restaurantapp.restapp.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.enumerated.Status;
 import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;

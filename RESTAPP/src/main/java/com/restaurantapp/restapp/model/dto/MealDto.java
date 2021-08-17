@@ -20,6 +20,4 @@ public class MealDto implements Serializable {
 
     private float price;
 
-    private List<ItemDto> itemDtoList;
-
 }

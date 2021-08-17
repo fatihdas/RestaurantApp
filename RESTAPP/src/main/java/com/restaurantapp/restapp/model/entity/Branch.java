@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Builder
 @Entity
@@ -28,13 +27,13 @@ public class Branch {
     @Column(columnDefinition = "enum('WAITING','REJECTED','APPROVED')")
     private Status status;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Comment> commentList;
-
     @OneToOne( fetch = FetchType.EAGER)
     private Menu menu;
 
     @OneToOne(fetch = FetchType.LAZY)
     private Address address;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Restaurant restaurant;
 
 }

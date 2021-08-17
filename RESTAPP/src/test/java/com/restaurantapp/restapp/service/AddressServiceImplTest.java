@@ -91,8 +91,8 @@ public class AddressServiceImplTest {
     private Address generateAddress() {
 
         return Address.builder()
-                .city(City.builder().name("İstanbul").build())
-                .county(County.builder().name("Pendik").build())
+                .cityName("İstanbul")
+                .countyName("Pendik")
                 .content("Güzelyalı mah.")
                 .build();
 

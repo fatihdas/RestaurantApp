@@ -28,8 +28,6 @@ public class BranchEntityToDtoConverter {
         return BranchDto.builder()
                 .id(branch.getId())
                 .addressDto(addressEntityToDtoConverter.convert(branch.getAddress()))
-                .commentDtos(branch.getCommentList().stream().map(commentEntityToDtoConverter::convert)
-                        .collect(Collectors.toList()))
                 .menuDto(menuEntityToDtoConverter.convert(branch.getMenu()))
                 .name(branch.getName())
                 .status(branch.getStatus())

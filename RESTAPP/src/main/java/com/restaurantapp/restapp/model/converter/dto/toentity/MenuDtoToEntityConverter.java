@@ -18,8 +18,6 @@ public class MenuDtoToEntityConverter {
     public Menu convert(MenuDto menuDto) {
 
         return Menu.builder()
-                .mealList(menuDto.getMealDtoList().stream().map(mealDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .name(menuDto.getName())
                 .build();
     }

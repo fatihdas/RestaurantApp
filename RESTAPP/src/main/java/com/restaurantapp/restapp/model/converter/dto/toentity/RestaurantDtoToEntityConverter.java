@@ -22,9 +22,6 @@ public class RestaurantDtoToEntityConverter {
 
         return Restaurant.builder()
                 .name(restaurantDto.getName())
-                .user(userDtoToEntityConverter.convert(restaurantDto.getUserDto()))
-                .branchList(restaurantDto.getBranchDtoList().stream().map(branchDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

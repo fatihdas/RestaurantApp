@@ -52,9 +52,9 @@ public class AddressServiceImpl implements AddressService {
         Address address = addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());
         Address updatedFields = updateAddressRequestConverter.convert(request);
 
-        address.setCity(updatedFields.getCity());
+        address.setCityName(updatedFields.getCityName());
         address.setContent(request.getContent());
-        address.setCounty(updatedFields.getCounty());
+        address.setCountyName(updatedFields.getCountyName());
 
         return addressEntityToDtoConverter.convert(addressRepository.save(address));
     }

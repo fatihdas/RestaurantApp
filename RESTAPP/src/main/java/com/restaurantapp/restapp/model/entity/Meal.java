@@ -26,8 +26,8 @@ public class Meal {
     @Column(name = "price")
     private float price;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Menu> menuList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Menu menu;
 
 
 }

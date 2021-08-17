@@ -1,6 +1,6 @@
 package com.restaurantapp.restapp.service.impl;
 
-import com.restaurantapp.restapp.enumerated.StatusEnumConverter;
+import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
 import com.restaurantapp.restapp.exception.BranchNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateBranchRequestConverter;
 import com.restaurantapp.restapp.model.converter.dto.toentity.CountyDtoToEntityConverter;
@@ -72,7 +72,6 @@ public class BranchServiceImpl implements BranchService {
         Branch updatedFields = updateBranchRequestConverter.convert(request);
 
         branch.setAddress(updatedFields.getAddress());
-        branch.setCommentList(updatedFields.getCommentList());
         branch.setMenu(updatedFields.getMenu());
         branch.setName(updatedFields.getName());
 

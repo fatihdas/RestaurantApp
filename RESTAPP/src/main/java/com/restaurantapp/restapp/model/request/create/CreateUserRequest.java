@@ -1,11 +1,11 @@
 package com.restaurantapp.restapp.model.request.create;
 
 import com.restaurantapp.restapp.model.dto.AddressDto;
-import com.restaurantapp.restapp.model.dto.CommentDto;
 import com.restaurantapp.restapp.model.entity.enumerated.Roles;
-import com.sun.istack.NotNull;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -16,21 +16,20 @@ import java.util.List;
 public class CreateUserRequest {
 
     @NotNull
+    private long id;
+
+    @NotBlank
     private String name;
 
-    @NotNull
+    @NotBlank
     private String password;
 
-    @NotNull
+    @NotBlank
     private String email;
 
     @NotNull
     private Roles roles;
 
     @NotNull
-    private List<AddressDto> addressDtoList;
-
-    @NotNull
-    private List<CommentDto> commentDtoList;
-
+    private AddressDto addressDto;
 }

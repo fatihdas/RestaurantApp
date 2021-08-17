@@ -22,4 +22,6 @@ public class County {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
+    private City city;
 }

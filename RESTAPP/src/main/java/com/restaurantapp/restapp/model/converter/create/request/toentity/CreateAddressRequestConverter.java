@@ -10,23 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CreateAddressRequestConverter {
 
-    private final UserDtoToEntityConverter userDtoToEntityConverter;
-    private final CountyDtoToEntityConverter countyDtoToEntityConverter;
-    private final CityDtoToEntityConverter cityDtoToEntityConverter;
-
-    public CreateAddressRequestConverter(UserDtoToEntityConverter userDtoToEntityConverter,
-                                         CountyDtoToEntityConverter countyDtoToEntityConverter,
-                                         CityDtoToEntityConverter cityDtoToEntityConverter) {
-        this.userDtoToEntityConverter = userDtoToEntityConverter;
-        this.countyDtoToEntityConverter = countyDtoToEntityConverter;
-        this.cityDtoToEntityConverter = cityDtoToEntityConverter;
-    }
-
     public Address convert(CreateAddressRequest request) {
 
         return Address.builder()
-                .city(cityDtoToEntityConverter.convert(request.getCityDto()))
-                .county(countyDtoToEntityConverter.convert(request.getCountyDto()))
+                .cityName(request.getCityName())
+                .countyName(request.getCountyName())
                 .content(request.getContent())
                 .build();
     }

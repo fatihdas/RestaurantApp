@@ -23,11 +23,7 @@ public class Restaurant {
     @Column(name = "name")
     private String name;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Branch> branchList;
 
 }

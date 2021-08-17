@@ -20,8 +20,6 @@ public class UpdateRestaurantRequestConverter {
 
         return Restaurant.builder()
                 .name(request.getName())
-                .branchList(request.getBranchDtoList().stream().map(branchDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

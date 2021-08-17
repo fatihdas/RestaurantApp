@@ -19,8 +19,6 @@ public class RestaurantDto implements Serializable {
 
     private String name;
 
-    private UserDto userDto;
-
     private List<BranchDto> branchDtoList;
 
 }

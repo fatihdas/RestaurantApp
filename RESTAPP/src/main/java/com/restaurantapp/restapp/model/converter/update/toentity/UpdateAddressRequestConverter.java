@@ -22,8 +22,8 @@ public class UpdateAddressRequestConverter {
     public Address convert(UpdateAddressRequest request){
 
         return Address.builder()
-                .county(countyDtoToEntityConverter.convert(request.getCountyDto()))
-                .city(cityDtoToEntityConverter.convert(request.getCityDto()))
+                .countyName(request.getCountyName())
+                .cityName(request.getCityName())
                 .content(request.getContent())
                 .build();
     }

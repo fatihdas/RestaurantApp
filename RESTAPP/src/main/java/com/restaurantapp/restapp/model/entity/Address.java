@@ -19,15 +19,18 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private City city;
+    @Column
+    private String cityName;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private County county;
+    @Column
+    private String countyName;
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private User user;
+
 
 }

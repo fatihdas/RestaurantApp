@@ -1,9 +1,10 @@
 package com.restaurantapp.restapp.model.request.create;
 
 import com.restaurantapp.restapp.model.dto.MealDto;
-import com.sun.istack.NotNull;
 import lombok.*;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -14,6 +15,9 @@ import java.util.List;
 public class CreateMenuRequest {
 
     @NotNull
+    private long id;
+
+    @NotBlank
     private String name;
 
     @NotNull

@@ -52,7 +52,6 @@ public class MenuServiceImpl implements MenuService {
         Menu updatedFields = updateMenuRequestConverter.convert(request);
 
         menu.setName(updatedFields.getName());
-        menu.setMealList(updatedFields.getMealList());
 
         return menuEntityToDtoConverter.convert(menuRepository.save(menu));
     }

@@ -2,8 +2,6 @@ package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.model.dto.CityDto;
 import com.restaurantapp.restapp.model.entity.City;
-import com.restaurantapp.restapp.model.request.create.CreateCityRequest;
-import com.restaurantapp.restapp.model.request.update.UpdateCityRequest;
 import com.restaurantapp.restapp.repository.CityRepository;
 import com.restaurantapp.restapp.service.impl.CityServiceImpl;
 import org.junit.Test;
@@ -27,18 +25,6 @@ public class CityServiceImplTest {
     private CityServiceImpl cityServiceImpl;
 
     @Test
-    public void save() {
-
-        City city = this.generateCity();
-
-        Mockito.when(cityRepository.save(Mockito.any(City.class))).thenReturn(city);
-
-        CityDto createCity = cityServiceImpl.createCity(new CreateCityRequest());
-
-        Assertions.assertEquals(city, createCity);
-    }
-
-    @Test
     public void getAll() {
 
         List<City> cityList = new ArrayList<>();
@@ -59,20 +45,6 @@ public class CityServiceImplTest {
         Mockito.when(cityRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(city));
 
         CityDto createCity = cityServiceImpl.getCity(2);
-
-        Assertions.assertEquals(city, createCity);
-    }
-
-    @Test
-    public void update() {
-
-        City city = this.generateCity();
-
-        Mockito.when(cityRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(city));
-
-        Mockito.when(cityRepository.save(Mockito.any(City.class))).thenReturn(city);
-
-        CityDto createCity = cityServiceImpl.updateCity(new UpdateCityRequest(),3);
 
         Assertions.assertEquals(city, createCity);
     }

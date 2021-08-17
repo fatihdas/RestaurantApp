@@ -16,9 +16,9 @@ public class AddressDto implements Serializable {
 
     private long id;
 
-    private CityDto cityDto;
+    private String cityName;
 
-    private CountyDto countyDto;
+    private String countyName;
 
     private String content;
 

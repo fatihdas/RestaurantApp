@@ -1,6 +1,5 @@
-package com.restaurantapp.restapp.enumerated;
+package com.restaurantapp.restapp.model.entity.enumerated;
 
-import com.restaurantapp.restapp.model.entity.enumerated.Status;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

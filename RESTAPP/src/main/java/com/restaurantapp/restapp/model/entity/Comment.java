@@ -24,9 +24,6 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    private Comment comment;
-
     @Column
     private String content;
 
@@ -38,5 +35,8 @@ public class Comment {
 
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @ManyToOne
+    private Branch branch;
 
 }

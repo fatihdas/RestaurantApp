@@ -1,10 +1,10 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.dto.ItemDto;
-import com.sun.istack.NotNull;
 import lombok.*;
 
-import java.util.List;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -13,13 +13,11 @@ import java.util.List;
 @Builder
 public class CreateMealRequest {
 
-    @NotNull
+    @NotBlank
     private String name;
 
     @NotNull
+    @Min(0)
     private float price;
-
-    @NotNull
-    private List<ItemDto> itemDtoList;
 
 }

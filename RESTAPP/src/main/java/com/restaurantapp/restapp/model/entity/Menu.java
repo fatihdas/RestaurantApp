@@ -20,11 +20,6 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "meal_menu",joinColumns = @JoinColumn(name = "meal_id")
-    ,inverseJoinColumns = @JoinColumn(name = "menu_id"))
-    private List<Meal> mealList;
-
     @Column
     private String name;
 }

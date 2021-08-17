@@ -19,7 +19,6 @@ public class RestaurantEntityToDtoConverter {
         return RestaurantDto.builder()
                 .id(restaurant.getId())
                 .name(restaurant.getName())
-                .userDto(userEntityToDtoConverter.convert(restaurant.getUser()))
                 .build();
     }
 }

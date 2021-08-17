@@ -24,8 +24,6 @@ public class CreateRestaurantRequestConverter {
         return Restaurant.builder()
                 .name(request.getName())
                 .user(userDtoToEntityConverter.convert(request.getUserDto()))
-                .branchList(request.getBranchDtoList().stream().map(branchDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

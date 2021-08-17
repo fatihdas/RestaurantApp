@@ -1,10 +1,7 @@
 package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.model.dto.CountyDto;
-import com.restaurantapp.restapp.model.entity.City;
 import com.restaurantapp.restapp.model.entity.County;
-import com.restaurantapp.restapp.model.request.create.CreateCountyRequest;
-import com.restaurantapp.restapp.model.request.update.UpdateCountyRequest;
 import com.restaurantapp.restapp.repository.CountyRepository;
 import com.restaurantapp.restapp.service.impl.CountyServiceImpl;
 import org.junit.Test;
@@ -28,18 +25,6 @@ public class CountyServiceImplTest {
     private CountyServiceImpl countyServiceImpl;
 
     @Test
-    public void save() {
-
-        County county = this.generateCounty();
-
-        Mockito.when(countyRepository.save(Mockito.any(County.class))).thenReturn(county);
-
-        CountyDto createCounty = countyServiceImpl.createCounty(new CreateCountyRequest());
-
-        Assertions.assertEquals(county, createCounty);
-    }
-
-    @Test
     public void getAll() {
 
         List<County> countyList = new ArrayList<>();
@@ -60,20 +45,6 @@ public class CountyServiceImplTest {
         Mockito.when(countyRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(county));
 
         CountyDto createCounty = countyServiceImpl.getCounty(2);
-
-        Assertions.assertEquals(county, createCounty);
-    }
-
-    @Test
-    public void update() {
-
-        County county = this.generateCounty();
-
-        Mockito.when(countyRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(county));
-
-        Mockito.when(countyRepository.save(Mockito.any(County.class))).thenReturn(county);
-
-        CountyDto createCounty = countyServiceImpl.updateCounty(new UpdateCountyRequest(),3);
 
         Assertions.assertEquals(county, createCounty);
     }

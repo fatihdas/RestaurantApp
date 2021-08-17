@@ -88,7 +88,7 @@ public class UserDtoServiceTest {
         return User.builder()
                 .name("testname")
                 .email("test@mail.com")
-                .roles(Roles.ADMIN)
+//                .roles(Roles.ADMIN)
                 .build();
     }
 

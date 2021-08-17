@@ -28,8 +28,6 @@ public class BranchDtoToEntityConverter {
                 .name(branchDto.getName())
                 .menu(menuDtoToEntityConverter.convert(branchDto.getMenuDto()))
                 .status(branchDto.getStatus())
-                .commentList(branchDto.getCommentDtos().stream().map(commentDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .address(addressDtoToEntityConverter.convert(branchDto.getAddressDto()))
                 .build();
     }

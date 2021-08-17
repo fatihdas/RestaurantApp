@@ -29,8 +29,6 @@ public class CreateBranchRequestConverter {
 
         return Branch.builder()
                 .address(addressDtoToEntityConverter.convert(request.getAddressDto()))
-                .commentList(request.getCommentDtos().stream().map(commentDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .status(request.getStatus())
                 .menu(menuDtoToEntityConverter.convert(request.getMenuDto()))
                 .name(request.getName())

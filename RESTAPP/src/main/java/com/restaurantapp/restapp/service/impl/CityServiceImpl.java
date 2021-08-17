@@ -5,8 +5,6 @@ import com.restaurantapp.restapp.model.converter.dto.toentity.CountyDtoToEntityC
 import com.restaurantapp.restapp.model.converter.entity.todto.CityEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.CityDto;
 import com.restaurantapp.restapp.model.entity.City;
-import com.restaurantapp.restapp.model.request.create.CreateCityRequest;
-import com.restaurantapp.restapp.model.request.update.UpdateCityRequest;
 import com.restaurantapp.restapp.repository.CityRepository;
 import com.restaurantapp.restapp.service.CityService;
 import org.springframework.stereotype.Service;
@@ -27,16 +25,6 @@ public class CityServiceImpl implements CityService {
         this.countyDtoToEntityConverter = countyDtoToEntityConverter;
     }
 
-    public CityDto createCity(CreateCityRequest request) {
-
-        City city = City.builder()
-                .name(request.getName())
-                .countyList(request.getCountyDtoList().stream().map(countyDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
-                .build();
-        return cityEntityToDtoConverter.convert(cityRepository.save(city));
-    }
-
     public List<CityDto> getAllCities() {
 
         return cityRepository.findAll().stream().map(cityEntityToDtoConverter::convert).collect(Collectors.toList());
@@ -46,14 +34,6 @@ public class CityServiceImpl implements CityService {
 
         return cityEntityToDtoConverter.convert(cityRepository.findById(id)
                 .orElseThrow(() -> new CityNotFoundException(id)));
-    }
-
-    public CityDto updateCity(UpdateCityRequest request, long id) {
-
-        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException());
-        city.setName(request.getName());
-
-        return cityEntityToDtoConverter.convert(cityRepository.save(city));
     }
 
     public void deleteCity(long id) {

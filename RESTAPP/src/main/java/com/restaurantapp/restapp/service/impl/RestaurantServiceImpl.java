@@ -65,8 +65,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant updatedFields = updateRestaurantRequestConverter.convert(request);
 
         restaurant.setName(updatedFields.getName());
-        restaurant.setBranchList(updatedFields.getBranchList());
-
         return restaurantEntityToDtoConverter.convert(restaurantRepository.save(restaurant));
     }
 

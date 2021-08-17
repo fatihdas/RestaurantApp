@@ -24,9 +24,7 @@ public class AddressEntityToDtoConverter {
 
         return AddressDto.builder()
                 .id(address.getId())
-                .cityDto(cityEntityToDtoConverter.convert(address.getCity()))
                 .content(address.getContent())
-                .countyDto(countyEntityToDtoConverter.convert(address.getCounty()))
                 .build();
     }
 }

@@ -20,8 +20,6 @@ public class UpdateMenuRequestConverter {
 
         return Menu.builder()
                 .name(request.getName())
-                .mealList(request.getMealDtoList().stream().map(mealDtoToEntityConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

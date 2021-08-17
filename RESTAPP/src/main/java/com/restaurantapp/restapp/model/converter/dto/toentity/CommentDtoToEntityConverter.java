@@ -17,7 +17,6 @@ public class CommentDtoToEntityConverter {
     public Comment convert(CommentDto commentDto) {
 
         return Comment.builder()
-                .user(userDtoToEntityConverter.convert(commentDto.getUserDto()))
                 .date(commentDto.getDate())
                 .content(commentDto.getContent())
                 .build();

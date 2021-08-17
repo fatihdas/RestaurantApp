@@ -22,8 +22,6 @@ public class MenuEntityToDtoConverter {
 
         return MenuDto.builder()
                 .id(menu.getId())
-                .mealDtoList(menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
-                        .collect(Collectors.toList()))
                 .build();
     }
 }

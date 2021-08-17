@@ -6,6 +6,8 @@ import com.restaurantapp.restapp.model.dto.UserDto;
 import com.sun.istack.NotNull;
 import lombok.*;
 
+import javax.validation.constraints.*;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,12 +16,15 @@ import lombok.*;
 public class CreateAddressRequest {
 
     @NotNull
-    private CityDto cityDto;
+    private long id;
 
     @NotNull
-    private CountyDto countyDto;
+    private String cityName;
 
     @NotNull
+    private String countyName;
+
+    @NotBlank
     private String content;
 
 }

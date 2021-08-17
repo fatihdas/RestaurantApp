@@ -1,8 +1,5 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.Address;
-import com.restaurantapp.restapp.model.entity.Comment;
-import com.restaurantapp.restapp.model.entity.Restaurant;
 import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import lombok.*;
 
@@ -26,7 +23,7 @@ public class UserDto implements Serializable {
 
     private String email;
 
-    private Roles roles;
+    private List<Roles> roles;
 
     private List<AddressDto> addressDtoList;
 
