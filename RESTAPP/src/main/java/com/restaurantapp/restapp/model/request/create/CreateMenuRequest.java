@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.dto.MealDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -20,7 +19,6 @@ public class CreateMenuRequest {
     @NotBlank
     private String name;
 
-    @NotNull
-    private List<MealDto> mealDtoList;
+    private List<CreateMealRequest> createMealRequestList;
 
 }

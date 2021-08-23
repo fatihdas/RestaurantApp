@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.User;
 import lombok.*;
 
 import java.io.Serializable;
@@ -20,5 +19,7 @@ public class RestaurantDto implements Serializable {
     private String name;
 
     private List<BranchDto> branchDtoList;
+
+    private UserDto userDto;
 
 }

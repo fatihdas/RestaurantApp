@@ -31,5 +31,5 @@ public class CreateUserRequest {
     private Roles roles;
 
     @NotNull
-    private AddressDto addressDto;
+    private CreateAddressRequest createAddressRequest;
 }

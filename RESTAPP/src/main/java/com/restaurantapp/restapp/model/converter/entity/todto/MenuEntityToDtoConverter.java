@@ -2,7 +2,6 @@ package com.restaurantapp.restapp.model.converter.entity.todto;
 
 import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.entity.Menu;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -10,11 +9,9 @@ import java.util.stream.Collectors;
 @Component
 public class MenuEntityToDtoConverter {
 
-    private final BranchEntityToDtoConverter branchEntityToDtoConverter;
     private final MealEntityToDtoConverter mealEntityToDtoConverter;
 
-    public MenuEntityToDtoConverter(@Lazy BranchEntityToDtoConverter branchEntityToDtoConverter, @Lazy MealEntityToDtoConverter mealEntityToDtoConverter) {
-        this.branchEntityToDtoConverter = branchEntityToDtoConverter;
+    public MenuEntityToDtoConverter(MealEntityToDtoConverter mealEntityToDtoConverter) {
         this.mealEntityToDtoConverter = mealEntityToDtoConverter;
     }
 
@@ -22,6 +19,9 @@ public class MenuEntityToDtoConverter {
 
         return MenuDto.builder()
                 .id(menu.getId())
+                .name(menu.getName())
+                .mealDtoList(menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

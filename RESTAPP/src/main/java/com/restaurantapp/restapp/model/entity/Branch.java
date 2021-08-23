@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class Branch {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -27,13 +27,12 @@ public class Branch {
     @Column(columnDefinition = "enum('WAITING','REJECTED','APPROVED')")
     private Status status;
 
-    @OneToOne( fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id")
     private Address address;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Restaurant restaurant;
 
 }

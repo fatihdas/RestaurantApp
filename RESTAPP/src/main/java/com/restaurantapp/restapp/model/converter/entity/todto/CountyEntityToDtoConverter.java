@@ -8,12 +8,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class CountyEntityToDtoConverter {
 
-    private final CityEntityToDtoConverter cityEntityToDtoConverter;
-
-    public CountyEntityToDtoConverter(@Lazy CityEntityToDtoConverter cityEntityToDtoConverter) {
-        this.cityEntityToDtoConverter = cityEntityToDtoConverter;
-    }
-
     public CountyDto convert(County county){
 
         return CountyDto.builder()

@@ -22,9 +22,8 @@ public class CreateRestaurantRequest {
     private String name;
 
     @NotNull
-    private UserDto userDto;
+    private long userId;
 
-    @NotNull
-    private List<BranchDto> branchDtoList;
+    private CreateBranchRequest createBranchRequest;
 
 }

@@ -12,6 +12,7 @@ public class CreateMealRequestConverter {
     public Meal convert(CreateMealRequest request) {
 
         return Meal.builder()
+                .id(request.getId())
                 .name(request.getName())
                 .price(request.getPrice())
                 .build();

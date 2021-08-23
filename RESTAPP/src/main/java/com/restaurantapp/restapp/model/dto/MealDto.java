@@ -3,7 +3,6 @@ package com.restaurantapp.restapp.model.dto;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Getter
 @Setter

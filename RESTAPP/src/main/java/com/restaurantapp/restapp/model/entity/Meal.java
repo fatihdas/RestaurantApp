@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Builder
 @Entity
@@ -17,7 +16,7 @@ import java.util.List;
 public class Meal {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -25,9 +24,5 @@ public class Meal {
 
     @Column(name = "price")
     private float price;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Menu menu;
-
 
 }

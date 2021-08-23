@@ -13,6 +13,9 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class CreateMealRequest {
 
+    @NotNull
+    private long id;
+
     @NotBlank
     private String name;
 

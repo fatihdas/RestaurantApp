@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.User;
 import lombok.*;
 
 import java.io.Serializable;

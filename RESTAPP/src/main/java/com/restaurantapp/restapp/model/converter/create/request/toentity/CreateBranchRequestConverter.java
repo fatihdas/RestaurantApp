@@ -1,37 +1,29 @@
 package com.restaurantapp.restapp.model.converter.create.request.toentity;
 
-import com.restaurantapp.restapp.model.converter.dto.toentity.AddressDtoToEntityConverter;
-import com.restaurantapp.restapp.model.converter.dto.toentity.CommentDtoToEntityConverter;
-import com.restaurantapp.restapp.model.converter.dto.toentity.MenuDtoToEntityConverter;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
-
 @Component
 public class CreateBranchRequestConverter {
 
-    private final CommentDtoToEntityConverter commentDtoToEntityConverter;
-    private final MenuDtoToEntityConverter menuDtoToEntityConverter;
-    private final AddressDtoToEntityConverter addressDtoToEntityConverter;
+    private final CreateMenuRequestConverter createMenuRequestConverter;
+    private final CreateAddressRequestConverter createAddressRequestConverter;
 
-    public CreateBranchRequestConverter(CommentDtoToEntityConverter commentDtoToEntityConverter,
-                                        MenuDtoToEntityConverter menuDtoToEntityConverter,
-                                        AddressDtoToEntityConverter addressDtoToEntityConverter) {
-        this.commentDtoToEntityConverter = commentDtoToEntityConverter;
-        this.menuDtoToEntityConverter = menuDtoToEntityConverter;
-        this.addressDtoToEntityConverter = addressDtoToEntityConverter;
+    public CreateBranchRequestConverter(CreateMenuRequestConverter createMenuRequestConverter,
+                                        CreateAddressRequestConverter createAddressRequestConverter) {
+        this.createMenuRequestConverter = createMenuRequestConverter;
+        this.createAddressRequestConverter = createAddressRequestConverter;
     }
-
 
     public Branch convert(CreateBranchRequest request) {
 
         return Branch.builder()
-                .address(addressDtoToEntityConverter.convert(request.getAddressDto()))
-                .status(request.getStatus())
-                .menu(menuDtoToEntityConverter.convert(request.getMenuDto()))
+                .id(request.getId())
                 .name(request.getName())
+                .status(request.getStatus())
+                .menu(createMenuRequestConverter.convert(request.getCreateMenuRequest()))
+                .address(createAddressRequestConverter.convert(request.getCreateAddressRequest()))
                 .build();
 
     }

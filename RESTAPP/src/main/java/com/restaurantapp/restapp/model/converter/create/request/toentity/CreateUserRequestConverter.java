@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.converter.create.request.toentity;
 
-import com.restaurantapp.restapp.model.converter.dto.toentity.AddressDtoToEntityConverter;
 import com.restaurantapp.restapp.model.converter.dto.toentity.CommentDtoToEntityConverter;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.User;
@@ -14,13 +13,10 @@ import java.util.List;
 @Component
 public class CreateUserRequestConverter {
 
-    private final AddressDtoToEntityConverter addressDtoToEntityConverter;
-    private final CommentDtoToEntityConverter commentDtoToEntityConverter;
+    private final CreateAddressRequestConverter createAddressRequestConverter;
 
-    public CreateUserRequestConverter(AddressDtoToEntityConverter addressDtoToEntityConverter,
-                                      CommentDtoToEntityConverter commentDtoToEntityConverter) {
-        this.addressDtoToEntityConverter = addressDtoToEntityConverter;
-        this.commentDtoToEntityConverter = commentDtoToEntityConverter;
+    public CreateUserRequestConverter(CreateAddressRequestConverter createAddressRequestConverter) {
+        this.createAddressRequestConverter = createAddressRequestConverter;
     }
 
     public User convert(CreateUserRequest request) {
@@ -35,7 +31,7 @@ public class CreateUserRequestConverter {
         user.setPassword(request.getPassword());
 
         List<Address> addressList = new ArrayList<>();
-        addressList.add(addressDtoToEntityConverter.convert(request.getAddressDto()));
+        addressList.add(createAddressRequestConverter.convert(request.getCreateAddressRequest()));
         user.setAddressList(addressList);
 
         return user;

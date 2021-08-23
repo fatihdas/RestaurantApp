@@ -17,7 +17,7 @@ import java.util.Date;
 public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
@@ -28,10 +28,10 @@ public class Comment {
     private String content;
 
     @Column(name = "taste_point")
-    private Integer tastePoint;
+    private int tastePoint;
 
     @Column(name = "speed_point")
-    private Integer speedPoint;
+    private int speedPoint;
 
     @Temporal(TemporalType.DATE)
     private Date date;

@@ -19,5 +19,4 @@ public class CityDto implements Serializable {
 
     private String name;
 
-    private List<CountyDto> countyDtoList;
 }

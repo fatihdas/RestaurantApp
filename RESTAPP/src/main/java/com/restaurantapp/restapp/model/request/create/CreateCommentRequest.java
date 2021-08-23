@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.dto.UserDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -18,12 +17,20 @@ public class CreateCommentRequest {
     private long id;
 
     @NotNull
-    private UserDto userDto;
+    private long userId;
 
     @NotBlank
     private String content;
 
     @NotNull
+    private int testePoint;
+
+    @NotNull
+    private int speedPoint;
+
+    @NotNull
     private Date date;
 
+    @NotNull
+    private long branchId;
 }

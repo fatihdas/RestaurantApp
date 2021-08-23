@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class Address {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
@@ -27,10 +27,5 @@ public class Address {
 
     @Column(name = "content", nullable = false)
     private String content;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn
-    private User user;
-
 
 }

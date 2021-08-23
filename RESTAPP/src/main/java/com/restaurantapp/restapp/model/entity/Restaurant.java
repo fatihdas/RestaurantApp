@@ -17,7 +17,7 @@ import java.util.List;
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name")
@@ -25,5 +25,8 @@ public class Restaurant {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany
+    private List<Branch> branchList;
 
 }

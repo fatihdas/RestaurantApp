@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.User;
 import lombok.*;
 
 import java.io.Serializable;
@@ -17,9 +16,13 @@ public class CommentDto implements Serializable {
 
     private long id;
 
-    private String userName;
+    private UserDto userDto;
 
     private String content;
+
+    private int testePoint;
+
+    private int speedPoint;
 
     private Date date;
 

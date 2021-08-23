@@ -17,9 +17,12 @@ import java.util.List;
 public class Menu {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column
     private String name;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Meal> mealList;
 }

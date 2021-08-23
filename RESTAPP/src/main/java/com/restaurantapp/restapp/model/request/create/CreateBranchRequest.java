@@ -1,11 +1,10 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.dto.AddressDto;
-import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.entity.enumerated.Status;
 import lombok.*;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -25,9 +24,9 @@ public class CreateBranchRequest {
     private Status status = Status.WAITING;
 
     @NotNull
-    private MenuDto menuDto;
+    private CreateMenuRequest createMenuRequest;
 
     @NotNull
-    private AddressDto addressDto;
+    private CreateAddressRequest createAddressRequest;
 
 }

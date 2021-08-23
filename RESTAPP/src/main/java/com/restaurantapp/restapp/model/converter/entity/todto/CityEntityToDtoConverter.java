@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CityEntityToDtoConverter {
 
-    public CityDto convert(City city){
+    public CityDto convert(City city) {
 
         return CityDto.builder()
                 .id(city.getId())

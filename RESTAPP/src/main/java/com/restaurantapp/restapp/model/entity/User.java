@@ -19,7 +19,7 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name", nullable = false)
@@ -32,12 +32,15 @@ public class User {
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Column(columnDefinition = "enum('BUYER','SELLER','ADMIN')")
     @Enumerated(EnumType.STRING)
     private List<Roles> roles;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Address> addressList = new ArrayList<>();
+    private List<Address> addressList;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Restaurant> restaurantList;
 
 }

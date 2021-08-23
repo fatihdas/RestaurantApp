@@ -17,7 +17,6 @@ public class UserEntityToDtoConverter {
                 .name(user.getName())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .roles(user.getRoles())
                 .build();
     }
 }
