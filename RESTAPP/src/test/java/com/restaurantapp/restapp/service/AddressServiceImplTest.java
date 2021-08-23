@@ -2,9 +2,6 @@ package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.entity.Address;
-import com.restaurantapp.restapp.model.entity.City;
-import com.restaurantapp.restapp.model.entity.County;
-import com.restaurantapp.restapp.model.entity.User;
 import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateAddressRequest;
 import com.restaurantapp.restapp.repository.AddressRepository;

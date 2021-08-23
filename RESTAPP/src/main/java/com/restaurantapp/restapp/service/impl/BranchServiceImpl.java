@@ -1,13 +1,12 @@
 package com.restaurantapp.restapp.service.impl;
 
-import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
 import com.restaurantapp.restapp.exception.BranchNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateBranchRequestConverter;
-import com.restaurantapp.restapp.model.converter.dto.toentity.CountyDtoToEntityConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.BranchEntityToDtoConverter;
 import com.restaurantapp.restapp.model.converter.update.toentity.UpdateBranchRequestConverter;
 import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.entity.Branch;
+import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 import com.restaurantapp.restapp.repository.BranchRepository;
@@ -25,20 +24,17 @@ public class BranchServiceImpl implements BranchService {
     private final CreateBranchRequestConverter createBranchRequestConverter;
     private final UpdateBranchRequestConverter updateBranchRequestConverter;
     private final StatusEnumConverter statusEnumConverter;
-    private final CountyDtoToEntityConverter countyDtoToEntityConverter;
 
     public BranchServiceImpl(BranchRepository branchRepository,
                              BranchEntityToDtoConverter branchEntityToDtoConverter,
                              CreateBranchRequestConverter createBranchRequestConverter,
                              UpdateBranchRequestConverter updateBranchRequestConverter,
-                             StatusEnumConverter statusEnumConverter,
-                             CountyDtoToEntityConverter countyDtoToEntityConverter) {
+                             StatusEnumConverter statusEnumConverter) {
         this.branchRepository = branchRepository;
         this.branchEntityToDtoConverter = branchEntityToDtoConverter;
         this.createBranchRequestConverter = createBranchRequestConverter;
         this.updateBranchRequestConverter = updateBranchRequestConverter;
         this.statusEnumConverter = statusEnumConverter;
-        this.countyDtoToEntityConverter = countyDtoToEntityConverter;
     }
 
     public BranchDto createBranch(CreateBranchRequest request) {
@@ -87,7 +83,7 @@ public class BranchServiceImpl implements BranchService {
 
     public List<BranchDto> getWaitingBranches(String value) {
 
-        return branchRepository.findBranchesByStatus(statusEnumConverter.convert(value)).stream()
+        return branchRepository.findBranchesByStatus(statusEnumConverter.convertToDatabaseColumn(value)).stream()
                 .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 }

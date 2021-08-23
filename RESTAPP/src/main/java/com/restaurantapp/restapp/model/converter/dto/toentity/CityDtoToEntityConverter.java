@@ -10,15 +10,11 @@ import java.util.stream.Collectors;
 @Component
 public class CityDtoToEntityConverter {
 
-    private final CountyDtoToEntityConverter countyDtoToEntityConverter;
-
-    public CityDtoToEntityConverter(@Lazy CountyDtoToEntityConverter countyDtoToEntityConverter) {
-        this.countyDtoToEntityConverter = countyDtoToEntityConverter;
-    }
 
     public City convert(CityDto cityDto) {
 
         return City.builder()
+                .id(cityDto.getId())
                 .name(cityDto.getName())
                 .build();
     }

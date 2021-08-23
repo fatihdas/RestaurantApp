@@ -11,20 +11,18 @@ import java.util.stream.Collectors;
 public class BranchDtoToEntityConverter {
 
     private final MenuDtoToEntityConverter menuDtoToEntityConverter;
-    private final CommentDtoToEntityConverter commentDtoToEntityConverter;
     private final AddressDtoToEntityConverter addressDtoToEntityConverter;
 
     public BranchDtoToEntityConverter(@Lazy MenuDtoToEntityConverter menuDtoToEntityConverter,
-                                      @Lazy CommentDtoToEntityConverter commentDtoToEntityConverter,
                                       @Lazy AddressDtoToEntityConverter addressDtoToEntityConverter) {
         this.menuDtoToEntityConverter = menuDtoToEntityConverter;
-        this.commentDtoToEntityConverter = commentDtoToEntityConverter;
         this.addressDtoToEntityConverter = addressDtoToEntityConverter;
     }
 
     public Branch convert(BranchDto branchDto) {
 
         return Branch.builder()
+                .id(branchDto.getId())
                 .name(branchDto.getName())
                 .menu(menuDtoToEntityConverter.convert(branchDto.getMenuDto()))
                 .status(branchDto.getStatus())

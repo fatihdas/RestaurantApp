@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.converter.create.request.toentity;
 
-import com.restaurantapp.restapp.model.converter.dto.toentity.CommentDtoToEntityConverter;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.User;
 import com.restaurantapp.restapp.model.entity.enumerated.Roles;

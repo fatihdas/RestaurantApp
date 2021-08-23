@@ -1,8 +1,9 @@
 package com.restaurantapp.restapp.controller;
 
 import com.restaurantapp.restapp.model.dto.BranchDto;
-import com.restaurantapp.restapp.model.entity.Menu;
+import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
 import com.restaurantapp.restapp.service.impl.MenuServiceImpl;
@@ -55,10 +56,10 @@ public class BranchController {
         return new ResponseEntity<>(branchServiceImpl.getWaitingBranches(value), HttpStatus.OK);
     }
 
-    @GetMapping("menu/{id}")
-    public ResponseEntity<Menu> getMenu(@PathVariable long id) {
+    @GetMapping("menu")
+    public ResponseEntity<List<MenuDto>> getMenu() {
 
-        return new ResponseEntity(menuService.getMenu(id), HttpStatus.OK);
+        return new ResponseEntity(menuService.getAllMenu(), HttpStatus.OK);
     }
 
 
@@ -72,6 +73,12 @@ public class BranchController {
     public ResponseEntity<Void> deleteBranch(@PathVariable long id) {
 
         branchServiceImpl.deleteBranch(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{branchId}")
+    public ResponseEntity<Void> createComment(@RequestBody CreateCommentRequest request, @PathVariable long branchId) {
+
         return ResponseEntity.ok().build();
     }
 }

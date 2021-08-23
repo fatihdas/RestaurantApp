@@ -1,10 +1,8 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.CityNotFoundException;
-import com.restaurantapp.restapp.model.converter.dto.toentity.CountyDtoToEntityConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.CityEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.CityDto;
-import com.restaurantapp.restapp.model.entity.City;
 import com.restaurantapp.restapp.repository.CityRepository;
 import com.restaurantapp.restapp.service.CityService;
 import org.springframework.stereotype.Service;
@@ -17,12 +15,10 @@ public class CityServiceImpl implements CityService {
 
     private final CityRepository cityRepository;
     private final CityEntityToDtoConverter cityEntityToDtoConverter;
-    private final CountyDtoToEntityConverter countyDtoToEntityConverter;
 
-    public CityServiceImpl(CityRepository cityRepository, CityEntityToDtoConverter cityEntityToDtoConverter, CountyDtoToEntityConverter countyDtoToEntityConverter) {
+    public CityServiceImpl(CityRepository cityRepository, CityEntityToDtoConverter cityEntityToDtoConverter) {
         this.cityRepository = cityRepository;
         this.cityEntityToDtoConverter = cityEntityToDtoConverter;
-        this.countyDtoToEntityConverter = countyDtoToEntityConverter;
     }
 
     public List<CityDto> getAllCities() {

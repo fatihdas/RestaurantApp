@@ -21,6 +21,7 @@ public class RestaurantDtoToEntityConverter {
     public Restaurant convert(RestaurantDto restaurantDto) {
 
         return Restaurant.builder()
+                .id(restaurantDto.getId())
                 .name(restaurantDto.getName())
                 .build();
     }

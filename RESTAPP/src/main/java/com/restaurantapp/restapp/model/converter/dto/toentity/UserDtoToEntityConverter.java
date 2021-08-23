@@ -9,18 +9,11 @@ import java.util.stream.Collectors;
 @Component
 public class UserDtoToEntityConverter {
 
-    private final CommentDtoToEntityConverter commentDtoToEntityConverter;
-    private final AddressDtoToEntityConverter addressDtoToEntityConverter;
-
-    public UserDtoToEntityConverter(CommentDtoToEntityConverter commentDtoToEntityConverter, AddressDtoToEntityConverter addressDtoToEntityConverter) {
-        this.commentDtoToEntityConverter = commentDtoToEntityConverter;
-        this.addressDtoToEntityConverter = addressDtoToEntityConverter;
-    }
-
     public User convert(UserDto userDto) {
 
         return User.builder()
-                .roles(userDto.getRoles())
+                .id(userDto.getId())
+                .roles(userDto.getRolesList())
                 .name(userDto.getName())
                 .password(userDto.getPassword())
                 .email(userDto.getEmail())
