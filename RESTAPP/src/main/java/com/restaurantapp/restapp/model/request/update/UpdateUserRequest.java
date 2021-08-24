@@ -14,16 +14,8 @@ import java.util.List;
 @Builder
 public class UpdateUserRequest {
 
-    private String name;
-
     private String password;
 
     private String email;
-
-    private Roles roles;
-
-    private List<AddressDto> addressDtoList;
-
-    private List<CommentDto> commentDtoList;
 
 }

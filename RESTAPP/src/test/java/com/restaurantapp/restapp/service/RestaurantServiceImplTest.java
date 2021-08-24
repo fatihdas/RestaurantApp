@@ -72,7 +72,7 @@ public class RestaurantServiceImplTest {
 
         Mockito.when(restaurantRepository.save(Mockito.any(Restaurant.class))).thenReturn(restaurant);
 
-        RestaurantDto createRestaurant = restaurantServiceImpl.updateRestaurant(new UpdateRestaurantRequest(),5);
+        String createRestaurant = restaurantServiceImpl.updateRestaurant(new UpdateRestaurantRequest(),5);
 
         Assertions.assertEquals(restaurant, createRestaurant);
     }

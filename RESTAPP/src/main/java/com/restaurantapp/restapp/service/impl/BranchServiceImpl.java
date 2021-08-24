@@ -1,9 +1,8 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.BranchNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateBranchRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateBranchRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.BranchEntityToDtoConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateBranchRequestConverter;
 import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
@@ -22,18 +21,15 @@ public class BranchServiceImpl implements BranchService {
     private final BranchRepository branchRepository;
     private final BranchEntityToDtoConverter branchEntityToDtoConverter;
     private final CreateBranchRequestConverter createBranchRequestConverter;
-    private final UpdateBranchRequestConverter updateBranchRequestConverter;
     private final StatusEnumConverter statusEnumConverter;
 
     public BranchServiceImpl(BranchRepository branchRepository,
                              BranchEntityToDtoConverter branchEntityToDtoConverter,
                              CreateBranchRequestConverter createBranchRequestConverter,
-                             UpdateBranchRequestConverter updateBranchRequestConverter,
                              StatusEnumConverter statusEnumConverter) {
         this.branchRepository = branchRepository;
         this.branchEntityToDtoConverter = branchEntityToDtoConverter;
         this.createBranchRequestConverter = createBranchRequestConverter;
-        this.updateBranchRequestConverter = updateBranchRequestConverter;
         this.statusEnumConverter = statusEnumConverter;
     }
 
@@ -62,16 +58,13 @@ public class BranchServiceImpl implements BranchService {
                 .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
-    public BranchDto updateBranch(UpdateBranchRequest request, long id) {
+    public String updateBranch(UpdateBranchRequest request, long id) {
 
         Branch branch = branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException());
-        Branch updatedFields = updateBranchRequestConverter.convert(request);
 
-        branch.setAddress(updatedFields.getAddress());
-        branch.setMenu(updatedFields.getMenu());
-        branch.setName(updatedFields.getName());
+        branch.setName(request.getName());
 
-        return branchEntityToDtoConverter.convert(branchRepository.save(branch));
+        return "Success branch has been updated! id:" + branch.getId();
 
 
     }
@@ -85,5 +78,9 @@ public class BranchServiceImpl implements BranchService {
 
         return branchRepository.findBranchesByStatus(statusEnumConverter.convertToDatabaseColumn(value)).stream()
                 .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
+    }
+
+    public Branch getBranchByid(long id) {
+        return branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException());
     }
 }

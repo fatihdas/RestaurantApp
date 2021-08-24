@@ -1,7 +1,7 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.CommentNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateCommentRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateCommentRequestConverter;
 import com.restaurantapp.restapp.model.dto.CommentDto;
 import com.restaurantapp.restapp.model.converter.entity.todto.CommentEntityToDtoConverter;
 import com.restaurantapp.restapp.model.entity.Comment;
@@ -44,13 +44,13 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new CommentNotFoundException(id)));
     }
 
-    public CommentDto updateComment(UpdateCommentRequest request, long id) {
+    public String updateComment(UpdateCommentRequest request, long id) {
 
         Comment comment = commentRepository.findById(id).orElseThrow(()->new CommentNotFoundException());
 
         comment.setContent(request.getContent());
 
-        return commentEntityToDtoConverter.convert(commentRepository.save(comment));
+        return "Comment has been updated! id:" + id;
     }
 
     public void deleteComment(long id) {

@@ -73,7 +73,7 @@ public class CommentServiceImplTest {
 
         Mockito.when(commentRepository.save(Mockito.any(Comment.class))).thenReturn(comment);
 
-        CommentDto createComment = commentServiceImpl.updateComment(new UpdateCommentRequest(),6);
+        String createComment = commentServiceImpl.updateComment(new UpdateCommentRequest(),6);
 
         Assertions.assertEquals(comment, createComment);
     }

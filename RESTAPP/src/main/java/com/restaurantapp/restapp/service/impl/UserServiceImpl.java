@@ -1,10 +1,9 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.UserNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateAddressRequestConverter;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateUserRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateAddressRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateUserRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.UserEntityToDtoConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateUserRequestConverter;
 import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.User;
@@ -33,20 +32,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final AddressServiceImpl addressService;
     private final UserEntityToDtoConverter userEntityToDtoConverter;
     private final CreateUserRequestConverter createUserRequestConverter;
-    private final UpdateUserRequestConverter updateUserRequestConverter;
     private final CreateAddressRequestConverter createAddressRequestConverter;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, AddressServiceImpl addressService,
                            UserEntityToDtoConverter userEntityToDtoConverter,
                            CreateUserRequestConverter createUserRequestConverter,
-                           UpdateUserRequestConverter updateUserRequestConverter,
-                           CreateAddressRequestConverter createAddressRequestConverter, BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           CreateAddressRequestConverter createAddressRequestConverter,
+                           BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.addressService = addressService;
         this.userEntityToDtoConverter = userEntityToDtoConverter;
         this.createUserRequestConverter = createUserRequestConverter;
-        this.updateUserRequestConverter = updateUserRequestConverter;
         this.createAddressRequestConverter = createAddressRequestConverter;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
@@ -54,6 +51,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDto createUser(CreateUserRequest request) {
 
         return userEntityToDtoConverter.convert(userRepository.save(createUserRequestConverter.convert(request)));
+    }
+    public User getUserById(long id) {
+
+        return userRepository.findById(id).orElseThrow(()->new UserNotFoundException());
     }
 
     public List<UserDto> getAllUsers() {
@@ -72,17 +73,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userEntityToDtoConverter.convert(userRepository.findByName(name));
     }
 
-    public UserDto updateUser(UpdateUserRequest request, long id) {
+    public String updateUser(UpdateUserRequest request, long id) {
 
         User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException());
-        User updatedFields = updateUserRequestConverter.convert(request);
 
-        user.setEmail(updatedFields.getEmail());
-        user.setPassword(updatedFields.getPassword());
-        user.setName(updatedFields.getName());
-        user.setRoles(updatedFields.getRoles());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
 
-        return userEntityToDtoConverter.convert(userRepository.save(user));
+        return "User has been updated! id:" + id;
     }
 
     public void deleteUser(long id) {

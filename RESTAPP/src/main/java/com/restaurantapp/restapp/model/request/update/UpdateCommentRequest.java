@@ -11,4 +11,8 @@ public class UpdateCommentRequest {
 
     private String content;
 
+    private Integer tastePoint;
+
+    private Integer speedPoint;
+
 }

@@ -1,10 +1,8 @@
-package com.restaurantapp.restapp.model.converter.create.request.toentity;
+package com.restaurantapp.restapp.model.converter.create.request;
 
 import com.restaurantapp.restapp.model.entity.Meal;
 import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class CreateMealRequestConverter {

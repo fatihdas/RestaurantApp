@@ -10,11 +10,9 @@ public interface AddressService {
 
     AddressDto createAddress(CreateAddressRequest request);
 
-    List<AddressDto> getAllAddresses();
-
     AddressDto getAddress(long id);
 
-    AddressDto updateAddress(UpdateAddressRequest request, long id);
+    String updateAddress(UpdateAddressRequest request, long id);
 
     void deleteAddress(long id);
 

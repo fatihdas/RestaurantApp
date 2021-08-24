@@ -73,7 +73,7 @@ public class MenuServiceImplTest {
 
         Mockito.when(menuRepository.save(Mockito.any(Menu.class))).thenReturn(menu);
 
-        MenuDto createMenu = menuServiceImpl.updateMenu(new UpdateMenuRequest(),6);
+        String createMenu = menuServiceImpl.updateMenu(new UpdateMenuRequest(),6);
 
         Assertions.assertEquals(menu, createMenu);
     }

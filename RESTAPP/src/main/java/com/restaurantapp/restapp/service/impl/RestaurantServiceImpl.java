@@ -1,10 +1,8 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateRestaurantRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateRestaurantRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.RestaurantEntityToDtoConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateRestaurantRequestConverter;
-import com.restaurantapp.restapp.model.dto.CountyDto;
 import com.restaurantapp.restapp.model.dto.RestaurantDto;
 import com.restaurantapp.restapp.model.entity.Restaurant;
 import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
@@ -22,16 +20,13 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantEntityToDtoConverter restaurantEntityToDtoConverter;
     private final CreateRestaurantRequestConverter createRestaurantRequestConverter;
-    private final UpdateRestaurantRequestConverter updateRestaurantRequestConverter;
 
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository,
                                  RestaurantEntityToDtoConverter restaurantEntityToDtoConverter,
-                                 CreateRestaurantRequestConverter createRestaurantRequestConverter,
-                                 UpdateRestaurantRequestConverter updateRestaurantRequestConverter) {
+                                 CreateRestaurantRequestConverter createRestaurantRequestConverter) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantEntityToDtoConverter = restaurantEntityToDtoConverter;
         this.createRestaurantRequestConverter = createRestaurantRequestConverter;
-        this.updateRestaurantRequestConverter = updateRestaurantRequestConverter;
     }
 
     public RestaurantDto createRestaurant(CreateRestaurantRequest request) {
@@ -58,14 +53,13 @@ public class RestaurantServiceImpl implements RestaurantService {
 //                .collect(Collectors.toList());
 //    }
 
-    public RestaurantDto updateRestaurant(UpdateRestaurantRequest request, long id) {
+    public String updateRestaurant(UpdateRestaurantRequest request, long id) {
 
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException());
-        Restaurant updatedFields = updateRestaurantRequestConverter.convert(request);
 
-        restaurant.setName(updatedFields.getName());
-        return restaurantEntityToDtoConverter.convert(restaurantRepository.save(restaurant));
+        restaurant.setName(restaurant.getName());
+        return "Restaurant has been updated! id:" + id;
     }
 
     public void deleteRestaurant(long id) {

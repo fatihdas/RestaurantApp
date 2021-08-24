@@ -16,10 +16,4 @@ public class UpdateBranchRequest {
 
     private String name;
 
-    private List<CommentDto> commentDtos;
-
-    private MenuDto menuDto;
-
-    private AddressDto addressDto;
-
 }

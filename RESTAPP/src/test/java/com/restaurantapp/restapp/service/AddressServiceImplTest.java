@@ -1,5 +1,7 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.model.converter.create.request.CreateAddressRequestConverter;
+import com.restaurantapp.restapp.model.converter.entity.todto.AddressEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
@@ -12,10 +14,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AddressServiceImplTest {
@@ -23,41 +23,38 @@ public class AddressServiceImplTest {
     @Mock
     private AddressRepository addressRepository;
 
+    @Mock
+    private CreateAddressRequestConverter createAddressRequestConverter;
+
+    @Mock
+    private AddressEntityToDtoConverter addressEntityToDtoConverter;
+
+    @Spy
     @InjectMocks
     private AddressServiceImpl addressServiceImpl;
 
     @Test
     public void save() {
 
-        Address address = this.generateAddress();
+        AddressDto addressDto = this.generateAddress();
 
-        Mockito.when(addressRepository.save(Mockito.any(Address.class))).thenReturn(address);
+        Mockito.when(createAddressRequestConverter.convert(Mockito.any(CreateAddressRequest.class)))
+                .thenReturn(new Address());
+        Mockito.when(addressRepository.save(Mockito.any(Address.class))).thenReturn(new Address());
+        Mockito.when(addressEntityToDtoConverter.convert(Mockito.any(Address.class))).thenReturn(addressDto);
 
         AddressDto createAddress = addressServiceImpl.createAddress(new CreateAddressRequest());
 
-        Assertions.assertEquals(address, createAddress);
-    }
-
-    @Test
-    public void getAll() {
-
-        List<Address> addressList = new ArrayList<>();
-        addressList.add(this.generateAddress());
-
-        Mockito.when(addressRepository.findAll()).thenReturn(addressList);
-
-        List<AddressDto> createAddressList = addressServiceImpl.getAllAddresses();
-
-        Assertions.assertEquals(addressList, createAddressList);
+        Assertions.assertEquals(addressDto, createAddress);
     }
 
     @Test
     public void getById() {
 
-        Address address = this.generateAddress();
+        AddressDto address = this.generateAddress();
 
-        Mockito.when(addressRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(address));
-
+        Mockito.when(addressRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Address()));
+        Mockito.when(addressEntityToDtoConverter.convert(Mockito.any(Address.class))).thenReturn(address);
         AddressDto createAddress = addressServiceImpl.getAddress(2);
 
         Assertions.assertEquals(address, createAddress);
@@ -66,31 +63,23 @@ public class AddressServiceImplTest {
     @Test
     public void update() {
 
-        Address address = this.generateAddress();
+        AddressDto address = this.generateAddress();
+        String message = "Address has been updated! id:" + address.getId();
 
-        Mockito.when(addressRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(address));
+        Mockito.when(addressRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Address()));
 
-        Mockito.when(addressRepository.save(Mockito.any(Address.class))).thenReturn(address);
+        String createAddress = addressServiceImpl.updateAddress(new UpdateAddressRequest(), address.getId());
 
-        AddressDto createAddress = addressServiceImpl.updateAddress(new UpdateAddressRequest(), 2);
-
-        Assertions.assertEquals(address, createAddress);
+        Assertions.assertEquals(message, createAddress);
     }
 
-    @Test
-    public void delete() {
+    private AddressDto generateAddress() {
 
-        addressServiceImpl.deleteAddress(Mockito.anyLong());
-        Mockito.verify(addressRepository).deleteById(Mockito.anyLong());
-
-    }
-
-    private Address generateAddress() {
-
-        return Address.builder()
+        return AddressDto.builder()
                 .cityName("İstanbul")
                 .countyName("Pendik")
                 .content("Güzelyalı mah.")
+                .id(3)
                 .build();
 
     }

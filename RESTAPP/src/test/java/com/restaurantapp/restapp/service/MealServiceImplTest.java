@@ -72,7 +72,7 @@ public class MealServiceImplTest {
 
         Mockito.when(mealRepository.save(Mockito.any(Meal.class))).thenReturn(meal);
 
-        MealDto createMeal = mealServiceImpl.updateMeal(new UpdateMealRequest(),8);
+        String createMeal = mealServiceImpl.updateMeal(new UpdateMealRequest(),8);
 
         Assertions.assertEquals(meal, createMeal);
     }

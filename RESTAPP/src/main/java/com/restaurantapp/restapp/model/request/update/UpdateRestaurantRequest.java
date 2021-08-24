@@ -14,6 +14,4 @@ public class UpdateRestaurantRequest {
 
     private String name;
 
-    private List<BranchDto> branchDtoList;
-
 }

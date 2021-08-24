@@ -18,7 +18,7 @@ public interface BranchService {
 
     List<BranchDto> getNearBranches(String countyName);
 
-    BranchDto updateBranch(UpdateBranchRequest request, long id);
+    String updateBranch(UpdateBranchRequest request, long id);
 
     void deleteBranch(long id);
 

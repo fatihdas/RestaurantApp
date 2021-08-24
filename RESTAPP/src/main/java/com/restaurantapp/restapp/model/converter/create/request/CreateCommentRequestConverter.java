@@ -1,4 +1,4 @@
-package com.restaurantapp.restapp.model.converter.create.request.toentity;
+package com.restaurantapp.restapp.model.converter.create.request;
 
 import com.restaurantapp.restapp.model.entity.Comment;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;

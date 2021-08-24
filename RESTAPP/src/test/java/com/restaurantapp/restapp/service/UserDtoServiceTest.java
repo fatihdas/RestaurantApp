@@ -72,7 +72,7 @@ public class UserDtoServiceTest {
 
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 
-        com.restaurantapp.restapp.model.dto.UserDto createUser = userServiceImpl.updateUser(new UpdateUserRequest(),13);
+        String createUser = userServiceImpl.updateUser(new UpdateUserRequest(),13);
 
         Assertions.assertEquals(user, createUser);
     }

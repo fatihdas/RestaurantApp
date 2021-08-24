@@ -14,6 +14,4 @@ public class UpdateMenuRequest {
 
     private String name;
 
-    private List<MealDto> mealDtoList;
-
 }

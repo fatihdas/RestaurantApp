@@ -14,7 +14,7 @@ public interface MenuService {
 
     MenuDto getMenu(long id);
 
-    MenuDto updateMenu(UpdateMenuRequest request, long id);
+    String updateMenu(UpdateMenuRequest request, long id);
 
     void deleteMenu(long id);
 }

@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.model.dto.CountyDto;
 import com.restaurantapp.restapp.model.dto.RestaurantDto;
 import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
@@ -17,7 +16,7 @@ public interface RestaurantService {
 
 //    List<RestaurantDto> getRestaurantsByCounty(CountyDto countyDto);
 
-    RestaurantDto updateRestaurant(UpdateRestaurantRequest request, long id);
+    String updateRestaurant(UpdateRestaurantRequest request, long id);
 
     void deleteRestaurant(long id);
 }

@@ -1,10 +1,9 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.AddressNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateAddressRequestConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateAddressRequestConverter;
-import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.converter.create.request.CreateAddressRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.AddressEntityToDtoConverter;
+import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateAddressRequest;
@@ -21,24 +20,17 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final AddressEntityToDtoConverter addressEntityToDtoConverter;
     private final CreateAddressRequestConverter createAddressRequestConverter;
-    private final UpdateAddressRequestConverter updateAddressRequestConverter;
 
     public AddressServiceImpl(AddressRepository addressRepository, AddressEntityToDtoConverter addressEntityToDtoConverter,
-                              CreateAddressRequestConverter createAddressRequestConverter, UpdateAddressRequestConverter updateAddressRequestConverter) {
+                              CreateAddressRequestConverter createAddressRequestConverter) {
         this.addressRepository = addressRepository;
         this.addressEntityToDtoConverter = addressEntityToDtoConverter;
         this.createAddressRequestConverter = createAddressRequestConverter;
-        this.updateAddressRequestConverter = updateAddressRequestConverter;
     }
 
     public AddressDto createAddress(CreateAddressRequest request) {
 
         return addressEntityToDtoConverter.convert(addressRepository.save(createAddressRequestConverter.convert(request)));
-    }
-
-    public List<AddressDto> getAllAddresses() {
-
-        return addressRepository.findAll().stream().map(addressEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
     public AddressDto getAddress(long id) {
@@ -47,16 +39,15 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new AddressNotFoundException(id)));
     }
 
-    public AddressDto updateAddress(UpdateAddressRequest request, long id) {
+    public String updateAddress(UpdateAddressRequest request, long id) {
 
         Address address = addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());
-        Address updatedFields = updateAddressRequestConverter.convert(request);
 
-        address.setCityName(updatedFields.getCityName());
+        address.setCityName(request.getCityName());
         address.setContent(request.getContent());
-        address.setCountyName(updatedFields.getCountyName());
+        address.setCountyName(request.getCountyName());
 
-        return addressEntityToDtoConverter.convert(addressRepository.save(address));
+        return "Address has been updated! id:" + id;
     }
 
     public void deleteAddress(long id) {

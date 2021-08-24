@@ -1,8 +1,7 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.MenuNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateMenuRequestConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateMenuRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateMenuRequestConverter;
 import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.converter.entity.todto.MenuEntityToDtoConverter;
 import com.restaurantapp.restapp.model.entity.Menu;
@@ -21,13 +20,13 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final MenuEntityToDtoConverter menuEntityToDtoConverter;
     private final CreateMenuRequestConverter createMenuRequestConverter;
-    private final UpdateMenuRequestConverter updateMenuRequestConverter;
 
-    public MenuServiceImpl(MenuRepository menuRepository, MenuEntityToDtoConverter menuEntityToDtoConverter, CreateMenuRequestConverter createMenuRequestConverter, UpdateMenuRequestConverter updateMenuRequestConverter) {
+    public MenuServiceImpl(MenuRepository menuRepository,
+                           MenuEntityToDtoConverter menuEntityToDtoConverter,
+                           CreateMenuRequestConverter createMenuRequestConverter) {
         this.menuRepository = menuRepository;
         this.menuEntityToDtoConverter = menuEntityToDtoConverter;
         this.createMenuRequestConverter = createMenuRequestConverter;
-        this.updateMenuRequestConverter = updateMenuRequestConverter;
     }
 
     public MenuDto createMenu(CreateMenuRequest request) {
@@ -46,14 +45,13 @@ public class MenuServiceImpl implements MenuService {
                 .orElseThrow(() -> new MenuNotFoundException(id)));
     }
 
-    public MenuDto updateMenu(UpdateMenuRequest request, long id) {
+    public String updateMenu(UpdateMenuRequest request, long id) {
 
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException());
-        Menu updatedFields = updateMenuRequestConverter.convert(request);
 
-        menu.setName(updatedFields.getName());
+        menu.setName(request.getName());
 
-        return menuEntityToDtoConverter.convert(menuRepository.save(menu));
+        return "Menu has been updated! id:" + id;
     }
 
     public void deleteMenu(long id) {

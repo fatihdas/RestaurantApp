@@ -135,12 +135,13 @@ public class BranchControllerTest {
     public void update() throws Exception {
 
         BranchDto branch = this.generateBranch();
+        String message = "Success branch has been updated! id:" + branch.getId();
 
         String URI = "/branch/5";
         String inputJson = this.mapToJson(branch);
 
         Mockito.when(branchServiceImpl.updateBranch(Mockito.any(UpdateBranchRequest.class)
-                ,Mockito.anyLong())).thenReturn(branch);
+                ,Mockito.anyLong())).thenReturn(message);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .put(URI)
@@ -152,7 +153,7 @@ public class BranchControllerTest {
 
         String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
 
-        Assertions.assertThat(inputJson).isEqualTo(outputJson);
+        Assertions.assertThat(message).isEqualTo(outputJson);
     }
 
     @Test

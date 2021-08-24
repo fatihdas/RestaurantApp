@@ -1,9 +1,8 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.MealNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.toentity.CreateMealRequestConverter;
+import com.restaurantapp.restapp.model.converter.create.request.CreateMealRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.MealEntityToDtoConverter;
-import com.restaurantapp.restapp.model.converter.update.toentity.UpdateMealRequestConverter;
 import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.entity.Meal;
 import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
@@ -21,13 +20,13 @@ public class MealServiceImpl implements MealService {
     private final MealRepository mealRepository;
     private final MealEntityToDtoConverter mealEntityToDtoConverter;
     private final CreateMealRequestConverter createMealRequestConverter;
-    private final UpdateMealRequestConverter updateMealRequestConverter;
 
-    public MealServiceImpl(MealRepository mealRepository, MealEntityToDtoConverter mealEntityToDtoConverter, CreateMealRequestConverter createMealRequestConverter, UpdateMealRequestConverter updateMealRequestConverter) {
+    public MealServiceImpl(MealRepository mealRepository,
+                           MealEntityToDtoConverter mealEntityToDtoConverter,
+                           CreateMealRequestConverter createMealRequestConverter) {
         this.mealRepository = mealRepository;
         this.mealEntityToDtoConverter = mealEntityToDtoConverter;
         this.createMealRequestConverter = createMealRequestConverter;
-        this.updateMealRequestConverter = updateMealRequestConverter;
     }
 
     public MealDto createMeal(CreateMealRequest request) {
@@ -45,14 +44,13 @@ public class MealServiceImpl implements MealService {
         return mealEntityToDtoConverter.convert(mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id)));
     }
 
-    public MealDto updateMeal(UpdateMealRequest request, long id) {
+    public String updateMeal(UpdateMealRequest request, long id) {
 
         Meal meal = mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException());
-        Meal updatedFields = updateMealRequestConverter.convert(request);
 
-        meal.setName(updatedFields.getName());
-        meal.setPrice(updatedFields.getPrice());
-        return mealEntityToDtoConverter.convert(mealRepository.save(meal));
+        meal.setName(request.getName());
+        meal.setPrice(request.getPrice());
+        return "Meal has been updated! id:" + id;
     }
 
     public void deleteMeal(long id) {

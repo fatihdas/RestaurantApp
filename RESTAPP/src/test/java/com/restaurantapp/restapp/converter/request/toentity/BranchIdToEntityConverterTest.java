@@ -1,6 +1,6 @@
-package com.restaurantapp.restapp.model.converter.create.request.toentity;
+package com.restaurantapp.restapp.converter.request.toentity;
 
-import com.restaurantapp.restapp.model.converter.dto.toentity.BranchDtoToEntityConverter;
+import com.restaurantapp.restapp.model.converter.create.request.BranchIdToEntityConverter;
 import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Menu;
@@ -8,15 +8,18 @@ import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class BranchIdToEntityConverterTest {
 
-    @Mock
-    private BranchDtoToEntityConverter branchDtoToEntityConverter;
+    @Spy
+    @InjectMocks
+    private BranchIdToEntityConverter branchIdToEntityConverter;
 
     @Mock
     private BranchServiceImpl branchService;
@@ -24,14 +27,13 @@ public class BranchIdToEntityConverterTest {
     @Test
     public void testConvert() {
 
-        Branch branch = generateBranch();
+        Branch branchExpected = this.generateBranch();
 
-        Mockito.when(branchDtoToEntityConverter.convert(Mockito.any(BranchDto.class))).thenReturn(branch);
-        Mockito.when(branchService.getBranch(Mockito.anyLong())).thenReturn(branch);
+        Mockito.when(branchService.getBranchByid(Mockito.anyLong())).thenReturn(new Branch());
 
-        Branch branch1 = branchDtoToEntityConverter.convert(branchService.getBranch(Mockito.anyLong()));
+        Branch branchActual = branchIdToEntityConverter.convert(Mockito.anyLong());
 
-        Assertions.assertEquals(branch, branch1);
+        Assertions.assertEquals(branchExpected, branchActual);
     }
 
     private Branch generateBranch() {

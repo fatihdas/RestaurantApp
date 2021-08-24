@@ -26,4 +26,6 @@ public class CommentDto implements Serializable {
 
     private Date date;
 
+    private BranchDto branchDto;
+
 }
