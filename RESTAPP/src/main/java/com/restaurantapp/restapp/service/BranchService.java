@@ -14,7 +14,7 @@ public interface BranchService {
 
     List<BranchDto> getAllBranches();
 
-    BranchDto getBranch(long id);
+    BranchDto getBranchDto(long id);
 
     List<BranchDto> getNearBranches(String countyName);
 

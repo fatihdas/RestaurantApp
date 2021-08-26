@@ -26,7 +26,7 @@ public class TokenManager {
 
     }
 
-    public boolean tokenValidate(String token) {
+    public boolean tokenValidate(String token) {    //tokenValidate(String token, User user)
 
         if (getUserNameFromToken(token) != null && isExpired(token)) {
 

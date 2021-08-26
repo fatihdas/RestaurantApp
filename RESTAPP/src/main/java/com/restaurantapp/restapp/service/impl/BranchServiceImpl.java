@@ -43,7 +43,7 @@ public class BranchServiceImpl implements BranchService {
         return branchRepository.findAll().stream().map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
-    public BranchDto getBranch(long id) {
+    public BranchDto getBranchDto(long id) {
 
         return branchEntityToDtoConverter.convert(branchRepository.findById(id)
                 .orElseThrow(() -> new BranchNotFoundException(id)));

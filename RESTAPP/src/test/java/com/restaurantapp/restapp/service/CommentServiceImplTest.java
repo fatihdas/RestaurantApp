@@ -1,7 +1,8 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.model.converter.create.request.CreateCommentRequestConverter;
+import com.restaurantapp.restapp.model.converter.entity.todto.CommentEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.CommentDto;
-import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Comment;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
@@ -24,40 +25,51 @@ public class CommentServiceImplTest {
     @Mock
     private CommentRepository commentRepository;
 
+    @Mock
+    private CommentEntityToDtoConverter commentEntityToDtoConverter;
+
+    @Mock
+    private CreateCommentRequestConverter createCommentRequestConverter;
+
     @InjectMocks
     private CommentServiceImpl commentServiceImpl;
 
     @Test
     public void save() {
 
-        Comment comment = this.generateComment();
+        CommentDto comment = this.generateComment();
+        CreateCommentRequest request = CreateCommentRequest.builder().content("test comment content").build();
 
-        Mockito.when(commentRepository.save(Mockito.any(Comment.class))).thenReturn(comment);
+        Mockito.when(createCommentRequestConverter.convert(Mockito.any(CreateCommentRequest.class)))
+                .thenReturn(new Comment());
+        Mockito.when(commentRepository.save(Mockito.any(Comment.class))).thenReturn(new Comment());
+        Mockito.when(commentEntityToDtoConverter.convert(Mockito.any(Comment.class))).thenReturn(comment);
 
-        CommentDto createComment = commentServiceImpl.createComment(new CreateCommentRequest());
-
-        Assertions.assertEquals(comment, createComment);
+        CommentDto createComment = commentServiceImpl.createComment(request);
+        Assertions.assertEquals(request.getContent(), createComment.getContent());
     }
 
     @Test
     public void getAll() {
 
         List<Comment> commentList = new ArrayList<>();
-        commentList.add(this.generateComment());
+        commentList.add(Comment.builder().content("test comment content").build());
 
+        Mockito.when(commentEntityToDtoConverter.convert(Mockito.any(Comment.class))).thenReturn(this.generateComment());
         Mockito.when(commentRepository.findAll()).thenReturn(commentList);
 
-        List<CommentDto> createCommentList = commentServiceImpl.getAllComments();
+        CommentDto createCommentList = commentServiceImpl.getAllComments().get(0);
 
-        Assertions.assertEquals(commentList, createCommentList);
+        Assertions.assertEquals(commentList.get(0).getContent(), createCommentList.getContent());
     }
 
     @Test
     public void getById() {
 
-        Comment comment = this.generateComment();
+        CommentDto comment = this.generateComment();
 
-        Mockito.when(commentRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(comment));
+        Mockito.when(commentRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Comment()));
+        Mockito.when(commentEntityToDtoConverter.convert(Mockito.any(Comment.class))).thenReturn(comment);
 
         CommentDto createComment = commentServiceImpl.getComment(2);
 
@@ -67,27 +79,20 @@ public class CommentServiceImplTest {
     @Test
     public void update() {
 
-        Comment comment = this.generateComment();
+        UpdateCommentRequest request = UpdateCommentRequest.builder().content("update comment").build();
+        String message = "Comment has been updated!";
 
-        Mockito.when(commentRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(comment));
+        Mockito.when(commentRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.ofNullable(new Comment()));
 
-        Mockito.when(commentRepository.save(Mockito.any(Comment.class))).thenReturn(comment);
+        String createComment = commentServiceImpl.updateComment(new UpdateCommentRequest(), 6);
 
-        String createComment = commentServiceImpl.updateComment(new UpdateCommentRequest(),6);
-
-        Assertions.assertEquals(comment, createComment);
+        Assertions.assertEquals(message, createComment);
     }
 
-    @Test
-    public void delete() {
-
-        commentRepository.deleteById(2L);
-        Mockito.verify(commentServiceImpl).deleteComment(2L);
-    }
-
-    private Comment generateComment() {
-        return Comment.builder()
-                .content("bla bla bla")
+    private CommentDto generateComment() {
+        return CommentDto.builder()
+                .content("test comment content")
+                .id(2)
                 .build();
     }
 

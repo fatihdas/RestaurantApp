@@ -11,9 +11,6 @@ import com.restaurantapp.restapp.repository.AddressRepository;
 import com.restaurantapp.restapp.service.AddressService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class AddressServiceImpl implements AddressService {
 

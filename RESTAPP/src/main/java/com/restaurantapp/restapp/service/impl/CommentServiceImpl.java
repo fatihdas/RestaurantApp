@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
 
         comment.setContent(request.getContent());
 
-        return "Comment has been updated! id:" + id;
+        return "Comment has been updated!";
     }
 
     public void deleteComment(long id) {

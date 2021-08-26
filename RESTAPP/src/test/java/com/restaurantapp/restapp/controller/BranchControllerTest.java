@@ -94,7 +94,7 @@ public class BranchControllerTest {
         String URI = "/branch/13";
         String inputJson = this.mapToJson(branch);
 
-        Mockito.when(branchServiceImpl.getBranch(Mockito.anyLong())).thenReturn(branch);
+        Mockito.when(branchServiceImpl.getBranchDto(Mockito.anyLong())).thenReturn(branch);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)

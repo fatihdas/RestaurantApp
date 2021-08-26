@@ -37,15 +37,16 @@ public class AddressServiceImplTest {
     public void save() {
 
         AddressDto addressDto = this.generateAddress();
+        CreateAddressRequest request = CreateAddressRequest.builder().id(123).build();
 
         Mockito.when(createAddressRequestConverter.convert(Mockito.any(CreateAddressRequest.class)))
                 .thenReturn(new Address());
         Mockito.when(addressRepository.save(Mockito.any(Address.class))).thenReturn(new Address());
         Mockito.when(addressEntityToDtoConverter.convert(Mockito.any(Address.class))).thenReturn(addressDto);
 
-        AddressDto createAddress = addressServiceImpl.createAddress(new CreateAddressRequest());
+        AddressDto createAddress = addressServiceImpl.createAddress(request);
 
-        Assertions.assertEquals(addressDto, createAddress);
+        Assertions.assertEquals(request.getId(), createAddress.getId());
     }
 
     @Test
@@ -79,7 +80,7 @@ public class AddressServiceImplTest {
                 .cityName("İstanbul")
                 .countyName("Pendik")
                 .content("Güzelyalı mah.")
-                .id(3)
+                .id(123)
                 .build();
 
     }

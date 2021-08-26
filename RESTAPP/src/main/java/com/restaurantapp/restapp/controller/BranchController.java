@@ -47,7 +47,7 @@ public class BranchController {
     @GetMapping("/{id}")
     public ResponseEntity<BranchDto> getById(@PathVariable long id) {
 
-        return new ResponseEntity<>(branchServiceImpl.getBranch(id), HttpStatus.OK);
+        return new ResponseEntity<>(branchServiceImpl.getBranchDto(id), HttpStatus.OK);
     }
 
     @GetMapping("/status/{value}")

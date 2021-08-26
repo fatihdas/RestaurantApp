@@ -47,8 +47,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/login", "/h2/**").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"branch/branches/{countyName}").hasAnyAuthority("BUYER");
         http.authorizeRequests().antMatchers(HttpMethod.POST,"branch").hasAnyAuthority("SELLER");
+        http.authorizeRequests().antMatchers(HttpMethod.POST,"branch").hasAnyAuthority("BUYER");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"branch/branches/{countyName}").hasAnyAuthority("BUYER");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"branch/status/{value}").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"branch/menu").hasAnyAuthority("ADMIN");
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);

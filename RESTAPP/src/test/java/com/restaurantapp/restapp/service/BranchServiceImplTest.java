@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.model.converter.create.request.CreateBranchRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.BranchEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.dto.BranchDto;
@@ -35,6 +36,9 @@ public class BranchServiceImplTest {
     private StatusEnumConverter statusEnumConverter;
 
     @Mock
+    private CreateBranchRequestConverter createBranchRequestConverter;
+
+    @Mock
     private BranchRepository branchRepository;
 
     @Spy
@@ -45,12 +49,16 @@ public class BranchServiceImplTest {
     public void save() {
 
         BranchDto branch = this.generateBranch();
+        CreateBranchRequest request = CreateBranchRequest.builder().id(22).build();
 
+        Mockito.when(createBranchRequestConverter.convert(Mockito.any(CreateBranchRequest.class)))
+                .thenReturn(new Branch());
+        Mockito.when(branchRepository.save(Mockito.any(Branch.class))).thenReturn(new Branch());
         Mockito.when(branchEntityToDtoConverter.convert(Mockito.any(Branch.class))).thenReturn(branch);
 
-        BranchDto createBranch = branchServiceImpl.createBranch(new CreateBranchRequest());
+        BranchDto createBranch = branchServiceImpl.createBranch(request);
 
-        Assertions.assertEquals(branch, createBranch);
+        Assertions.assertEquals(request.getId(), createBranch.getId());
     }
 
     @Test
@@ -58,10 +66,11 @@ public class BranchServiceImplTest {
 
         BranchDto branch = this.generateBranch();
 
+        Mockito.when(branchRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Branch()));
         Mockito.when(branchEntityToDtoConverter.convert(Mockito.any(Branch.class)))
                 .thenReturn(branch);
 
-        BranchDto createBranch = branchServiceImpl.getBranch(2);
+        BranchDto createBranch = branchServiceImpl.getBranchDto(2);
 
         Assertions.assertEquals(branch, createBranch);
     }
