@@ -22,7 +22,7 @@ public class CreateCommentRequestConverter {
                 .id(request.getId())
                 .user(userIdToEntityConverter.convert(request.getUserId()))
                 .content(request.getContent())
-                .tastePoint(request.getTestePoint())
+                .tastePoint(request.getTastePoint())
                 .speedPoint(request.getSpeedPoint())
                 .date(request.getDate())
                 .branch(branchIdToEntityConverter.convert(request.getBranchId()))

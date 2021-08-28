@@ -13,12 +13,13 @@ public class CreateRestaurantRequestConverter {
 
     private final CreateBranchRequestConverter createBranchRequestConverter;
     private final UserIdToEntityConverter userIdToEntityConverter;
+
     public CreateRestaurantRequestConverter(CreateBranchRequestConverter createBranchRequestConverter, UserIdToEntityConverter userIdToEntityConverter) {
         this.createBranchRequestConverter = createBranchRequestConverter;
         this.userIdToEntityConverter = userIdToEntityConverter;
     }
 
-    public Restaurant convert(CreateRestaurantRequest request){
+    public Restaurant convert(CreateRestaurantRequest request) {
 
         List<Branch> branchList = new ArrayList<>();
         branchList.add(createBranchRequestConverter.convert(request.getCreateBranchRequest()));

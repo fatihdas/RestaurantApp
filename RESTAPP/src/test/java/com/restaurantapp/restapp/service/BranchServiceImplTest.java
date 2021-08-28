@@ -90,7 +90,7 @@ public class BranchServiceImplTest {
     }
 
     @Test
-    public void getWaitingBranchList() {
+    public void getWaitingBranchList() throws Exception {
 
         List<Branch> branchList = new ArrayList<>();
         branchList.add(Branch.builder().name("etilerşubesi")

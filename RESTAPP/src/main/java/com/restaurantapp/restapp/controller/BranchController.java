@@ -51,7 +51,7 @@ public class BranchController {
     }
 
     @GetMapping("/status/{value}")
-    public ResponseEntity<List<BranchDto>> getAllWaiting(@PathVariable("value") String value) {
+    public ResponseEntity<List<BranchDto>> getAllWaiting(@PathVariable("value") String value) throws Exception {
 
         return new ResponseEntity<>(branchServiceImpl.getWaitingBranches(value), HttpStatus.OK);
     }

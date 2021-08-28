@@ -8,9 +8,12 @@ import org.springframework.stereotype.Component;
 public class CommentEntityToDtoConverter {
 
     private final UserEntityToDtoConverter userEntityToDtoConverter;
+    private final BranchEntityToDtoConverter branchEntityToDtoConverter;
 
-    public CommentEntityToDtoConverter(UserEntityToDtoConverter userEntityToDtoConverter) {
+    public CommentEntityToDtoConverter(UserEntityToDtoConverter userEntityToDtoConverter,
+                                       BranchEntityToDtoConverter branchEntityToDtoConverter) {
         this.userEntityToDtoConverter = userEntityToDtoConverter;
+        this.branchEntityToDtoConverter = branchEntityToDtoConverter;
     }
 
     public CommentDto convert(Comment comment) {
@@ -18,8 +21,9 @@ public class CommentEntityToDtoConverter {
         return CommentDto.builder()
                 .id(comment.getId())
                 .userDto(userEntityToDtoConverter.convert(comment.getUser()))
+                .branchDto(branchEntityToDtoConverter.convert(comment.getBranch()))
                 .content(comment.getContent())
-                .testePoint(comment.getTastePoint())
+                .tastePoint(comment.getTastePoint())
                 .speedPoint(comment.getSpeedPoint())
                 .date(comment.getDate())
                 .build();

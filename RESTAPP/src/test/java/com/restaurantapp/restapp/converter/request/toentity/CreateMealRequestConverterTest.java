@@ -6,33 +6,36 @@ import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CreateMealRequestConverterTest {
 
+    private static final int ID = 12;
+    private static final int PRICE = 43;
+    private static final String NAME = "testmeal";
+
     @Spy
-    @InjectMocks
     private CreateMealRequestConverter createMealRequestConverter;
 
     @Test
     public void convert() {
 
-        Meal mealExpected = this.generateMeal();
-        Mockito.doReturn(mealExpected).when(createMealRequestConverter).convert(Mockito.any(CreateMealRequest.class));
-        Meal mealActual = createMealRequestConverter.convert(new CreateMealRequest());
-        Assertions.assertEquals(mealExpected, mealActual);
+        CreateMealRequest meal = this.generateMeal();
+        Meal mealActual = createMealRequestConverter.convert(meal);
+
+        Assertions.assertEquals(ID, mealActual.getId());
+        Assertions.assertEquals(NAME, mealActual.getName());
+        Assertions.assertEquals(PRICE, mealActual.getPrice());
     }
 
-    private Meal generateMeal() {
+    private CreateMealRequest generateMeal() {
 
-        return Meal.builder()
-                .id(12)
-                .price(43)
-                .name("testmeal")
+        return CreateMealRequest.builder()
+                .id(ID)
+                .price(PRICE)
+                .name(NAME)
                 .build();
     }
 }

@@ -1,10 +1,12 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
+import com.restaurantapp.restapp.exception.UserNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateRestaurantRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.RestaurantEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.RestaurantDto;
 import com.restaurantapp.restapp.model.entity.Restaurant;
+import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
 import com.restaurantapp.restapp.repository.RestaurantRepository;
@@ -20,19 +22,25 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final RestaurantEntityToDtoConverter restaurantEntityToDtoConverter;
     private final CreateRestaurantRequestConverter createRestaurantRequestConverter;
+    private final UserServiceImpl userService;
 
     public RestaurantServiceImpl(RestaurantRepository restaurantRepository,
                                  RestaurantEntityToDtoConverter restaurantEntityToDtoConverter,
-                                 CreateRestaurantRequestConverter createRestaurantRequestConverter) {
+                                 CreateRestaurantRequestConverter createRestaurantRequestConverter, UserServiceImpl userService) {
         this.restaurantRepository = restaurantRepository;
         this.restaurantEntityToDtoConverter = restaurantEntityToDtoConverter;
         this.createRestaurantRequestConverter = createRestaurantRequestConverter;
+        this.userService = userService;
     }
 
-    public RestaurantDto createRestaurant(CreateRestaurantRequest request) {
+    public RestaurantDto createRestaurant(CreateRestaurantRequest request) throws Exception {
 
+        if(!(userService.getUser(request.getUserId()).getRolesList().contains(Roles.SELLER))) {
+            throw new Exception("Role is not valid!");
+        }
         return restaurantEntityToDtoConverter.convert(restaurantRepository.save(createRestaurantRequestConverter
                 .convert(request)));
+
     }
 
     public List<RestaurantDto> getAllRestaurants() {

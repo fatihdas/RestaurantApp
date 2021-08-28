@@ -28,7 +28,7 @@ public class RestaurantServiceImplTest {
     private RestaurantServiceImpl restaurantServiceImpl;
 
     @Test
-    public void save() {
+    public void save() throws Exception {
 
         Restaurant restaurant = this.generateRestaurant();
 

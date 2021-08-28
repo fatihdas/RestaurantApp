@@ -4,11 +4,12 @@ import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateMealRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface MealService {
 
-    MealDto createMeal(CreateMealRequest request);
+    MealDto createMeal(CreateMealRequest request, HttpServletRequest httpServletRequest) throws Exception;
 
     List<MealDto> getAllMeals();
 

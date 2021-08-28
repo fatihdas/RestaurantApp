@@ -20,7 +20,7 @@ public class CommentDto implements Serializable {
 
     private String content;
 
-    private int testePoint;
+    private int tastePoint;
 
     private int speedPoint;
 

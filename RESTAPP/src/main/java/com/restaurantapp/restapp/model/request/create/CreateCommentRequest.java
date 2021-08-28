@@ -23,7 +23,7 @@ public class CreateCommentRequest {
     private String content;
 
     @NotNull
-    private int testePoint;
+    private int tastePoint;
 
     @NotNull
     private int speedPoint;

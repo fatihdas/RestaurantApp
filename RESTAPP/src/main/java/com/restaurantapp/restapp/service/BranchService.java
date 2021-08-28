@@ -22,5 +22,5 @@ public interface BranchService {
 
     void deleteBranch(long id);
 
-    List<BranchDto> getWaitingBranches(String value);
+    List<BranchDto> getWaitingBranches(String value) throws Exception;
 }
