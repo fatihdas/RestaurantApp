@@ -4,6 +4,8 @@ import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class CreateBranchRequestConverter {
 
@@ -24,6 +26,7 @@ public class CreateBranchRequestConverter {
                 .status(request.getStatus())
                 .menu(createMenuRequestConverter.convert(request.getCreateMenuRequest()))
                 .address(createAddressRequestConverter.convert(request.getCreateAddressRequest()))
+                .commentList(new ArrayList<>())
                 .build();
 
     }

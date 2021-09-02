@@ -2,7 +2,7 @@ package com.restaurantapp.restapp.controller;
 
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.dto.UserDto;
-import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
+import com.restaurantapp.restapp.model.request.create.CreateUserRequest;
 import com.restaurantapp.restapp.service.impl.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,15 +22,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/{userId}/addAddress")
-    public ResponseEntity<UserDto> addUserAddress(@Valid @RequestBody CreateAddressRequest request, @PathVariable long userId) {
-
-        return new ResponseEntity<>(userService.addAddress(request, userId), HttpStatus.OK);
+    @PostMapping("/createUser")
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody CreateUserRequest request) {
+        return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<List<AddressDto>> getUserAddress(@PathVariable long userId) {
-
-        return new ResponseEntity(userService.getUser(userId).getAddressDtoList(),HttpStatus.OK);
+    @PutMapping("changeRole/{userId}/{role}")
+    public ResponseEntity<UserDto> changeUserRole(@PathVariable String role, @PathVariable long userId) {
+        return new ResponseEntity<>(userService.updateUserRole(role, userId), HttpStatus.OK);
     }
+
+    @GetMapping("getAddress/{userId}")
+    public ResponseEntity<List<AddressDto>> getUserAddresses(@PathVariable long userId) {
+        return new ResponseEntity<>(userService.getUserAdresses(userId), HttpStatus.OK);
+    }
+
 }

@@ -4,10 +4,13 @@ import com.restaurantapp.restapp.exception.BranchNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateBranchRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.BranchEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.entity.Branch;
+import com.restaurantapp.restapp.model.entity.Meal;
 import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 import com.restaurantapp.restapp.repository.BranchRepository;
 import com.restaurantapp.restapp.service.BranchService;
@@ -85,6 +88,7 @@ public class BranchServiceImpl implements BranchService {
         return branchRepository.findBranchesByStatus(statusEnumConverter.convertToDatabaseColumn(value)).stream()
                 .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
+
 
     public BranchDto changeBranchStatus(long branchId, String value) throws Exception {
         if (!(httpServletRequest.isUserInRole(Roles.ADMIN.toString()))) {

@@ -7,7 +7,9 @@ import com.restaurantapp.restapp.model.entity.Comment;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
 import com.restaurantapp.restapp.repository.CommentRepository;
+import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
 import com.restaurantapp.restapp.service.impl.CommentServiceImpl;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -21,6 +23,10 @@ import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CommentServiceImplTest {
+    @Before
+    public void setUp() throws Exception {
+
+    }
 
     @Mock
     private CommentRepository commentRepository;
@@ -30,6 +36,9 @@ public class CommentServiceImplTest {
 
     @Mock
     private CreateCommentRequestConverter createCommentRequestConverter;
+
+    @Mock
+    private BranchServiceImpl branchService;
 
     @InjectMocks
     private CommentServiceImpl commentServiceImpl;
@@ -52,13 +61,12 @@ public class CommentServiceImplTest {
     @Test
     public void getAll() {
 
-        List<Comment> commentList = new ArrayList<>();
-        commentList.add(Comment.builder().content("test comment content").build());
+        List<CommentDto> commentList = new ArrayList<>();
+        commentList.add(CommentDto.builder().content("test comment content").build());
 
-        Mockito.when(commentEntityToDtoConverter.convert(Mockito.any(Comment.class))).thenReturn(this.generateComment());
-        Mockito.when(commentRepository.findAll()).thenReturn(commentList);
+        Mockito.when(branchService.getBranchDto(Mockito.anyLong()).getCommentDtos()).thenReturn(commentList);
 
-        CommentDto createCommentList = commentServiceImpl.getAllComments().get(0);
+        CommentDto createCommentList = commentServiceImpl.getAllComments(1).get(0);
 
         Assertions.assertEquals(commentList.get(0).getContent(), createCommentList.getContent());
     }

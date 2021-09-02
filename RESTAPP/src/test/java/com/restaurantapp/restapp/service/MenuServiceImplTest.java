@@ -40,19 +40,6 @@ public class MenuServiceImplTest {
     }
 
     @Test
-    public void getAll() {
-
-        List<Menu> menuList = new ArrayList<>();
-        menuList.add(this.generateMenu());
-
-        Mockito.when(menuRepository.findAll()).thenReturn(menuList);
-
-        List<MenuDto> createMenuList = menuServiceImpl.getAllMenu();
-
-        Assertions.assertEquals(menuList, createMenuList);
-    }
-
-    @Test
     public void getById() {
 
         Menu menu = this.generateMenu();

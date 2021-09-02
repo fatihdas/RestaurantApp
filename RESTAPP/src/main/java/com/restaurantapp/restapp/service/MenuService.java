@@ -10,8 +10,6 @@ public interface MenuService {
 
     MenuDto createMenu(CreateMenuRequest request);
 
-    List<MenuDto> getAllMenu();
-
     MenuDto getMenu(long id);
 
     String updateMenu(UpdateMenuRequest request, long id);

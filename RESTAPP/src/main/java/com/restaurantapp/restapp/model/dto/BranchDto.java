@@ -4,6 +4,7 @@ import com.restaurantapp.restapp.model.entity.enumerated.Status;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -23,5 +24,8 @@ public class BranchDto implements Serializable {
     private MenuDto menuDto;
 
     private AddressDto addressDto;
+
+    private List<CommentDto> commentDtos;
+
 
 }

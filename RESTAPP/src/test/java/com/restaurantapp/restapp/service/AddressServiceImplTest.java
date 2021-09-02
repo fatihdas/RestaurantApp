@@ -85,19 +85,7 @@ public class AddressServiceImplTest {
 
     }
 
-    @Test
-    public void whenGetUserAddressesCalledWithValidUserId_itShouldReturnListofAddressDto() {
 
-        UserDto userDto = UserDto.builder().id(ID).addressDtoList(Arrays.asList(this.generateAddressDto())).build();
-        Mockito.when(userService.getUser(ID)).thenReturn(userDto);
-        List<AddressDto> addressDtoList = addressServiceImpl.getUserAdresses(ID);
-
-        Assertions.assertEquals(ID,addressDtoList.get(0).getId());
-        Assertions.assertEquals(CITY_NAME,addressDtoList.get(0).getCityName());
-        Assertions.assertEquals(COUNTY_NAME,addressDtoList.get(0).getCountyName());
-        Assertions.assertEquals(CONTENT,addressDtoList.get(0).getContent());
-
-    }
 
 //    @Test
 //    public void update() {

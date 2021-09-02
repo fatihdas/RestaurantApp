@@ -56,13 +56,6 @@ public class BranchController {
         return new ResponseEntity<>(branchServiceImpl.getWaitingBranches(value), HttpStatus.OK);
     }
 
-    @GetMapping("menu")
-    public ResponseEntity<List<MenuDto>> getMenu() {
-
-        return new ResponseEntity(menuService.getAllMenu(), HttpStatus.OK);
-    }
-
-
     @PutMapping("{id}")
     public ResponseEntity<String> updateBranch(@Valid @RequestBody UpdateBranchRequest request, @PathVariable long id) {
 
@@ -76,9 +69,4 @@ public class BranchController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{branchId}")
-    public ResponseEntity<Void> createComment(@RequestBody CreateCommentRequest request, @PathVariable long branchId) {
-
-        return ResponseEntity.ok().build();
-    }
 }

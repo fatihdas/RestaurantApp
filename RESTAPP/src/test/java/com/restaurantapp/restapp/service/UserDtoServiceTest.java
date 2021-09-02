@@ -1,5 +1,7 @@
 package com.restaurantapp.restapp.service;
 
+import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.User;
 import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import com.restaurantapp.restapp.model.request.create.CreateUserRequest;
@@ -15,6 +17,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -90,6 +93,20 @@ public class UserDtoServiceTest {
                 .email("test@mail.com")
 //                .roles(Roles.ADMIN)
                 .build();
+    }
+
+    @Test
+    public void whenGetUserAddressesCalledWithValidUserId_itShouldReturnListofAddressDto() {
+
+//        UserDto userDto = UserDto.builder().id(ID).addressDtoList(Arrays.asList(this.generateAddressDto())).build();
+//        Mockito.when(userService.getUser(ID)).thenReturn(userDto);
+//        List<AddressDto> addressDtoList = addressServiceImpl.getUserAdresses(ID);
+//
+//        Assertions.assertEquals(ID,addressDtoList.get(0).getId());
+//        Assertions.assertEquals(CITY_NAME,addressDtoList.get(0).getCityName());
+//        Assertions.assertEquals(COUNTY_NAME,addressDtoList.get(0).getCountyName());
+//        Assertions.assertEquals(CONTENT,addressDtoList.get(0).getContent());
+
     }
 
 }

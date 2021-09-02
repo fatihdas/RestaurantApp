@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
-    -
+    
 }

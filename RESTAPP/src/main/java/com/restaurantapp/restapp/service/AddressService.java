@@ -16,7 +16,7 @@ public interface AddressService {
 
     void deleteAddress(long id);
 
-    List<AddressDto> getUserAdresses(long userId);
+
 
 
 }

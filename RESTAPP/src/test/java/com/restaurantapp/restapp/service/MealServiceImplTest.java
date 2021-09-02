@@ -14,11 +14,15 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MealServiceImplTest {
+
+    @Mock
+    private HttpServletRequest httpServletRequest;
 
     @Mock
     private MealRepository mealRepository;
@@ -33,7 +37,7 @@ public class MealServiceImplTest {
 
         Mockito.when(mealRepository.save(Mockito.any(Meal.class))).thenReturn(meal);
 
-        MealDto createMeal = mealServiceImpl.createMeal(new CreateMealRequest());
+        MealDto createMeal = mealServiceImpl.createMeal(new CreateMealRequest(), httpServletRequest);
 
         Assertions.assertEquals(meal, createMeal);
     }
@@ -72,7 +76,7 @@ public class MealServiceImplTest {
 
         Mockito.when(mealRepository.save(Mockito.any(Meal.class))).thenReturn(meal);
 
-        String createMeal = mealServiceImpl.updateMeal(new UpdateMealRequest(),8);
+        String createMeal = mealServiceImpl.updateMeal(new UpdateMealRequest(), 8);
 
         Assertions.assertEquals(meal, createMeal);
     }

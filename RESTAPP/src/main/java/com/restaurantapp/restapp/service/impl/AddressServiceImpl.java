@@ -21,16 +21,13 @@ public class AddressServiceImpl implements AddressService {
     private final AddressRepository addressRepository;
     private final AddressEntityToDtoConverter addressEntityToDtoConverter;
     private final CreateAddressRequestConverter createAddressRequestConverter;
-    private final UserServiceImpl userService;
 
     public AddressServiceImpl(AddressRepository addressRepository,
                               AddressEntityToDtoConverter addressEntityToDtoConverter,
-                              CreateAddressRequestConverter createAddressRequestConverter,
-                              UserServiceImpl userService) {
+                              CreateAddressRequestConverter createAddressRequestConverter) {
         this.addressRepository = addressRepository;
         this.addressEntityToDtoConverter = addressEntityToDtoConverter;
         this.createAddressRequestConverter = createAddressRequestConverter;
-        this.userService = userService;
     }
 
     public AddressDto createAddress(CreateAddressRequest request) {
@@ -44,10 +41,6 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new AddressNotFoundException(id)));
     }
 
-    public List<AddressDto> getUserAdresses(long userId){
-        UserDto user = userService.getUser(userId);
-        return user.getAddressDtoList();
-    }
 
     public String updateAddress(UpdateAddressRequest request, long id) {
 

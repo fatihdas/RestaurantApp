@@ -10,7 +10,7 @@ public interface CommentService {
 
     CommentDto createComment(CreateCommentRequest request);
 
-    List<CommentDto> getAllComments();
+    List<CommentDto> getAllComments(long branchId);
 
     CommentDto getComment(long id);
 

@@ -15,7 +15,11 @@ public interface MealService {
 
     MealDto getMeal(long id);
 
+    List<MealDto> getMealByBranchId(long branchId);
+
     String updateMeal(UpdateMealRequest request, long id);
 
     void deleteMeal(long id);
+
+    MealDto createMeal(CreateMealRequest request, long branchId);
 }

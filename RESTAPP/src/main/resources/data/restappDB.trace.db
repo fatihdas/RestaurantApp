@@ -4663,7 +4663,6 @@ insert into users (email, name, password, roles, id) values (?, ?, ?, ?, ?) [220
 	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:215)
 	at com.sun.proxy.$Proxy98.save(Unknown Source)
 	at com.restaurantapp.restapp.service.impl.UserServiceImpl.createUser(UserServiceImpl.java:35)
-	at com.restaurantapp.restapp.controller.HomeController.createUser(HomeController.java:23)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)

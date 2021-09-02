@@ -6,4 +6,5 @@ import com.restaurantapp.restapp.repository.baserepo.BaseRepository;
 
 public interface UserRepository extends BaseRepository<User> {
     User findByName(String name);
+
 }
