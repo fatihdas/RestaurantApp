@@ -32,11 +32,11 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentDto createComment(CreateCommentRequest request) {
 
-        Branch branch = branchService.getBranchByid(request.getBranchId());
-        List<Comment> commentList = branch.getCommentList();
-        commentList.add(createCommentRequestConverter.convert(request));
-        branch.setCommentList(commentList);
-        return commentEntityToDtoConverter.convert(createCommentRequestConverter.convert(request));
+//        Branch branch = branchService.getBranchByid(request.getBranchId());
+//        List<Comment> commentList = branch.getCommentList();
+//        commentList.add(createCommentRequestConverter.convert(request));
+//        branch.setCommentList(commentList);
+        return commentEntityToDtoConverter.convert(commentRepository.save(createCommentRequestConverter.convert(request)));
     }
 
     public List<CommentDto> getAllComments(long branchId) {

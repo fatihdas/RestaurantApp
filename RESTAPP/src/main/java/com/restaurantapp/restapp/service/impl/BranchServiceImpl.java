@@ -81,10 +81,6 @@ public class BranchServiceImpl implements BranchService {
 
     public List<BranchDto> getWaitingBranches(String value) throws Exception {
 
-        if (!(httpServletRequest.isUserInRole(Roles.ADMIN.toString()))) {
-            throw new Exception("Role is not valid!");
-        }
-
         return branchRepository.findBranchesByStatus(statusEnumConverter.convertToDatabaseColumn(value)).stream()
                 .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }

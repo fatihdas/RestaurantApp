@@ -1,9 +1,8 @@
 package com.restaurantapp.restapp.service;
 
-import com.restaurantapp.restapp.model.dto.AddressDto;
+import com.restaurantapp.restapp.model.converter.entity.todto.UserEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.User;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import com.restaurantapp.restapp.model.request.create.CreateUserRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateUserRequest;
 import com.restaurantapp.restapp.repository.UserRepository;
@@ -14,18 +13,22 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserDtoServiceTest {
+public class UserServiceTest {
 
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private UserEntityToDtoConverter userEntityToDtoConverter;
+
+    @Spy
     @InjectMocks
     private UserServiceImpl userServiceImpl;
 
@@ -48,10 +51,11 @@ public class UserDtoServiceTest {
         userList.add(this.generateUser());
 
         Mockito.when(userRepository.findAll()).thenReturn(userList);
+        Mockito.when(userEntityToDtoConverter.convert(Mockito.any(User.class))).thenReturn(new UserDto());
 
         List<com.restaurantapp.restapp.model.dto.UserDto> createUserList = userServiceImpl.getAllUsers();
 
-        Assertions.assertEquals(userList, createUserList);
+        Assertions.assertEquals(userList.get(0).getName(), createUserList.get(0).getName());
     }
 
     @Test
@@ -75,16 +79,9 @@ public class UserDtoServiceTest {
 
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(user);
 
-        String createUser = userServiceImpl.updateUser(new UpdateUserRequest(),13);
+        String createUser = userServiceImpl.updateUser(new UpdateUserRequest(), 13);
 
         Assertions.assertEquals(user, createUser);
-    }
-
-    @Test
-    public void delete() {
-
-        userRepository.deleteById(2L);
-        Mockito.verify(userServiceImpl).deleteUser(2L);
     }
 
     private User generateUser() {

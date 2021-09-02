@@ -48,7 +48,7 @@ public class BranchServiceImplTest {
     @Test
     public void save() {
 
-        BranchDto branch = this.generateBranch();
+        BranchDto branch = this.generateBranchDto();
         CreateBranchRequest request = CreateBranchRequest.builder().id(22).build();
 
         Mockito.when(createBranchRequestConverter.convert(Mockito.any(CreateBranchRequest.class)))
@@ -64,7 +64,7 @@ public class BranchServiceImplTest {
     @Test
     public void getById() {
 
-        BranchDto branch = this.generateBranch();
+        BranchDto branch = this.generateBranchDto();
 
         Mockito.when(branchRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Branch()));
         Mockito.when(branchEntityToDtoConverter.convert(Mockito.any(Branch.class)))
@@ -78,13 +78,13 @@ public class BranchServiceImplTest {
     @Test
     public void update() {
 
-        BranchDto branch = this.generateBranch();
+        Branch branch = this.generateBranch();
 
         String message = "Success branch has been updated! id:" + branch.getId();
 
-        Mockito.when(branchRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(new Branch()));
+        Mockito.when(branchRepository.findById(Mockito.anyLong())).thenReturn(java.util.Optional.of(branch));
 
-        String createBranch = branchServiceImpl.updateBranch(new UpdateBranchRequest(),4);
+        String createBranch = branchServiceImpl.updateBranch(new UpdateBranchRequest(),22);
 
         Assertions.assertEquals(message, createBranch);
     }
@@ -93,25 +93,30 @@ public class BranchServiceImplTest {
     public void getWaitingBranchList() throws Exception {
 
         List<Branch> branchList = new ArrayList<>();
-        branchList.add(Branch.builder().name("etilerşubesi")
-                .menu(Menu.builder().build())
-                .address(Address.builder().content("testContent").build())
-                .id(22)
-                .status(Status.WAITING).build());
+        branchList.add(this.generateBranch());
 
         Mockito.when(branchRepository.findBranchesByStatus(Mockito.any())).thenReturn(branchList);
-        Mockito.when(branchEntityToDtoConverter.convert(Mockito.any(Branch.class))).thenReturn(this.generateBranch());
+        Mockito.when(branchEntityToDtoConverter.convert(Mockito.any(Branch.class))).thenReturn(this.generateBranchDto());
 
         BranchDto createBranchList = branchServiceImpl.getWaitingBranches("waiting").get(0);
 
         Assertions.assertEquals(branchList.get(0).getId(), createBranchList.getId());
     }
 
-    private BranchDto generateBranch() {
+    private BranchDto generateBranchDto() {
         return BranchDto.builder()
                 .name("etilerşubesi")
                 .menuDto(MenuDto.builder().build())
                 .addressDto(AddressDto.builder().content("testContent").build())
+                .id(22)
+                .status(Status.WAITING)
+                .build();
+    }
+    private Branch generateBranch() {
+        return Branch.builder()
+                .name("etilerşubesi")
+                .menu(Menu.builder().build())
+                .address(Address.builder().content("testContent").build())
                 .id(22)
                 .status(Status.WAITING)
                 .build();

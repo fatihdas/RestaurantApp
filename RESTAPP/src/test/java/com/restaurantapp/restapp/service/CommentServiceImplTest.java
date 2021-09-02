@@ -3,7 +3,11 @@ package com.restaurantapp.restapp.service;
 import com.restaurantapp.restapp.model.converter.create.request.CreateCommentRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.CommentEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.CommentDto;
+import com.restaurantapp.restapp.model.entity.Address;
+import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Comment;
+import com.restaurantapp.restapp.model.entity.Menu;
+import com.restaurantapp.restapp.model.entity.enumerated.Status;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
 import com.restaurantapp.restapp.repository.CommentRepository;
@@ -19,6 +23,8 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -47,7 +53,7 @@ public class CommentServiceImplTest {
     public void save() {
 
         CommentDto comment = this.generateComment();
-        CreateCommentRequest request = CreateCommentRequest.builder().content("test comment content").build();
+        CreateCommentRequest request = this.generateCreateCommentRequest();
 
         Mockito.when(createCommentRequestConverter.convert(Mockito.any(CreateCommentRequest.class)))
                 .thenReturn(new Comment());
@@ -101,6 +107,29 @@ public class CommentServiceImplTest {
         return CommentDto.builder()
                 .content("test comment content")
                 .id(2)
+                .build();
+    }
+
+    private Branch generateBranch() {
+        return Branch.builder()
+                .name("etilerşubesi")
+                .menu(Menu.builder().build())
+                .address(Address.builder().content("testContent").build())
+                .id(22)
+                .status(Status.WAITING)
+                .commentList(new ArrayList<>())
+                .build();
+    }
+
+    private CreateCommentRequest generateCreateCommentRequest(){
+        return CreateCommentRequest.builder()
+                .content("test comment content")
+                .branchId(22)
+                .userId(1)
+                .id(11)
+                .date(new Date())
+                .speedPoint(10)
+                .tastePoint(10)
                 .build();
     }
 

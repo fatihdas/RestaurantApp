@@ -33,7 +33,7 @@ public class CreateMenuRequestConverterTest {
     public void convert() {
 
         CreateMenuRequest menu = this.generateMenu();
-        Mockito.when(createMealRequestConverter.convert(Mockito.any(CreateMealRequest.class))).thenReturn(new Meal());
+//        Mockito.when(createMealRequestConverter.convert(Mockito.any(CreateMealRequest.class))).thenReturn(new Meal());
         Menu menuActual = createMenuRequestConverter.convert(menu);
 
         Assertions.assertEquals(ID, menuActual.getId());
