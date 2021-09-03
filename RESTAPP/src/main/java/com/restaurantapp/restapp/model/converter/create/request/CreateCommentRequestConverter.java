@@ -1,31 +1,28 @@
 package com.restaurantapp.restapp.model.converter.create.request;
 
+import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Comment;
+import com.restaurantapp.restapp.model.entity.User;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateCommentRequestConverter {
 
-    private final UserIdToEntityConverter userIdToEntityConverter;
-    private final BranchIdToEntityConverter branchIdToEntityConverter;
-
-    public CreateCommentRequestConverter(UserIdToEntityConverter userIdToEntityConverter, BranchIdToEntityConverter branchIdToEntityConverter) {
-        this.userIdToEntityConverter = userIdToEntityConverter;
-        this.branchIdToEntityConverter = branchIdToEntityConverter;
-    }
-
-
     public Comment convert(CreateCommentRequest request) {
+        if (request == null) {
+            throw new IllegalArgumentException("invalid request!");
+        }
+        Comment comment = new Comment();
+        comment.setDate(request.getDate());
+        comment.setBranch(Branch.builder().id(request.getBranchId()).build());
+        comment.setContent(request.getContent());
+        comment.setId(request.getId());
+        comment.setSpeedPoint(request.getSpeedPoint());
+        comment.setTastePoint(request.getTastePoint());
+        comment.setUser(User.builder().id(request.getUserId()).build());
 
-        return Comment.builder()
-                .id(request.getId())
-                .user(userIdToEntityConverter.convert(request.getUserId()))
-                .content(request.getContent())
-                .tastePoint(request.getTastePoint())
-                .speedPoint(request.getSpeedPoint())
-                .date(request.getDate())
-                .branch(branchIdToEntityConverter.convert(request.getBranchId()))
-                .build();
+
+        return comment;
     }
 }

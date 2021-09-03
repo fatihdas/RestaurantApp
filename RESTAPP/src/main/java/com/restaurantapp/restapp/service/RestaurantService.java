@@ -2,6 +2,7 @@ package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.model.dto.RestaurantDto;
 import com.restaurantapp.restapp.model.entity.Meal;
+import com.restaurantapp.restapp.model.entity.Restaurant;
 import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
 
@@ -13,7 +14,9 @@ public interface RestaurantService {
 
     List<RestaurantDto> getAllRestaurants();
 
-    RestaurantDto getRestaurant(long id);
+    RestaurantDto getRestaurantDto(long id);
+
+    Restaurant getRestaurant(long id);
 
 //    List<RestaurantDto> getRestaurantsByCounty(CountyDto countyDto);
 

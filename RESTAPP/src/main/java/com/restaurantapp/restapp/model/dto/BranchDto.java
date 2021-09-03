@@ -1,6 +1,6 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.enumerated.Status;
+import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,13 +19,10 @@ public class BranchDto implements Serializable {
 
     private String name;
 
-    private Status status;
+    private BranchStatus branchStatus;
 
-    private MenuDto menuDto;
+    private long menuId;
 
-    private AddressDto addressDto;
-
-    private List<CommentDto> commentDtos;
-
+    private long addressId;
 
 }

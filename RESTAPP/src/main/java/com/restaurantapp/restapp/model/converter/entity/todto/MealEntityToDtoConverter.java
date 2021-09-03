@@ -8,11 +8,12 @@ import org.springframework.stereotype.Component;
 public class MealEntityToDtoConverter {
 
     public MealDto convert(Meal meal) {
+        MealDto mealDto = new MealDto();
+        mealDto.setId(meal.getId());
+        mealDto.setMenuId(meal.getMenu().getId());
+        mealDto.setPrice(meal.getPrice());
+        mealDto.setName(meal.getName());
 
-        return MealDto.builder()
-                .id(meal.getId())
-                .name(meal.getName())
-                .price(meal.getPrice())
-                .build();
+        return mealDto;
     }
 }

@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 public class CityEntityToDtoConverter {
 
     public CityDto convert(City city) {
+        CityDto cityDto = new CityDto();
+        cityDto.setId(city.getId());
+        cityDto.setName(city.getName());
 
-        return CityDto.builder()
-                .id(city.getId())
-                .name(city.getName())
-                .build();
+        return cityDto;
     }
 }

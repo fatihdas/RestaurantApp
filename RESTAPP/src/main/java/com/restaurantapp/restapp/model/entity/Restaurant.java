@@ -26,7 +26,7 @@ public class Restaurant {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurant")
     private List<Branch> branchList;
 
 }

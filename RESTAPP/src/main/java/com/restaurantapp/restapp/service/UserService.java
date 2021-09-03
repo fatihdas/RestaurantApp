@@ -2,6 +2,7 @@ package com.restaurantapp.restapp.service;
 
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.dto.UserDto;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import com.restaurantapp.restapp.model.request.create.CreateUserRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateUserRequest;
 
@@ -23,5 +24,6 @@ public interface UserService {
 
     void deleteUser(long id);
 
-    List<AddressDto> getUserAdresses(long userId);
+    boolean hasRole(UserRoles userRoles, long userId);
+
 }

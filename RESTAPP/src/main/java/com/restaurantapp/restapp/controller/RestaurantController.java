@@ -18,7 +18,7 @@ public class RestaurantController {
         this.restaurantService = restaurantService;
     }
 
-    @PostMapping("createRestaurant")
+    @PostMapping
     public ResponseEntity<RestaurantDto> createRestaurant(CreateRestaurantRequest request) throws Exception {
         return new ResponseEntity<>(restaurantService.createRestaurant(request), HttpStatus.OK);
     }

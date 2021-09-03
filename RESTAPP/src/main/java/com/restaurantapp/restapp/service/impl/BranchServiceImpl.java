@@ -4,13 +4,11 @@ import com.restaurantapp.restapp.exception.BranchNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateBranchRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.BranchEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.BranchDto;
-import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.entity.Branch;
-import com.restaurantapp.restapp.model.entity.Meal;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
+import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import com.restaurantapp.restapp.model.entity.enumerated.StatusEnumConverter;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
-import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 import com.restaurantapp.restapp.repository.BranchRepository;
 import com.restaurantapp.restapp.service.BranchService;
@@ -52,15 +50,15 @@ public class BranchServiceImpl implements BranchService {
 
     public BranchDto getBranchDto(long id) {
 
-        return branchEntityToDtoConverter.convert(branchRepository.findById(id)
-                .orElseThrow(() -> new BranchNotFoundException(id)));
+        Branch branch = branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException(id));
+        return branchEntityToDtoConverter.convert(branch);
     }
 
     @Override
-    public List<BranchDto> getNearBranches(String countyName) {
+    public List<BranchDto> getNearBranches(long countyId) {
 
-        return branchRepository.findBranchesByAddress_CountyNameContainingIgnoreCase(countyName).stream()
-                .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
+        List<Branch> branchList = branchRepository.findBranchesByAddress_CountyId(countyId);
+        return branchList.stream().map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
     public String updateBranch(UpdateBranchRequest request, long id) {
@@ -81,17 +79,19 @@ public class BranchServiceImpl implements BranchService {
 
     public List<BranchDto> getWaitingBranches(String value) throws Exception {
 
-        return branchRepository.findBranchesByStatus(statusEnumConverter.convertToDatabaseColumn(value)).stream()
-                .map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
+        if ()
+        BranchStatus status = statusEnumConverter.convertToDatabaseColumn(value);
+        List<Branch> branchList = branchRepository.findBranchesByBranchStatus(status);
+        return branchList.stream().map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
 
     public BranchDto changeBranchStatus(long branchId, String value) throws Exception {
-        if (!(httpServletRequest.isUserInRole(Roles.ADMIN.toString()))) {
+        if (!(httpServletRequest.isUserInRole(UserRoles.ADMIN.toString()))) {
             throw new Exception("Role is not valid!");
         }
         branchRepository.findById(branchId).orElseThrow(() -> new BranchNotFoundException(branchId))
-                .setStatus(statusEnumConverter.convertToDatabaseColumn(value));
+                .setBranchStatus(statusEnumConverter.convertToDatabaseColumn(value));
         return branchEntityToDtoConverter.convert(branchRepository.findById(branchId)
                 .orElseThrow(() -> new BranchNotFoundException(branchId)));
     }

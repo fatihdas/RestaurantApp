@@ -1,9 +1,9 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
@@ -13,13 +13,16 @@ import javax.validation.constraints.NotBlank;
 public class CreateAddressRequest {
 
     @NotNull
-    private long id;
+    private long cityId;
 
     @NotNull
-    private String cityName;
+    private long countyId;
 
     @NotNull
-    private String countyName;
+    private long userId;
+
+    @NotNull
+    private long branchId;
 
     @NotBlank
     private String content;

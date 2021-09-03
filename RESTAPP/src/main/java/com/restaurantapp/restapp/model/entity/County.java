@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Builder
 @Entity
@@ -24,4 +25,5 @@ public class County {
 
     @ManyToOne
     private City city;
+
 }

@@ -1,6 +1,6 @@
 //package com.restaurantapp.restapp.auth;
 //
-//import com.restaurantapp.restapp.model.entity.enumerated.Roles;
+//import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 //import com.restaurantapp.restapp.service.impl.UserServiceImpl;
 //import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 //import org.springframework.security.core.GrantedAuthority;
@@ -54,9 +54,9 @@
 //
 //            if (tokenManager.tokenValidate(token)) {
 //
-//                List<Roles> rolesList = userService.getUserByName(tokenManager.getUserNameFromToken(token)).getRolesList();
+//                List<UserRoles> userRolesList = userService.getUserByName(tokenManager.getUserNameFromToken(token)).getUserRolesList();
 //                Collection<GrantedAuthority> authorities = new ArrayList<>();
-//                rolesList.forEach(iter -> {
+//                userRolesList.forEach(iter -> {
 //                    authorities.add(new SimpleGrantedAuthority(iter.toString()));
 //                });
 //                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

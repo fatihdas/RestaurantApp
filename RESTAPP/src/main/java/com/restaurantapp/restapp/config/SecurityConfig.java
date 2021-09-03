@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/branch").hasAnyAuthority("SELLER");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/branch").hasAnyAuthority("BUYER");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/branch/branches/{countyName}").hasAnyAuthority("BUYER");
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/branch/status/{value}").hasAnyAuthority("ADMIN");
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/branch/branchStatus/{value}").hasAnyAuthority("ADMIN");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/branch/menu").hasAnyAuthority("ADMIN");
 
         http.authorizeRequests().anyRequest().authenticated(); // Obligation of authentication of all endpoints

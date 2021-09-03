@@ -23,4 +23,7 @@ public class City {
     @Column(name = "name")
     private String name;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "city")
+    private List<County> countyList;
+
 }

@@ -1,11 +1,11 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.dto.AddressDto;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -27,8 +27,7 @@ public class CreateUserRequest {
     @NotBlank
     private String email;
 
-    @NotNull
-    private Roles roles;
+    private List<UserRoles> roles = Arrays.asList(UserRoles.BUYER);
 
     @NotNull
     private CreateAddressRequest createAddressRequest;

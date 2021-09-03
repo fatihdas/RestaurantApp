@@ -19,13 +19,17 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column
-    private String cityName;
-
-    @Column
-    private String countyName;
+    @ManyToOne
+    @JoinColumn
+    private County county;
 
     @Column(name = "content", nullable = false)
     private String content;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    @OneToOne
+    private Branch branch;
 
 }

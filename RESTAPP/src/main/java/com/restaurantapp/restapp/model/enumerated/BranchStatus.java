@@ -1,6 +1,6 @@
 package com.restaurantapp.restapp.model.enumerated;
 
-public enum Status {
+public enum BranchStatus {
     WAITING,
     APPROVED,
     REJECTED

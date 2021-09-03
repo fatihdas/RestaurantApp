@@ -9,10 +9,10 @@ import javax.persistence.*;
 
 @Builder
 @Entity
-@Table(name = "meals")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Table(name = "meals")
 public class Meal {
 
     @Id
@@ -25,4 +25,10 @@ public class Meal {
     @Column(name = "price")
     private float price;
 
+    @ManyToOne
+    private Menu menu;
+
 }
+
+
+

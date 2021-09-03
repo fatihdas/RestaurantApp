@@ -3,7 +3,6 @@ package com.restaurantapp.restapp.service.impl;
 import com.restaurantapp.restapp.exception.MealNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateMealRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.MealEntityToDtoConverter;
-import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.Branch;
@@ -28,16 +27,19 @@ public class MealServiceImpl implements MealService {
     private final CreateMealRequestConverter createMealRequestConverter;
     private final TokenServiceImpl tokenService;
 
+    private final MenuServiceImpl menuService;
+
     public MealServiceImpl(MealRepository mealRepository,
                            BranchServiceImpl branchService,
                            MealEntityToDtoConverter mealEntityToDtoConverter,
                            CreateMealRequestConverter createMealRequestConverter,
-                           TokenServiceImpl tokenService) {
+                           TokenServiceImpl tokenService, MenuServiceImpl menuService) {
         this.mealRepository = mealRepository;
         this.branchService = branchService;
         this.mealEntityToDtoConverter = mealEntityToDtoConverter;
         this.createMealRequestConverter = createMealRequestConverter;
         this.tokenService = tokenService;
+        this.menuService = menuService;
     }
 
     public MealDto createMeal(CreateMealRequest request, HttpServletRequest httpServletRequest) throws Exception {
@@ -63,7 +65,11 @@ public class MealServiceImpl implements MealService {
     @Override
     public List<MealDto> getMealByBranchId(long branchId) {
 
-        return branchService.getBranchDto(branchId).getMenuDto().getMealDtoList();
+        long menuId = branchService.getBranchDto(branchId).getMenuId();
+        Menu menu = menuService.getMenu(menuId);
+        List<MealDto> mealDtos = menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
+                .collect(Collectors.toList());
+        return mealDtos;
     }
 
     public String updateMeal(UpdateMealRequest request, long id) {

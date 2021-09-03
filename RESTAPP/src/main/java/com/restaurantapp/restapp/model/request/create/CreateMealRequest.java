@@ -23,4 +23,7 @@ public class CreateMealRequest {
     @Min(0)
     private float price;
 
+    @NotNull
+    private long menuId;
+
 }

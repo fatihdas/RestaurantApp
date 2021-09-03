@@ -1,8 +1,8 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.CountyNotFoundException;
-import com.restaurantapp.restapp.model.dto.CountyDto;
 import com.restaurantapp.restapp.model.converter.entity.todto.CountyEntityToDtoConverter;
+import com.restaurantapp.restapp.model.dto.CountyDto;
 import com.restaurantapp.restapp.model.entity.County;
 import com.restaurantapp.restapp.repository.CountyRepository;
 import com.restaurantapp.restapp.service.CountyService;
@@ -27,10 +27,15 @@ public class CountyServiceImpl implements CountyService {
         return countyRepository.findAll().stream().map(countyEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
-    public CountyDto getCounty(long id) {
+    public CountyDto getCountyDto(long id) {
 
         return countyEntityToDtoConverter.convert(countyRepository.findById(id)
                 .orElseThrow(() -> new CountyNotFoundException(id)));
+    }
+
+    @Override
+    public County getCounty(long id) {
+        return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
     }
 
     public void deleteCounty(long id) {

@@ -1,12 +1,11 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
-import com.restaurantapp.restapp.exception.UserNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateRestaurantRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.RestaurantEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.RestaurantDto;
 import com.restaurantapp.restapp.model.entity.Restaurant;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import com.restaurantapp.restapp.model.request.create.CreateRestaurantRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
 import com.restaurantapp.restapp.repository.RestaurantRepository;
@@ -35,11 +34,11 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantDto createRestaurant(CreateRestaurantRequest request) throws Exception {
 
-        if(!(userService.getUser(request.getUserId()).getRolesList().contains(Roles.SELLER))) {
+        if (!(userService.hasRole(UserRoles.SELLER, request.getUserId()))) {
             throw new Exception("Role is not valid!");
         }
-        return restaurantEntityToDtoConverter.convert(restaurantRepository.save(createRestaurantRequestConverter
-                .convert(request)));
+        Restaurant createRequest = createRestaurantRequestConverter.convert(request);
+        return restaurantEntityToDtoConverter.convert(restaurantRepository.save(createRequest));
 
     }
 
@@ -49,10 +48,15 @@ public class RestaurantServiceImpl implements RestaurantService {
                 .collect(Collectors.toList());
     }
 
-    public RestaurantDto getRestaurant(long id) {
+    public RestaurantDto getRestaurantDto(long id) {
 
         return restaurantEntityToDtoConverter.convert(restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException(id)));
+    }
+
+    @Override
+    public Restaurant getRestaurant(long id) {
+        return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
     }
 
 //    public List<RestaurantDto> getRestaurantsByCounty(CountyDto countyDto) {

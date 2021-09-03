@@ -19,6 +19,7 @@ public class CreateMenuRequest {
     @NotBlank
     private String name;
 
-    private List<CreateMealRequest> createMealRequestList;
+    @NotNull
+    private long branchId;
 
 }

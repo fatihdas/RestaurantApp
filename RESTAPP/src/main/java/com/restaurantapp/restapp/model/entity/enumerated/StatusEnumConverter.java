@@ -6,13 +6,13 @@ import javax.persistence.AttributeConverter;
 import java.util.Locale;
 
 @Component
-public class StatusEnumConverter implements AttributeConverter<String, Status> {
+public class StatusEnumConverter implements AttributeConverter<String, BranchStatus> {
 
     @Override
-    public Status convertToDatabaseColumn(String s) {
+    public BranchStatus convertToDatabaseColumn(String s) {
 
         try {
-            return Status.valueOf(s.toUpperCase(Locale.ENGLISH));
+            return BranchStatus.valueOf(s.toUpperCase(Locale.ENGLISH));
 
         } catch (IllegalArgumentException e) {
             return null;
@@ -20,11 +20,11 @@ public class StatusEnumConverter implements AttributeConverter<String, Status> {
     }
 
     @Override
-    public String convertToEntityAttribute(Status status) {
+    public String convertToEntityAttribute(BranchStatus branchStatus) {
 
-        if (status == Status.APPROVED) return "APPROVED";
-        if (status == Status.REJECTED) return "REJECTED";
-        if (status == Status.WAITING) return "WAITING";
+        if (branchStatus == BranchStatus.APPROVED) return "APPROVED";
+        if (branchStatus == BranchStatus.REJECTED) return "REJECTED";
+        if (branchStatus == BranchStatus.WAITING) return "WAITING";
 
         else
         return null;

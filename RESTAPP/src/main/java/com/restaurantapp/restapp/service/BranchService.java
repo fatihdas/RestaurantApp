@@ -20,7 +20,7 @@ public interface BranchService {
 
     BranchDto getBranchDto(long id);
 
-    List<BranchDto> getNearBranches(String countyName);
+    List<BranchDto> getNearBranches(long countyId);
 
     String updateBranch(UpdateBranchRequest request, long id);
 

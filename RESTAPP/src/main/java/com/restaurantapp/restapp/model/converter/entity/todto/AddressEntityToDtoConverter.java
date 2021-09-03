@@ -7,14 +7,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AddressEntityToDtoConverter {
 
-
     public AddressDto convert(Address address) {
+        AddressDto addressDto = new AddressDto();
+        addressDto.setId(address.getId());
+        addressDto.setContent(addressDto.getContent());
+        addressDto.setBranchId(address.getBranch().getId());
+        addressDto.setCountyId(address.getCounty().getId());
+        addressDto.setCountyName(address.getCounty().getName());
+        addressDto.setUserId(address.getUser().getId());
 
-        return AddressDto.builder()
-                .id(address.getId())
-                .cityName(address.getCityName())
-                .countyName(address.getCountyName())
-                .content(address.getContent())
-                .build();
+        return addressDto;
     }
 }

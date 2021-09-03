@@ -1,11 +1,6 @@
 package com.restaurantapp.restapp.model.request.update;
 
-import com.restaurantapp.restapp.model.dto.AddressDto;
-import com.restaurantapp.restapp.model.dto.CommentDto;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter

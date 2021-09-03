@@ -1,9 +1,11 @@
 package com.restaurantapp.restapp.model.converter.entity.todto;
 
+import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.dto.MenuDto;
 import com.restaurantapp.restapp.model.entity.Menu;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -16,12 +18,12 @@ public class MenuEntityToDtoConverter {
     }
 
     public MenuDto convert(Menu menu) {
-
-        return MenuDto.builder()
-                .id(menu.getId())
-                .name(menu.getName())
-                .mealDtoList(menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
-                        .collect(Collectors.toList()))
-                .build();
+        MenuDto menuDto = new MenuDto();
+        menuDto.setId(menu.getId());
+        menuDto.setName(menu.getName());
+        List<MealDto> mealDtos = menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
+                .collect(Collectors.toList());
+        menuDto.setMealDtoList(mealDtos);
+        return menuDto;
     }
 }

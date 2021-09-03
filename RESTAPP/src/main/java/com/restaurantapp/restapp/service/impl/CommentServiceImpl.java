@@ -4,7 +4,6 @@ import com.restaurantapp.restapp.exception.CommentNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateCommentRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.CommentEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.CommentDto;
-import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Comment;
 import com.restaurantapp.restapp.model.request.create.CreateCommentRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateCommentRequest;
@@ -13,6 +12,7 @@ import com.restaurantapp.restapp.service.CommentService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -32,16 +32,15 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentDto createComment(CreateCommentRequest request) {
 
-//        Branch branch = branchService.getBranchByid(request.getBranchId());
-//        List<Comment> commentList = branch.getCommentList();
-//        commentList.add(createCommentRequestConverter.convert(request));
-//        branch.setCommentList(commentList);
-        return commentEntityToDtoConverter.convert(commentRepository.save(createCommentRequestConverter.convert(request)));
+        Comment comment = commentRepository.save(createCommentRequestConverter.convert(request));
+        return commentEntityToDtoConverter.convert(comment);
     }
 
     public List<CommentDto> getAllComments(long branchId) {
 
-        return branchService.getBranchDto(branchId).getCommentDtos();
+        List<Comment> commentList = commentRepository.findAllByBranchId(branchId);
+        return commentList.stream().map(commentEntityToDtoConverter::convert)
+                .collect(Collectors.toList());
     }
 
     public CommentDto getComment(long id) {

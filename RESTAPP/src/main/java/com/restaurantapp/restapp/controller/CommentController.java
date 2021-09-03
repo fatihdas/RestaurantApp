@@ -19,12 +19,12 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("createComment")
+    @PostMapping
     public ResponseEntity<CommentDto> createComment(CreateCommentRequest request) {
         return new ResponseEntity<>(commentService.createComment(request), HttpStatus.OK);
     }
 
-    @GetMapping("getAllBranchComment/{branchId}")
+    @GetMapping("/{branchId}")
     public ResponseEntity<List<CommentDto>> getAllCommentByBranchId(@PathVariable long branchId) {
         return new ResponseEntity<>(commentService.getAllComments(branchId), HttpStatus.OK);
     }

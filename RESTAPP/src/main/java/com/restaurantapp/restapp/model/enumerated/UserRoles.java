@@ -1,6 +1,6 @@
 package com.restaurantapp.restapp.model.enumerated;
 
-public enum Roles {
+public enum UserRoles {
     ADMIN,
     BUYER,
     SELLER

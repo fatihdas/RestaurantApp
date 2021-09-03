@@ -19,8 +19,8 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @GetMapping("getMenu/{branchId}")
+    @GetMapping("/{branchId}")
     public ResponseEntity<MenuDto> getMenuByBranchId(@PathVariable long branchId) {
-        return new ResponseEntity<>(menuService.getMenu(branchId), HttpStatus.OK);
+        return new ResponseEntity<>(menuService.getMenuDto(branchId), HttpStatus.OK);
     }
 }

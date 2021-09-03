@@ -18,4 +18,5 @@ public class CountyDto implements Serializable {
 
     private String name;
 
+    private long cityId;
 }

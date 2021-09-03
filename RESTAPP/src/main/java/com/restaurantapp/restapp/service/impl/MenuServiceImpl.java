@@ -34,9 +34,15 @@ public class MenuServiceImpl implements MenuService {
         return menuEntityToDtoConverter.convert(menuRepository.save(createMenuRequestConverter.convert(request)));
     }
 
-    public MenuDto getMenu(long branchId) {
+    public MenuDto getMenuDto(long branchId) {
 
-        return branchService.getBranchDto(branchId).getMenuDto();
+//        return branchService.getBranchDto(branchId).getMenuDto();
+        return null;
+    }
+
+    @Override
+    public Menu getMenu(long id) {
+        return menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException(id));
     }
 
     public String updateMenu(UpdateMenuRequest request, long id) {

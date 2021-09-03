@@ -1,6 +1,6 @@
 package com.restaurantapp.restapp.model.entity;
 
-import com.restaurantapp.restapp.model.entity.enumerated.Status;
+import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,18 +25,20 @@ public class Branch {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('WAITING','REJECTED','APPROVED')")
-    private Status status;
+    private BranchStatus branchStatus;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "branch")
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL, mappedBy = "branch")
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "branch")
     private List<Comment> commentList;
+
+    @ManyToOne
+    private Restaurant restaurant;
 
 }

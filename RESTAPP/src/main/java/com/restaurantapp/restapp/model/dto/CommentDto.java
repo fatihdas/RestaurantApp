@@ -17,7 +17,7 @@ public class CommentDto implements Serializable {
 
     private long id;
 
-    private UserDto userDto;
+    private long userId;
 
     private String content;
 
@@ -27,7 +27,5 @@ public class CommentDto implements Serializable {
 
     private Date date;
 
-    private BranchDto branchDto;
-
-
+    private long branchId;
 }

@@ -23,6 +23,9 @@ public class Menu {
     @Column
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "menu")
     private List<Meal> mealList;
+
+    @OneToOne
+    private Branch branch;
 }

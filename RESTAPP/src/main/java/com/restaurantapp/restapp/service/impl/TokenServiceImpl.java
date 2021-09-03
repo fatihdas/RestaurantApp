@@ -6,10 +6,10 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.restaurantapp.restapp.model.dto.BranchDto;
 import com.restaurantapp.restapp.model.dto.UserDto;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import com.restaurantapp.restapp.service.TokenService;
+import io.jsonwebtoken.Claims;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,17 +31,55 @@ public class TokenServiceImpl implements TokenService {
 
     private final BranchServiceImpl branchService;
 
+    private final HttpServletRequest httpServletRequest;
 
-    public TokenServiceImpl(UserServiceImpl userService, BranchServiceImpl branchService
-    ) {
+
+    public TokenServiceImpl(UserServiceImpl userService, BranchServiceImpl branchService,
+                            HttpServletRequest httpServletRequest) {
         this.userService = userService;
         this.branchService = branchService;
+        this.httpServletRequest = httpServletRequest;
     }
 
     @Override
     public UserDto getUserByToken(HttpServletRequest httpServletRequest) throws Exception {
+        String token = httpServletRequest.getHeader("Authorization");
 
         return null;
+    }
+
+    @Override
+    public String getTokenFromHeader(HttpServletRequest httpServletRequest) throws Exception {
+        String header = httpServletRequest.getHeader("Authorization");
+        String token = null;
+
+        if (header != null && header.startsWith("Bearer")) {
+            token = header.substring(7);
+        }
+
+        if (isExpired(token)) {
+            throw new Exception("expired jwt token!");
+        }
+        return token;
+    }
+
+    @Override
+    public boolean isExpired(String token) {
+        return false;
+    }
+
+    @Override
+    public Claims getClaims(String token) {
+        return null;
+    }
+
+    @Override
+    public boolean tokenValidate(String token) {
+        if (getTokenFromHeader(token) != null && isExpired(token)) {
+
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -64,7 +102,7 @@ public class TokenServiceImpl implements TokenService {
                         .withSubject(user.getName())
                         .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
                         .withIssuer(request.getRequestURL().toString())
-                        .withClaim("roles", user.getRolesList().stream().map(Roles::name)
+                        .withClaim("userRoles", user.getUserRolesList().stream().map(UserRoles::name)
                                 .collect(Collectors.toList()))
                         .sign(algorithm);
 

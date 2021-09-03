@@ -1,16 +1,12 @@
 package com.restaurantapp.restapp.service.impl;
 
 import com.restaurantapp.restapp.exception.UserNotFoundException;
-import com.restaurantapp.restapp.model.converter.create.request.CreateAddressRequestConverter;
 import com.restaurantapp.restapp.model.converter.create.request.CreateUserRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.UserEntityToDtoConverter;
-import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.dto.UserDto;
-import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.User;
-import com.restaurantapp.restapp.model.entity.enumerated.Roles;
 import com.restaurantapp.restapp.model.entity.enumerated.RolesEnumConverter;
-import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import com.restaurantapp.restapp.model.request.create.CreateUserRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateUserRequest;
 import com.restaurantapp.restapp.repository.UserRepository;
@@ -31,23 +27,19 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
-    private final AddressServiceImpl addressService;
     private final UserEntityToDtoConverter userEntityToDtoConverter;
     private final CreateUserRequestConverter createUserRequestConverter;
-    private final CreateAddressRequestConverter createAddressRequestConverter;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final RolesEnumConverter rolesEnumConverter;
 
-    public UserServiceImpl(UserRepository userRepository, AddressServiceImpl addressService,
+    public UserServiceImpl(UserRepository userRepository,
                            UserEntityToDtoConverter userEntityToDtoConverter,
                            CreateUserRequestConverter createUserRequestConverter,
-                           CreateAddressRequestConverter createAddressRequestConverter,
-                           BCryptPasswordEncoder bCryptPasswordEncoder, RolesEnumConverter rolesEnumConverter) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           RolesEnumConverter rolesEnumConverter) {
         this.userRepository = userRepository;
-        this.addressService = addressService;
         this.userEntityToDtoConverter = userEntityToDtoConverter;
         this.createUserRequestConverter = createUserRequestConverter;
-        this.createAddressRequestConverter = createAddressRequestConverter;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.rolesEnumConverter = rolesEnumConverter;
     }
@@ -72,7 +64,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDto createUser(CreateUserRequest request) {
 
         request.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
-        return userEntityToDtoConverter.convert(userRepository.save(createUserRequestConverter.convert(request)));
+        User user = userRepository.save(createUserRequestConverter.convert(request));
+        return userEntityToDtoConverter.convert(user);
     }
 
     @Override
@@ -81,9 +74,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (user.getRoles().contains(rolesEnumConverter.convertToDatabaseColumn(role))) {
             throw new IllegalArgumentException("the role already exists:" + role);
         }
-        List<Roles> rolesList = user.getRoles();
-        rolesList.add(rolesEnumConverter.convertToDatabaseColumn(role));
-        user.setRoles(rolesList);
+        List<UserRoles> userRolesList = user.getRoles();
+        userRolesList.add(rolesEnumConverter.convertToDatabaseColumn(role));
+        user.setRoles(userRolesList);
         return userEntityToDtoConverter.convert(user);
     }
 
@@ -123,21 +116,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userRepository.deleteById(id);
     }
 
-    public UserDto addAddress(CreateAddressRequest request, long userId) {
+    @Override
+    public boolean hasRole(UserRoles userRoles, long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
-        addressService.createAddress(request);
-        List<Address> addressList = user.getAddressList();
-        addressList.add(createAddressRequestConverter.convert(request));
-        user.setAddressList(addressList);
-        return userEntityToDtoConverter.convert(userRepository.save(user));
+        if (user.getRoles().contains(userRoles)) {
+            return true;
+        }
+        return false;
     }
-
-
-    public List<AddressDto> getUserAdresses(long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
-
-        return userEntityToDtoConverter.convert(user).getAddressDtoList();
-    }
-
 
 }

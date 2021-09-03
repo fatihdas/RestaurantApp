@@ -4,21 +4,22 @@ import lombok.*;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ToString
-@EqualsAndHashCode
+@Data
 public class AddressDto implements Serializable {
 
     private long id;
 
-    private String cityName;
-
     private String countyName;
 
-    private String content;
+    private long countyId;
 
+    private long userId;
+
+    private long branchId;
+
+    private String content;
 }
