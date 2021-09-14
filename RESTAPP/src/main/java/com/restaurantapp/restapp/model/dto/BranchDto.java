@@ -25,4 +25,6 @@ public class BranchDto implements Serializable {
 
     private long addressId;
 
+    private long restaurantId;
+
 }

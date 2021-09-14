@@ -1,0 +1,25 @@
+-- insert into users VALUES (1,'test@mail.com','testname','testpass');
+-- insert into USERS values ( 2,'testmail2@gmail.com','testname2','testpass2' );
+--
+-- insert into restaurants VALUES (1,'Hatay Medeniyetler Sofrası',1);
+-- insert into restaurants VALUES (2,'Baruthane pilavcısı',2);
+--
+-- insert into branches VALUES (1,'WAITING','etiler şube',1);
+-- insert into branches VALUES (2,'REJECTED','ankara şube',2);
+--
+-- insert into menus VALUES (1,'Menu1',1);
+-- insert into menus VALUES (2,'Menu2',1);
+--
+-- insert into meals VALUES (1,'patlıcan musakka + kola',35,1);
+-- insert into meals VALUES (2,'meksika soslu bonfile + ayran',35,1);
+--
+-- insert into addresses VALUES (1,'Güzelyalı',1,735,1);
+-- insert into addresses VALUES (2,'Sincan',2,806,1);
+--
+-- insert into comments VALUES (1,'bla bla bla',parsedatetime('17-09-2012 18:47:52.69', 'dd-MM-yyyy hh:mm:ss.SS'),8,9,1,1);
+-- insert into comments VALUES (2,'bla bla bla',parsedatetime('11-01-2016 05:30:22.21', 'dd-MM-yyyy hh:mm:ss.SS'),2,6,1,2);
+--
+-- insert into USER_ROLE values ( 1,'BUYER' );
+-- insert into USER_ROLE values ( 1,'ADMIN' );
+
+

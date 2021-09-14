@@ -13,5 +13,4 @@ public interface CountyService {
 
     County getCounty(long id);
 
-    void deleteCounty(long id);
 }

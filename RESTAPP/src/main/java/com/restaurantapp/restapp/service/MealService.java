@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface MealService {
 
-    MealDto createMeal(CreateMealRequest request, HttpServletRequest httpServletRequest) throws Exception;
+    MealDto createMeal(CreateMealRequest request) throws Exception;
 
     List<MealDto> getAllMeals();
 
@@ -21,5 +21,4 @@ public interface MealService {
 
     void deleteMeal(long id);
 
-    MealDto createMeal(CreateMealRequest request, long branchId);
 }

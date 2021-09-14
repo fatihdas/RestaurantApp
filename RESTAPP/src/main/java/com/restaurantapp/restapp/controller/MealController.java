@@ -20,9 +20,9 @@ public class MealController {
         this.mealService = mealService;
     }
 
-    @PostMapping("/{branchId}")
-    public ResponseEntity<MealDto> createMeal(@RequestBody CreateMealRequest request, @PathVariable long branchId) {
-        return new ResponseEntity<>(mealService.createMeal(request, branchId), HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<MealDto> createMeal(@RequestBody CreateMealRequest request) {
+        return new ResponseEntity<>(mealService.createMeal(request), HttpStatus.OK);
     }
 
     @GetMapping("/{branchId}")

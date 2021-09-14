@@ -1,11 +1,9 @@
 package com.restaurantapp.restapp.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Builder
@@ -13,8 +11,9 @@ import java.util.List;
 @Table(name = "cities")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class City {
+@Getter
+@Setter
+public class City implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

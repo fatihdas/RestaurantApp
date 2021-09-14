@@ -10,11 +10,16 @@ public class AddressEntityToDtoConverter {
     public AddressDto convert(Address address) {
         AddressDto addressDto = new AddressDto();
         addressDto.setId(address.getId());
-        addressDto.setContent(addressDto.getContent());
-        addressDto.setBranchId(address.getBranch().getId());
+        addressDto.setContent(address.getContent());
         addressDto.setCountyId(address.getCounty().getId());
         addressDto.setCountyName(address.getCounty().getName());
-        addressDto.setUserId(address.getUser().getId());
+        if (address.getBranch() == null) {
+            addressDto.setUserId(address.getUser().getId());
+        } else {
+            addressDto.setBranchId(address.getBranch().getId());
+
+        }
+
 
         return addressDto;
     }

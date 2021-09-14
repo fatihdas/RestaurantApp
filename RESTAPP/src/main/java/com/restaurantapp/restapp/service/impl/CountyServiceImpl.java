@@ -24,13 +24,14 @@ public class CountyServiceImpl implements CountyService {
 
     public List<CountyDto> getAllCounties() {
 
-        return countyRepository.findAll().stream().map(countyEntityToDtoConverter::convert).collect(Collectors.toList());
+        List<County> countyList = countyRepository.findAll();
+        return countyList.stream().map(countyEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
     public CountyDto getCountyDto(long id) {
 
-        return countyEntityToDtoConverter.convert(countyRepository.findById(id)
-                .orElseThrow(() -> new CountyNotFoundException(id)));
+        County county = countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
+        return countyEntityToDtoConverter.convert(county);
     }
 
     @Override
@@ -38,8 +39,4 @@ public class CountyServiceImpl implements CountyService {
         return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
     }
 
-    public void deleteCounty(long id) {
-
-        countyRepository.deleteById(id);
-    }
 }

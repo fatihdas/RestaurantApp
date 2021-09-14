@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.model.entity.enumerated;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.AttributeConverter;
@@ -8,6 +9,7 @@ import java.util.Locale;
 @Component
 public class StatusEnumConverter implements AttributeConverter<String, BranchStatus> {
 
+    @SneakyThrows
     @Override
     public BranchStatus convertToDatabaseColumn(String s) {
 
@@ -15,7 +17,7 @@ public class StatusEnumConverter implements AttributeConverter<String, BranchSta
             return BranchStatus.valueOf(s.toUpperCase(Locale.ENGLISH));
 
         } catch (IllegalArgumentException e) {
-            return null;
+            throw new Exception(e);
         }
     }
 
@@ -26,7 +28,8 @@ public class StatusEnumConverter implements AttributeConverter<String, BranchSta
         if (branchStatus == BranchStatus.REJECTED) return "REJECTED";
         if (branchStatus == BranchStatus.WAITING) return "WAITING";
 
-        else
-        return null;
+        else {
+            return null;
+        }
     }
 }

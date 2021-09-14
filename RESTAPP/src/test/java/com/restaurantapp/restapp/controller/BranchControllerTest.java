@@ -1,173 +1,89 @@
-//package com.restaurantapp.restapp.controller;
-//
-//import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.restaurantapp.restapp.model.dto.BranchDto;
-//import com.restaurantapp.restapp.model.dto.MenuDto;
-//import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
-//import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
-//import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
-//import org.assertj.core.api.Assertions;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.mock.web.MockHttpServletResponse;
-//import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.test.web.servlet.MvcResult;
-//import org.springframework.test.web.servlet.RequestBuilder;
-//import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-//
-//import java.nio.charset.StandardCharsets;
-//import java.util.ArrayList;
-//import java.util.List;
-//
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@WebMvcTest(BranchController.class)
-//public class BranchControllerTest {
-//
-//    @Autowired
-//    MockMvc mockMvc;
-//
-//    @MockBean
-//    BranchServiceImpl branchServiceImpl;
-//
-//    private String mapToJson(Object object) throws JsonProcessingException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        return objectMapper.writeValueAsString(object);
-//    }
-//
-//    @Test
-//    public void add() throws Exception {
-//        BranchDto branch = this.generateBranch();
-//
-//        String URI = "/branch";
-//        String inputJson = this.mapToJson(branch);
-//
-//        Mockito.when(branchServiceImpl.createBranch(Mockito.any(CreateBranchRequest.class))).thenReturn(branch);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post(URI)
-//                .accept(MediaType.APPLICATION_JSON).content(inputJson)
-//                .contentType(MediaType.APPLICATION_JSON_VALUE);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-//
-//        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-//    }
-//
-//    @Test
-//    public void getAll() throws Exception {
-//
-//        List<BranchDto> branchList = new ArrayList<>();
-//        branchList.add(this.generateBranch());
-//
-//        String URI = "/branch";
-//        String inputJson = this.mapToJson(branchList);
-//
-//        Mockito.when(branchServiceImpl.getAllBranches()).thenReturn(branchList);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .get(URI)
-//                .accept(MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-//
-//        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-//    }
-//
-//    @Test
-//    public void getById() throws Exception {
-//
-//        BranchDto branch = this.generateBranch();
-//
-//        String URI = "/branch/13";
-//        String inputJson = this.mapToJson(branch);
-//
-//        Mockito.when(branchServiceImpl.getBranchDto(Mockito.anyLong())).thenReturn(branch);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .get(URI)
-//                .accept(MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-//
-//        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-//    }
-//
-//    @Test
-//    public void getAllBtWaiting() throws Exception {
-//
-//        List<BranchDto> branchList = new ArrayList<>();
-//        branchList.add(this.generateBranch());
-//
-//        String URI = "/branch/waiting";
-//        String inputJson = this.mapToJson(branchList);
-//
-//        Mockito.when(branchServiceImpl.getWaitingBranches("waiting")).thenReturn(branchList);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .get(URI)
-//                .accept(MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-//
-//        Assertions.assertThat(inputJson).isEqualTo(outputJson);
-//    }
-//
-//    @Test
-//    public void update() throws Exception {
-//
-//        BranchDto branch = this.generateBranch();
-//        String message = "Success branch has been updated! id:" + branch.getId();
-//
-//        String URI = "/branch/5";
-//        String inputJson = this.mapToJson(branch);
-//
-//        Mockito.when(branchServiceImpl.updateBranch(Mockito.any(UpdateBranchRequest.class)
-//                ,Mockito.anyLong())).thenReturn(message);
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .put(URI)
-//                .accept(MediaType.APPLICATION_JSON).content(inputJson)
-//                .contentType(MediaType.APPLICATION_JSON_VALUE);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//
-//        String outputJson = response.getContentAsString(StandardCharsets.UTF_8);
-//
-//        Assertions.assertThat(message).isEqualTo(outputJson);
-//    }
-//
-//    @Test
-//    public void delete() throws Exception {
-//
-//        branchServiceImpl.deleteBranch(Mockito.anyLong());
-//
-//        Mockito.verify(branchServiceImpl).deleteBranch(Mockito.anyLong());
-//    }
-//
-//    private BranchDto generateBranch() {
-//        return BranchDto.builder()
-//                .name("etilerşubesi")
-//                .menuDto(MenuDto.builder().build())
-//                .build();
-//    }
-//}
+package com.restaurantapp.restapp.controller;
+
+import com.restaurantapp.restapp.model.dto.BranchDto;
+import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
+import com.restaurantapp.restapp.model.request.get.BranchPageGetRequest;
+import com.restaurantapp.restapp.service.impl.BranchServiceImpl;
+import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.List;
+
+@RunWith(MockitoJUnitRunner.class)
+public class BranchControllerTest {
+
+    private static final long RESTAURANT_ID = 12L;
+    private static final String NAME = "etiler";
+    private static final int PAGE_SIZE = 12;
+    private static final int PAGE_NO = 1;
+    private static final String SORT_BY = "id";
+    private static final long COUNTY_ID = 736l;
+    private static final String STATUS = "waiting";
+    @Mock
+    private BranchServiceImpl branchService;
+
+    @InjectMocks
+    private BranchController branchController;
+
+    @Test
+    public void whenCreateBranchCalledByCreateBranchRequest_thenReturnSavedBranch() {
+        CreateBranchRequest request = CreateBranchRequest.builder()
+                .restaurantId(RESTAURANT_ID)
+                .name(NAME)
+                .build();
+        BranchDto branchDto = this.generateBranch();
+        Mockito.when(branchService.createBranch(request)).thenReturn(branchDto);
+        ResponseEntity<BranchDto> responseEntity = branchController.createBranch(request);
+        Assertions.assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        Assertions.assertEquals(RESTAURANT_ID, responseEntity.getBody().getRestaurantId());
+        Assertions.assertEquals(NAME, responseEntity.getBody().getName());
+    }
+
+    @Test
+    public void whenGetNearBranchesCalledByBranchPageGetRequest_thenReturnBranchDtoList() {
+        BranchPageGetRequest request = BranchPageGetRequest.builder()
+                .pageSize(PAGE_SIZE)
+                .pageNo(PAGE_NO)
+                .sortBy(SORT_BY)
+                .countyId(COUNTY_ID)
+                .build();
+        BranchDto branchDto = this.generateBranch();
+        List<BranchDto> branchDtoList = Arrays.asList(branchDto);
+        Mockito.when(branchService.getBranchesByCounty(request)).thenReturn(branchDtoList);
+        ResponseEntity<List<BranchDto>> responseEntity = branchController.getNearBranches(request);
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertEquals(NAME, responseEntity.getBody().get(0).getName());
+    }
+
+    @Test
+    public void whenGetByStatusCalledByStatusValue_thenReturnBranchDtoList() {
+        List<BranchDto> branchDtoList = Arrays.asList(this.generateBranch());
+        Mockito.when(branchService.getBranchesByStatus(STATUS)).thenReturn(branchDtoList);
+        ResponseEntity<List<BranchDto>> responseEntity = branchController.getByStatus(STATUS);
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        Assertions.assertEquals(NAME, responseEntity.getBody().get(0).getName());
+    }
+
+    @Test
+    public void whenUpdateStatusCalledByBranchIdAndStatus_thenReturnUpdatedBranch() {
+        BranchDto branchDto = this.generateBranch();
+        Mockito.when(branchService.changeBranchStatus(1L, "approved")).thenReturn(branchDto);
+        ResponseEntity<BranchDto> responseEntity = branchController.updateStatus(1L,"approved");
+        Assertions.assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    private BranchDto generateBranch() {
+        return BranchDto.builder()
+                .name(NAME)
+                .restaurantId(RESTAURANT_ID)
+                .build();
+    }
+}

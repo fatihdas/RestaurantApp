@@ -1,13 +1,11 @@
 package com.restaurantapp.restapp.controller;
 
 import com.restaurantapp.restapp.model.dto.MenuDto;
+import com.restaurantapp.restapp.model.request.create.CreateMenuRequest;
 import com.restaurantapp.restapp.service.impl.MenuServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("menu")
@@ -17,6 +15,11 @@ public class MenuController {
 
     public MenuController(MenuServiceImpl menuService) {
         this.menuService = menuService;
+    }
+
+    @PostMapping
+    public ResponseEntity<MenuDto> createMenu(@RequestBody CreateMenuRequest request){
+        return new ResponseEntity<>(menuService.createMenu(request),HttpStatus.OK);
     }
 
     @GetMapping("/{branchId}")

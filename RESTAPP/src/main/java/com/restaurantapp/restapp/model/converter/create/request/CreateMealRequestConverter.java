@@ -9,14 +9,16 @@ import org.springframework.stereotype.Component;
 public class CreateMealRequestConverter {
 
     public Meal convert(CreateMealRequest request) {
-        if (request == null) {
+        if (request == null || request.getMenuId() == 0) {
             throw new IllegalArgumentException("invalid request!");
         }
         Meal meal = new Meal();
         meal.setPrice(request.getPrice());
         meal.setName(request.getName());
         meal.setId(request.getId());
-        meal.setMenu(Menu.builder().id(request.getMenuId()).build());
+        Menu menu = new Menu();
+        menu.setId(request.getMenuId());
+        meal.setMenu(menu);
 
         return meal;
     }

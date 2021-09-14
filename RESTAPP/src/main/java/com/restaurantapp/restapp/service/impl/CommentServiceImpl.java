@@ -20,14 +20,13 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final CommentEntityToDtoConverter commentEntityToDtoConverter;
     private final CreateCommentRequestConverter createCommentRequestConverter;
-    private final BranchServiceImpl branchService;
 
-    public CommentServiceImpl(CommentRepository commentRepository, CommentEntityToDtoConverter commentEntityToDtoConverter,
-                              CreateCommentRequestConverter createCommentRequestConverter, BranchServiceImpl branchService) {
+    public CommentServiceImpl(CommentRepository commentRepository,
+                              CommentEntityToDtoConverter commentEntityToDtoConverter,
+                              CreateCommentRequestConverter createCommentRequestConverter) {
         this.commentRepository = commentRepository;
         this.commentEntityToDtoConverter = commentEntityToDtoConverter;
         this.createCommentRequestConverter = createCommentRequestConverter;
-        this.branchService = branchService;
     }
 
     public CommentDto createComment(CreateCommentRequest request) {
@@ -45,8 +44,8 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentDto getComment(long id) {
 
-        return commentEntityToDtoConverter.convert(commentRepository.findById(id)
-                .orElseThrow(() -> new CommentNotFoundException(id)));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
+        return commentEntityToDtoConverter.convert(comment);
     }
 
     public String updateComment(UpdateCommentRequest request, long id) {

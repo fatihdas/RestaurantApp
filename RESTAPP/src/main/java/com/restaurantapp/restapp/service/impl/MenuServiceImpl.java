@@ -4,12 +4,14 @@ import com.restaurantapp.restapp.exception.MenuNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateMenuRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.MenuEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.MenuDto;
+import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Menu;
 import com.restaurantapp.restapp.model.request.create.CreateMenuRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateMenuRequest;
 import com.restaurantapp.restapp.repository.MenuRepository;
 import com.restaurantapp.restapp.service.MenuService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MenuServiceImpl implements MenuService {
@@ -29,15 +31,17 @@ public class MenuServiceImpl implements MenuService {
         this.branchService = branchService;
     }
 
+    @Transactional
     public MenuDto createMenu(CreateMenuRequest request) {
 
-        return menuEntityToDtoConverter.convert(menuRepository.save(createMenuRequestConverter.convert(request)));
+        Menu menu = menuRepository.save(createMenuRequestConverter.convert(request));
+        return menuEntityToDtoConverter.convert(menu);
     }
 
     public MenuDto getMenuDto(long branchId) {
 
-//        return branchService.getBranchDto(branchId).getMenuDto();
-        return null;
+        Branch branch = branchService.getBranchByid(branchId);
+        return menuEntityToDtoConverter.convert(branch.getMenu());
     }
 
     @Override

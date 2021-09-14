@@ -13,5 +13,4 @@ public interface CityService {
 
     City getCity(long id);
 
-    void deleteCity(long id);
 }

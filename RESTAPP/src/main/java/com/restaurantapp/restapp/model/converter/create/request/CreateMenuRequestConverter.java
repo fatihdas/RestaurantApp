@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class CreateMenuRequestConverter {
 
     public Menu convert(CreateMenuRequest request) {
-        if (request == null) {
+        if (request == null || request.getBranchId() == 0) {
             throw new IllegalArgumentException("invalid request!");
         }
         Menu menu = new Menu();

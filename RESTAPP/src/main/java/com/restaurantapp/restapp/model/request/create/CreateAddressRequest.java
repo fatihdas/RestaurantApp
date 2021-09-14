@@ -13,16 +13,11 @@ import javax.validation.constraints.NotNull;
 public class CreateAddressRequest {
 
     @NotNull
-    private long cityId;
-
-    @NotNull
     private long countyId;
 
-    @NotNull
-    private long userId;
-
-    @NotNull
     private long branchId;
+
+    private long userId;
 
     @NotBlank
     private String content;

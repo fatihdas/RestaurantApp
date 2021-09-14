@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.request.create;
 
-import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -18,12 +17,6 @@ public class CreateBranchRequest {
 
     @NotBlank
     private String name;
-
-    @Builder.Default
-    private BranchStatus branchStatus = BranchStatus.WAITING;
-
-    @NotNull
-    private CreateMenuRequest createMenuRequest;
 
     @NotNull
     private CreateAddressRequest createAddressRequest;

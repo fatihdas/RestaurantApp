@@ -1,12 +1,10 @@
 package com.restaurantapp.restapp.model.entity;
 
 import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Builder
@@ -14,8 +12,9 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class User {
+@Getter
+@Setter
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +43,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Comment> commentList;
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

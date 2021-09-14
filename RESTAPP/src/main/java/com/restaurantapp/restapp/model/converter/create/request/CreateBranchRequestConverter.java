@@ -1,7 +1,9 @@
 package com.restaurantapp.restapp.model.converter.create.request;
 
+import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Restaurant;
+import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import org.springframework.stereotype.Component;
 
@@ -10,12 +12,9 @@ import java.util.ArrayList;
 @Component
 public class CreateBranchRequestConverter {
 
-    private final CreateMenuRequestConverter createMenuRequestConverter;
     private final CreateAddressRequestConverter createAddressRequestConverter;
 
-    public CreateBranchRequestConverter(CreateMenuRequestConverter createMenuRequestConverter,
-                                        CreateAddressRequestConverter createAddressRequestConverter) {
-        this.createMenuRequestConverter = createMenuRequestConverter;
+    public CreateBranchRequestConverter(CreateAddressRequestConverter createAddressRequestConverter) {
         this.createAddressRequestConverter = createAddressRequestConverter;
     }
 
@@ -25,11 +24,13 @@ public class CreateBranchRequestConverter {
         }
         Branch branch = new Branch();
         branch.setId(request.getId());
-        branch.setMenu(createMenuRequestConverter.convert(request.getCreateMenuRequest()));
         branch.setCommentList(new ArrayList<>());
-        branch.setBranchStatus(request.getBranchStatus());
+        branch.setBranchStatus(BranchStatus.WAITING);
         branch.setName(request.getName());
-        branch.setAddress(createAddressRequestConverter.convert(request.getCreateAddressRequest()));
+        request.getCreateAddressRequest().setBranchId(branch.getId());
+        Address address = createAddressRequestConverter.convert(request.getCreateAddressRequest());
+        address.setBranch(branch);
+        branch.setAddress(address);
         branch.setRestaurant(Restaurant.builder().id(request.getRestaurantId()).build());
 
         return branch;

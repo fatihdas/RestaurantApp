@@ -24,13 +24,14 @@ public class CityServiceImpl implements CityService {
 
     public List<CityDto> getAllCities() {
 
-        return cityRepository.findAll().stream().map(cityEntityToDtoConverter::convert).collect(Collectors.toList());
+        List<City> cityList = cityRepository.findAll();
+        return cityList.stream().map(cityEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
     public CityDto getCityDto(long id) {
 
-        return cityEntityToDtoConverter.convert(cityRepository.findById(id)
-                .orElseThrow(() -> new CityNotFoundException(id)));
+        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
+        return cityEntityToDtoConverter.convert(city);
     }
 
     @Override
@@ -38,8 +39,4 @@ public class CityServiceImpl implements CityService {
         return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
     }
 
-    public void deleteCity(long id) {
-
-        cityRepository.deleteById(id);
-    }
 }

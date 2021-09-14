@@ -29,8 +29,5 @@ public class CreateCommentRequest {
     private int speedPoint;
 
     @NotNull
-    private Date date;
-
-    @NotNull
     private long branchId;
 }

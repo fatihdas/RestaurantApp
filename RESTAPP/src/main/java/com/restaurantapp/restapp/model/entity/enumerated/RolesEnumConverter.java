@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.model.entity.enumerated;
 
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.AttributeConverter;
@@ -7,13 +8,14 @@ import java.util.Locale;
 
 @Component
 public class RolesEnumConverter implements AttributeConverter<String, UserRoles> {
+    @SneakyThrows
     @Override
     public UserRoles convertToDatabaseColumn(String s) {
 
         try {
             return UserRoles.valueOf(s.toUpperCase(Locale.ENGLISH));
         } catch (IllegalArgumentException exception) {
-            return null;
+            throw new Exception(exception);
         }
     }
 

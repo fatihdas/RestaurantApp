@@ -13,7 +13,11 @@ public class BranchEntityToDtoConverter {
         branchDto.setName(branch.getName());
         branchDto.setAddressId(branch.getAddress().getId());
         branchDto.setBranchStatus(branch.getBranchStatus());
-        branchDto.setMenuId(branch.getMenu().getId());
+        branchDto.setRestaurantId(branch.getRestaurant().getId());
+
+        if (branch.getMenu() != null) {
+            branchDto.setMenuId(branch.getMenu().getId());
+        }
 
         return branchDto;
     }

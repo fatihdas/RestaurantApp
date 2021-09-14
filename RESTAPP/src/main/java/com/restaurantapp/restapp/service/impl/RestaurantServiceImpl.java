@@ -1,5 +1,6 @@
 package com.restaurantapp.restapp.service.impl;
 
+import com.restaurantapp.restapp.exception.InvalidRoleException;
 import com.restaurantapp.restapp.exception.RestaurantNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateRestaurantRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.RestaurantEntityToDtoConverter;
@@ -11,6 +12,7 @@ import com.restaurantapp.restapp.model.request.update.UpdateRestaurantRequest;
 import com.restaurantapp.restapp.repository.RestaurantRepository;
 import com.restaurantapp.restapp.service.RestaurantService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,38 +34,34 @@ public class RestaurantServiceImpl implements RestaurantService {
         this.userService = userService;
     }
 
-    public RestaurantDto createRestaurant(CreateRestaurantRequest request) throws Exception {
+    @Transactional
+    public RestaurantDto createRestaurant(CreateRestaurantRequest request) {
 
-        if (!(userService.hasRole(UserRoles.SELLER, request.getUserId()))) {
-            throw new Exception("Role is not valid!");
+        if (!(userService.hasRole(UserRoles.SELLER))) {
+            throw new InvalidRoleException("Role is not valid!");
         }
-        Restaurant createRequest = createRestaurantRequestConverter.convert(request);
-        return restaurantEntityToDtoConverter.convert(restaurantRepository.save(createRequest));
+        Restaurant restaurant = createRestaurantRequestConverter.convert(request);
+        return restaurantEntityToDtoConverter.convert(restaurantRepository.save(restaurant));
 
     }
 
     public List<RestaurantDto> getAllRestaurants() {
 
-        return restaurantRepository.findAll().stream().map(restaurantEntityToDtoConverter::convert)
+        List<Restaurant> restaurantList = restaurantRepository.findAll();
+        return restaurantList.stream().map(restaurantEntityToDtoConverter::convert)
                 .collect(Collectors.toList());
     }
 
     public RestaurantDto getRestaurantDto(long id) {
 
-        return restaurantEntityToDtoConverter.convert(restaurantRepository.findById(id)
-                .orElseThrow(() -> new RestaurantNotFoundException(id)));
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
+        return restaurantEntityToDtoConverter.convert(restaurant);
     }
 
     @Override
     public Restaurant getRestaurant(long id) {
         return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
     }
-
-//    public List<RestaurantDto> getRestaurantsByCounty(CountyDto countyDto) {
-//
-//        return restaurantRepository.findAllByCounty(countyDto).stream().map(restaurantEntityToDtoConverter::convert)
-//                .collect(Collectors.toList());
-//    }
 
     public String updateRestaurant(UpdateRestaurantRequest request, long id) {
 

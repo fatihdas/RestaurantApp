@@ -1,10 +1,10 @@
 package com.restaurantapp.restapp.service.impl;
 
+import com.restaurantapp.restapp.exception.InvalidOwnerException;
 import com.restaurantapp.restapp.exception.MealNotFoundException;
 import com.restaurantapp.restapp.model.converter.create.request.CreateMealRequestConverter;
 import com.restaurantapp.restapp.model.converter.entity.todto.MealEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.MealDto;
-import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.entity.Meal;
 import com.restaurantapp.restapp.model.entity.Menu;
@@ -13,8 +13,8 @@ import com.restaurantapp.restapp.model.request.update.UpdateMealRequest;
 import com.restaurantapp.restapp.repository.MealRepository;
 import com.restaurantapp.restapp.service.MealService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,56 +25,62 @@ public class MealServiceImpl implements MealService {
     private final BranchServiceImpl branchService;
     private final MealEntityToDtoConverter mealEntityToDtoConverter;
     private final CreateMealRequestConverter createMealRequestConverter;
-    private final TokenServiceImpl tokenService;
 
     private final MenuServiceImpl menuService;
+    private final UserServiceImpl userService;
 
     public MealServiceImpl(MealRepository mealRepository,
                            BranchServiceImpl branchService,
                            MealEntityToDtoConverter mealEntityToDtoConverter,
                            CreateMealRequestConverter createMealRequestConverter,
-                           TokenServiceImpl tokenService, MenuServiceImpl menuService) {
+                           MenuServiceImpl menuService, UserServiceImpl userService) {
         this.mealRepository = mealRepository;
         this.branchService = branchService;
         this.mealEntityToDtoConverter = mealEntityToDtoConverter;
         this.createMealRequestConverter = createMealRequestConverter;
-        this.tokenService = tokenService;
         this.menuService = menuService;
+        this.userService = userService;
     }
 
-    public MealDto createMeal(CreateMealRequest request, HttpServletRequest httpServletRequest) throws Exception {
+    @Transactional
+    public MealDto createMeal(CreateMealRequest request) {
 
-        UserDto userDto = tokenService.getUserByToken(httpServletRequest);
-        if (!(tokenService.isOwnerBranch(userDto.getId(), httpServletRequest))) {
-            throw new Exception("invalid request!");
+        long ownerId = mealRepository.getOwnerIdByMenuId(request.getMenuId());
+        if (!(userService.isOwner(ownerId))) {
+            throw new InvalidOwnerException("invalid request!");
         }
 
-        return mealEntityToDtoConverter.convert(mealRepository.save(createMealRequestConverter.convert(request)));
+        Meal meal = createMealRequestConverter.convert(request);
+        mealRepository.save(meal);
+        return mealEntityToDtoConverter.convert(meal);
     }
 
     public List<MealDto> getAllMeals() {
 
-        return mealRepository.findAll().stream().map(mealEntityToDtoConverter::convert).collect(Collectors.toList());
+        List<Meal> mealList = mealRepository.findAll();
+        return mealList.stream().map(mealEntityToDtoConverter::convert).collect(Collectors.toList());
     }
 
     public MealDto getMeal(long id) {
 
-        return mealEntityToDtoConverter.convert(mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id)));
+        Meal meal = mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
+        return mealEntityToDtoConverter.convert(meal);
     }
 
     @Override
     public List<MealDto> getMealByBranchId(long branchId) {
 
-        long menuId = branchService.getBranchDto(branchId).getMenuId();
+        Branch branch = branchService.getBranchByid(branchId);
+        long menuId = branch.getMenu().getId();
         Menu menu = menuService.getMenu(menuId);
-        List<MealDto> mealDtos = menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
+        return menu.getMealList().stream().map(mealEntityToDtoConverter::convert)
                 .collect(Collectors.toList());
-        return mealDtos;
     }
 
+    @Transactional
     public String updateMeal(UpdateMealRequest request, long id) {
 
-        Meal meal = mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException());
+        Meal meal = mealRepository.findById(id).orElseThrow(MealNotFoundException::new);
 
         meal.setName(request.getName());
         meal.setPrice(request.getPrice());
@@ -86,16 +92,4 @@ public class MealServiceImpl implements MealService {
         mealRepository.deleteById(id);
     }
 
-    @Override
-    public MealDto createMeal(CreateMealRequest request, long branchId) {
-        Branch branch = branchService.getBranchByid(branchId);
-        List<Meal> mealList = branch.getMenu().getMealList();
-        mealList.add(createMealRequestConverter.convert(request));
-        Menu menu = branch.getMenu();
-        menu.setMealList(mealList);
-        branch.setMenu(menu);
-
-        return mealEntityToDtoConverter.convert(createMealRequestConverter.convert(request));
-
-    }
 }

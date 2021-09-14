@@ -8,6 +8,7 @@ import com.restaurantapp.restapp.model.dto.MealDto;
 import com.restaurantapp.restapp.model.entity.Branch;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import com.restaurantapp.restapp.model.request.create.CreateMealRequest;
+import com.restaurantapp.restapp.model.request.get.BranchPageGetRequest;
 import com.restaurantapp.restapp.model.request.update.UpdateBranchRequest;
 
 import java.util.List;
@@ -16,16 +17,14 @@ public interface BranchService {
 
     BranchDto createBranch(CreateBranchRequest request);
 
-    List<BranchDto> getAllBranches();
-
     BranchDto getBranchDto(long id);
 
-    List<BranchDto> getNearBranches(long countyId);
+    List<BranchDto> getBranchesByCounty(BranchPageGetRequest branchPageGetRequest);
 
-    String updateBranch(UpdateBranchRequest request, long id);
+    BranchDto changeBranchStatus(long branchId, String value);
 
-    void deleteBranch(long id);
+    Branch getBranchByid(long id);
 
-    List<BranchDto> getWaitingBranches(String value) throws Exception;
+    List<BranchDto> getBranchesByStatus(String value) throws Exception;
 
 }

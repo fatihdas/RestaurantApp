@@ -1,19 +1,18 @@
 package com.restaurantapp.restapp.model.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Builder
 @Entity
 @Table(name = "addresses")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-public class Address {
+@Getter
+@Setter
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +25,11 @@ public class Address {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn
     private User user;
 
-    @OneToOne
+    @OneToOne(mappedBy = "address")
+    @JoinColumn
     private Branch branch;
-
 }
