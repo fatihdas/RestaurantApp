@@ -9,7 +9,6 @@ import java.util.Locale;
 @Component
 public class StatusEnumConverter implements AttributeConverter<String, BranchStatus> {
 
-    @SneakyThrows
     @Override
     public BranchStatus convertToDatabaseColumn(String s) {
 
@@ -17,7 +16,7 @@ public class StatusEnumConverter implements AttributeConverter<String, BranchSta
             return BranchStatus.valueOf(s.toUpperCase(Locale.ENGLISH));
 
         } catch (IllegalArgumentException e) {
-            throw new Exception(e);
+            throw new IllegalArgumentException(e);
         }
     }
 

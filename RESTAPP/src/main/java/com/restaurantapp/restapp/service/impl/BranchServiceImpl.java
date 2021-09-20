@@ -14,7 +14,7 @@ import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
 import com.restaurantapp.restapp.model.request.get.BranchPageGetRequest;
 import com.restaurantapp.restapp.repository.BranchRepository;
 import com.restaurantapp.restapp.service.BranchService;
-import com.sun.jdi.request.InvalidRequestStateException;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -54,7 +54,7 @@ public class BranchServiceImpl implements BranchService {
             Branch branch = branchRepository.save(createBranchRequestConverter.convert(request));
             return branchEntityToDtoConverter.convert(branch);
         } else {
-            throw new InvalidOwnerException("request is not branch owner!");
+            throw new InvalidOwnerException();
         }
 
     }
@@ -62,7 +62,7 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public BranchDto getBranchDto(long id) {
 
-        Branch branch = branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException(id));
+        Branch branch = branchRepository.findById(id).orElseThrow(() -> new BranchNotFoundException());
         return branchEntityToDtoConverter.convert(branch);
     }
 
@@ -90,11 +90,18 @@ public class BranchServiceImpl implements BranchService {
         }
     }
 
+    @Override
+    @Cacheable(value = "branches")
+    public List<BranchDto> getAll() {
+        List<Branch> branchList = branchRepository.findAll();
+        return branchList.stream().map(branchEntityToDtoConverter::convert).collect(Collectors.toList());
+    }
+
 
     @Override
     public BranchDto changeBranchStatus(long branchId, String value) {
         if (userService.hasRole(UserRoles.ADMIN)) {
-            Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new BranchNotFoundException(branchId));
+            Branch branch = branchRepository.findById(branchId).orElseThrow(() -> new BranchNotFoundException());
             branch.setBranchStatus(statusEnumConverter.convertToDatabaseColumn(value));
             return branchEntityToDtoConverter.convert(branchRepository.save(branch));
         } else {

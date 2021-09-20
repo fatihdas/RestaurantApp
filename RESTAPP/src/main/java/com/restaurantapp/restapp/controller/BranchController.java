@@ -33,6 +33,11 @@ public class BranchController {
         return new ResponseEntity<>(branchServiceImpl.getBranchesByCounty(branchPageGetRequest), HttpStatus.OK);
     }
 
+    @GetMapping("/branches")
+    public ResponseEntity<List<BranchDto>> getAll(){
+        return new ResponseEntity<>(branchServiceImpl.getAll(), HttpStatus.OK);
+    }
+
     @GetMapping("/status/{value}")
     public ResponseEntity<List<BranchDto>> getByStatus(@PathVariable("value") String value) {
 

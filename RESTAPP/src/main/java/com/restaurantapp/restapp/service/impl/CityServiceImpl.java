@@ -30,13 +30,13 @@ public class CityServiceImpl implements CityService {
 
     public CityDto getCityDto(long id) {
 
-        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
+        City city = cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException());
         return cityEntityToDtoConverter.convert(city);
     }
 
     @Override
     public City getCity(long id) {
-        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException(id));
+        return cityRepository.findById(id).orElseThrow(() -> new CityNotFoundException());
     }
 
 }

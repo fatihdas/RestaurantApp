@@ -44,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
 
     public CommentDto getComment(long id) {
 
-        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException(id));
+        Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException());
         return commentEntityToDtoConverter.convert(comment);
     }
 
@@ -53,6 +53,8 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow(() -> new CommentNotFoundException());
 
         comment.setContent(request.getContent());
+        comment.setTastePoint(request.getTastePoint());
+        comment.setSpeedPoint(request.getSpeedPoint());
 
         return "Comment has been updated!";
     }

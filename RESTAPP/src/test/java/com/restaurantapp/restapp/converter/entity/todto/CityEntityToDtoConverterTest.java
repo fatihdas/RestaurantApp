@@ -28,6 +28,7 @@ public class CityEntityToDtoConverterTest {
 
         Assertions.assertEquals(ID, cityActual.getId());
         Assertions.assertEquals(NAME, cityActual.getName());
+        Assertions.assertEquals(null,cityExpected.getCountyList());
     }
 
     private City generateCity(){
@@ -35,6 +36,7 @@ public class CityEntityToDtoConverterTest {
         return City.builder()
                 .id(ID)
                 .name(NAME)
+                .countyList(null)
                 .build();
     }
 }

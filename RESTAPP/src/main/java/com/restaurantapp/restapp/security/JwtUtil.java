@@ -17,18 +17,7 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
     private static final String SECRET_KEY = "secret";
-    private final UserServiceImpl userService;
 
-    public JwtUtil(UserServiceImpl userService) {
-        this.userService = userService;
-    }
-
-    public User getUserFromHeader(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String username = extractUsername(token);
-        User user = userService.getUserByName(username);
-        return user;
-    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

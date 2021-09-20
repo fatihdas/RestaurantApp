@@ -30,6 +30,7 @@ public class MealEntityToDtoConverterTest {
         Assertions.assertEquals(ID, mealActual.getId());
         Assertions.assertEquals(NAME, mealActual.getName());
         Assertions.assertEquals(PRICE, mealActual.getPrice());
+        Assertions.assertEquals(MENU_ID, mealActual.getMenuId());
     }
 
     private Meal generateMeal() {

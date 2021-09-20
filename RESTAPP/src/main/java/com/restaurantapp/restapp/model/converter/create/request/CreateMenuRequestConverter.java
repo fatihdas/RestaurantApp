@@ -16,7 +16,9 @@ public class CreateMenuRequestConverter {
         }
         Menu menu = new Menu();
         menu.setName(request.getName());
-        menu.setBranch(Branch.builder().id(request.getBranchId()).build());
+        menu.setBranch(Branch.builder()
+                .id(request.getBranchId())
+                .build());
         menu.setMealList(new ArrayList<>());
         menu.setId(request.getId());
 

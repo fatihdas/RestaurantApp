@@ -11,7 +11,9 @@ public class BranchEntityToDtoConverter {
         BranchDto branchDto = new BranchDto();
         branchDto.setId(branch.getId());
         branchDto.setName(branch.getName());
-        branchDto.setAddressId(branch.getAddress().getId());
+        if (branch.getAddress() != null) {
+            branchDto.setAddressId(branch.getAddress().getId());
+        }
         branchDto.setBranchStatus(branch.getBranchStatus());
         branchDto.setRestaurantId(branch.getRestaurant().getId());
 

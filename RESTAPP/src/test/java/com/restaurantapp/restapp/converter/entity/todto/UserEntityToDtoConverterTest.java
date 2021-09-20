@@ -3,6 +3,7 @@ package com.restaurantapp.restapp.converter.entity.todto;
 import com.restaurantapp.restapp.model.converter.entity.todto.UserEntityToDtoConverter;
 import com.restaurantapp.restapp.model.dto.UserDto;
 import com.restaurantapp.restapp.model.entity.User;
+import com.restaurantapp.restapp.model.entity.enumerated.UserRoles;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -10,6 +11,7 @@ import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserEntityToDtoConverterTest {
@@ -32,6 +34,10 @@ public class UserEntityToDtoConverterTest {
         Assertions.assertEquals(NAME, userActual.getName());
         Assertions.assertEquals(PASSWORD, userActual.getPassword());
         Assertions.assertEquals(EMAIL, userActual.getEmail());
+        Assertions.assertEquals(UserRoles.BUYER, userActual.getUserRolesList().get(0));
+        Assertions.assertEquals(null,user.getAddressList());
+        Assertions.assertEquals(null,user.getCommentList());
+        Assertions.assertEquals(null,user.getRestaurantList());
 
     }
 
@@ -39,11 +45,13 @@ public class UserEntityToDtoConverterTest {
 
         return User.builder()
                 .id(ID)
-                .roles(new ArrayList<>())
+                .roles(Arrays.asList(UserRoles.BUYER))
                 .email(EMAIL)
                 .name(NAME)
                 .password(PASSWORD)
-                .addressList(new ArrayList<>())
+                .addressList(null)
+                .restaurantList(null)
+                .commentList(null)
                 .build();
     }
 }

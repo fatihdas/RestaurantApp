@@ -44,13 +44,14 @@ public class CommentEntityToDtoConverterTest {
         Assertions.assertEquals(SPEED_POINT, commentActual.getSpeedPoint());
         Assertions.assertEquals(TASTE_POINT, commentActual.getTastePoint());
         Assertions.assertEquals(DATE, commentActual.getDate());
+        Assertions.assertEquals(1L, commentActual.getBranchId());
     }
 
     Comment generateComment() {
 
         return Comment.builder()
                 .content(CONTENT)
-                .branch(Branch.builder().build())
+                .branch(Branch.builder().id(1L).build())
                 .id(ID)
                 .speedPoint(SPEED_POINT)
                 .tastePoint(TASTE_POINT)

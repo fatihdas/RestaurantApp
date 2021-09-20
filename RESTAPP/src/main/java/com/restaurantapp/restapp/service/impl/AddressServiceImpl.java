@@ -6,7 +6,6 @@ import com.restaurantapp.restapp.model.converter.entity.todto.AddressEntityToDto
 import com.restaurantapp.restapp.model.dto.AddressDto;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
-import com.restaurantapp.restapp.model.request.update.UpdateAddressRequest;
 import com.restaurantapp.restapp.repository.AddressRepository;
 import com.restaurantapp.restapp.service.AddressService;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class AddressServiceImpl implements AddressService {
 
     public AddressDto getAddress(long id) {
 
-        Address address = addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException(id));
+        Address address = addressRepository.findById(id).orElseThrow(() -> new AddressNotFoundException());
         return addressEntityToDtoConverter.convert(address);
     }
 //

@@ -29,6 +29,7 @@ public class CountyEntityToDtoConverterTest {
 
         Assertions.assertEquals(ID, countyActual.getId());
         Assertions.assertEquals(NAME, countyActual.getName());
+        Assertions.assertEquals(CITY_ID, countyActual.getCityId());
 
     }
 

@@ -1,6 +1,5 @@
 package com.restaurantapp.restapp.model.dto;
 
-import com.restaurantapp.restapp.model.entity.City;
 import lombok.*;
 
 import java.io.Serializable;
@@ -9,8 +8,6 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-@EqualsAndHashCode
 @Builder
 public class CountyDto implements Serializable {
 

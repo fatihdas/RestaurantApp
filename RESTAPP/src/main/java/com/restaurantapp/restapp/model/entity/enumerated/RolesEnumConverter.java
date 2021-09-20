@@ -8,14 +8,13 @@ import java.util.Locale;
 
 @Component
 public class RolesEnumConverter implements AttributeConverter<String, UserRoles> {
-    @SneakyThrows
     @Override
     public UserRoles convertToDatabaseColumn(String s) {
 
         try {
             return UserRoles.valueOf(s.toUpperCase(Locale.ENGLISH));
         } catch (IllegalArgumentException exception) {
-            throw new Exception(exception);
+            throw new IllegalArgumentException(exception);
         }
     }
 

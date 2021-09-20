@@ -63,7 +63,7 @@ public class MealServiceImpl implements MealService {
 
     public MealDto getMeal(long id) {
 
-        Meal meal = mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException(id));
+        Meal meal = mealRepository.findById(id).orElseThrow(() -> new MealNotFoundException());
         return mealEntityToDtoConverter.convert(meal);
     }
 

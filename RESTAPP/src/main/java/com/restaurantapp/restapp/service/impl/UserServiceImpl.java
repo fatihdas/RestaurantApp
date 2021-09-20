@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     @Transactional
     public UserDto updateUserRole(String role, long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
+        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException());
         if (user.getRoles().contains(rolesEnumConverter.convertToDatabaseColumn(role))) {
             throw new IllegalArgumentException("the role already exists:" + role);
         }
@@ -98,7 +98,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     public UserDto getUser(long id) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+                .orElseThrow(() -> new UserNotFoundException());
         return userEntityToDtoConverter.convert(user);
     }
 
@@ -140,12 +140,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public boolean isOwner(long ownerId) {
         String token = httpServletRequest.getHeader("Authorization");
         if (token != null) {
+            token = token.substring(7);
             String username = jwtUtil.extractUsername(token);
             User user = userRepository.findByName(username);
             if (Objects.equals(user.getId(), ownerId)) {
                 return true;
             } else {
-                throw new InvalidOwnerException("Invalid user request!");
+                throw new InvalidOwnerException();
             }
         } else {
             throw new RuntimeException("token is null");

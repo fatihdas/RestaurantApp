@@ -1,85 +1,124 @@
 package com.restaurantapp.restapp.exception;
 
-import org.springframework.http.HttpHeaders;
+import com.restaurantapp.restapp.model.entity.exception.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.time.ZonedDateTime;
 
 @RestControllerAdvice
-public class GeneralExceptionHandler extends ResponseEntityExceptionHandler {
+public class GeneralExceptionHandler {
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> userNotFoundExceptionHandler(UserNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BranchNotFoundException.class)
     public ResponseEntity<?> branchNotFounExceptionHandler(BranchNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MealNotFoundException.class)
     public ResponseEntity<?> mealNotFoundException(MealNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MenuNotFoundException.class)
     public ResponseEntity<?> menuNotFoundException(MenuNotFoundException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(AddressNotFoundException.class)
-    public ResponseEntity<?> addressNotFoundException(AddressNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> addressNotFoundException(AddressNotFoundException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CityNotFoundException.class)
-    public ResponseEntity<?> cityNotFoundException(CityNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> cityNotFoundException(CityNotFoundException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CommentNotFoundException.class)
-    public ResponseEntity<?> commentNotFoundException(CommentNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> commentNotFoundException(CommentNotFoundException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(CountyNotFoundException.class)
-    public ResponseEntity<?> countyNotFoundException(CountyNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> countyNotFoundException(CountyNotFoundException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidOwnerException.class)
-    public ResponseEntity<?> invalidOwnerException(InvalidOwnerException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> invalidOwnerException(InvalidOwnerException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.FORBIDDEN,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(InvalidRoleException.class)
-    public ResponseEntity<?> invalidRoleException(InvalidRoleException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> invalidRoleException(InvalidRoleException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.FORBIDDEN,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(RestaurantNotFoundException.class)
-    public ResponseEntity<?> restaurantNotFoundException(RestaurantNotFoundException exception){
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> restaurantNotFoundException(RestaurantNotFoundException exception) {
+        ApiException apiException = new ApiException(
+                exception.getMessage(),
+                exception,
+                HttpStatus.NOT_FOUND,
+                ZonedDateTime.now());
+        return new ResponseEntity<>(apiException, HttpStatus.NOT_FOUND);
     }
 }

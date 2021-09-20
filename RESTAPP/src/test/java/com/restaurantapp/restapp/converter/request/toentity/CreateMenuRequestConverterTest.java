@@ -35,6 +35,7 @@ public class CreateMenuRequestConverterTest {
 
         Assertions.assertEquals(ID, menuActual.getId());
         Assertions.assertEquals(NAME, menuActual.getName());
+        Assertions.assertEquals(BRANCH_ID, menuActual.getBranch().getId());
     }
 
     @Test(expected = IllegalArgumentException.class)

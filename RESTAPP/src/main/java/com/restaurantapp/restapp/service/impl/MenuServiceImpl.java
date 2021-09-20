@@ -46,7 +46,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public Menu getMenu(long id) {
-        return menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException(id));
+        return menuRepository.findById(id).orElseThrow(() -> new MenuNotFoundException());
     }
 
     public String updateMenu(UpdateMenuRequest request, long id) {

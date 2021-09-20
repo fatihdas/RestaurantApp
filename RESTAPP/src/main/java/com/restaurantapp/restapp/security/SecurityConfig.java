@@ -40,6 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT, "/user/{id}/{role}").hasAnyAuthority(UserRoles.BUYER.toString())
                 .antMatchers(HttpMethod.POST, "/restaurant/**").hasAnyAuthority(UserRoles.SELLER.toString())
                 .antMatchers(HttpMethod.POST, "/branch/**").hasAnyAuthority(UserRoles.SELLER.toString())
+                .antMatchers(HttpMethod.GET, "/branch/branches/**").authenticated()
                 .antMatchers(HttpMethod.GET, "/branch/status/{value}/**").hasAnyAuthority(UserRoles.SELLER.toString())
                 .antMatchers(HttpMethod.PUT, "/branch/{branchId}/{status}/**").hasAnyAuthority(UserRoles.ADMIN.toString())
                 .antMatchers(HttpMethod.POST, "/menu/**").hasAnyAuthority(UserRoles.SELLER.toString())

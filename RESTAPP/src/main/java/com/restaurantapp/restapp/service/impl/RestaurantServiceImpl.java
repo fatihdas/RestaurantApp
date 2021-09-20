@@ -54,7 +54,7 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public RestaurantDto getRestaurantDto(long id) {
 
-        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException(id));
+        Restaurant restaurant = restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
         return restaurantEntityToDtoConverter.convert(restaurant);
     }
 
@@ -63,12 +63,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findById(id).orElseThrow(() -> new RestaurantNotFoundException());
     }
 
+    @Transactional
     public String updateRestaurant(UpdateRestaurantRequest request, long id) {
 
         Restaurant restaurant = restaurantRepository.findById(id)
                 .orElseThrow(() -> new RestaurantNotFoundException());
 
-        restaurant.setName(restaurant.getName());
+        restaurant.setName(request.getName());
         return "Restaurant has been updated! id:" + id;
     }
 

@@ -36,6 +36,7 @@ public class RestaurantEntityToDtoConverterTest {
         RestaurantDto restaurantActual = restaurantEntityToDtoConverter.convert(restaurant);
         Assertions.assertEquals(ID, restaurantActual.getId());
         Assertions.assertEquals(NAME, restaurantActual.getName());
+        Assertions.assertEquals(BRANCH_ID, restaurant.getBranchList().get(0).getId());
     }
 
     private Restaurant generateRestaurant() {

@@ -26,6 +26,8 @@ public class CommentServiceImplTest {
     private static final String CONTENT = "test comment";
     private static final long BRANCH_ID = 12l;
     private static final String UPDATE_MESSAGE = "Comment has been updated!";
+    private static final int SPEED_POINT = 1;
+    private static final int TASTE_POINT = 3;
     @Mock
     private CommentRepository commentRepository;
 
@@ -108,6 +110,8 @@ public class CommentServiceImplTest {
     public void whenUpdateCommentCalledByValidCommentId_thenReturnSuccessMessage() {
         UpdateCommentRequest request = UpdateCommentRequest.builder()
                 .content(CONTENT)
+                .speedPoint(SPEED_POINT)
+                .tastePoint(TASTE_POINT)
                 .build();
         Comment comment = Comment.builder()
                 .content(CONTENT)

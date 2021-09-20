@@ -30,13 +30,13 @@ public class CountyServiceImpl implements CountyService {
 
     public CountyDto getCountyDto(long id) {
 
-        County county = countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
+        County county = countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException());
         return countyEntityToDtoConverter.convert(county);
     }
 
     @Override
     public County getCounty(long id) {
-        return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException(id));
+        return countyRepository.findById(id).orElseThrow(() -> new CountyNotFoundException());
     }
 
 }

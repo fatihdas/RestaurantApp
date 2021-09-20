@@ -24,7 +24,7 @@ public class CreateBranchRequestConverter {
         }
         Branch branch = new Branch();
         branch.setId(request.getId());
-        branch.setCommentList(new ArrayList<>());
+        branch.setCommentList(null);
         branch.setBranchStatus(BranchStatus.WAITING);
         branch.setName(request.getName());
         request.getCreateAddressRequest().setBranchId(branch.getId());

@@ -47,6 +47,8 @@ public class BranchEntityToDtoConverterTest {
         Assertions.assertEquals(ID, branchActual.getId());
         Assertions.assertEquals(NAME, branchActual.getName());
         Assertions.assertEquals(BRANCH_STATUS, branchActual.getBranchStatus());
+        Assertions.assertEquals(ADDRESS_ID, branchActual.getAddressId());
+        Assertions.assertEquals(MENU_ID, branchActual.getMenuId());
     }
 
     private Branch generateBranch() {

@@ -34,6 +34,7 @@ public class AddressEntityToDtoConverterTest {
         AddressDto addressActual = addressEntityToDtoConverter.convert(address);
         Assertions.assertEquals(ID, addressActual.getId());
         Assertions.assertEquals(COUNTY_NAME, addressActual.getCountyName());
+        Assertions.assertEquals(COUNTY_ID, addressActual.getCountyId());
     }
 
     @Test

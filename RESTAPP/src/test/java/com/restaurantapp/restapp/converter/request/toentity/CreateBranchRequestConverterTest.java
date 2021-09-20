@@ -2,14 +2,11 @@ package com.restaurantapp.restapp.converter.request.toentity;
 
 import com.restaurantapp.restapp.model.converter.create.request.CreateAddressRequestConverter;
 import com.restaurantapp.restapp.model.converter.create.request.CreateBranchRequestConverter;
-import com.restaurantapp.restapp.model.converter.create.request.CreateMenuRequestConverter;
 import com.restaurantapp.restapp.model.entity.Address;
 import com.restaurantapp.restapp.model.entity.Branch;
-import com.restaurantapp.restapp.model.entity.Menu;
 import com.restaurantapp.restapp.model.entity.enumerated.BranchStatus;
 import com.restaurantapp.restapp.model.request.create.CreateAddressRequest;
 import com.restaurantapp.restapp.model.request.create.CreateBranchRequest;
-import com.restaurantapp.restapp.model.request.create.CreateMenuRequest;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -43,10 +40,11 @@ public class CreateBranchRequestConverterTest {
         Assertions.assertEquals(ID, branchActual.getId());
         Assertions.assertEquals(NAME, branchActual.getName());
         Assertions.assertEquals(BRANCH_STATUS, branchActual.getBranchStatus());
+        Assertions.assertEquals(null, branchActual.getCommentList());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void whenConvertCalledByNullRequest_thenThrowIllegalArgumentException(){
+    public void whenConvertCalledByNullRequest_thenThrowIllegalArgumentException() {
         createBranchRequestConverter.convert(null);
     }
 

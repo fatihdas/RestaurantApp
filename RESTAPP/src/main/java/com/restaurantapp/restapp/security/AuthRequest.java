@@ -1,5 +1,8 @@
 package com.restaurantapp.restapp.security;
 
+import lombok.Builder;
+
+@Builder
 public class AuthRequest {
     private String username;
     private String password;
